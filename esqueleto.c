@@ -13,22 +13,26 @@ Professor: Flavius Gorgônio.
 
 int main(void) {
 
-	int resp;
+	int resposta_menu_principal;
+	char resposta_menu_admin;
+	char resposta_menu_user;
 
-	resp = menuPrincipal();
+	resposta_menu_principal = menuPrincipal();
 
-	switch(resp) {
+	switch(resposta_menu_principal) {
 
 		case 1:
-			printf("Primeiro teste.\n");
+			resposta_menu_admin = menuAdmin();
 			break;
 
 		case 2:
-			printf("Segundo teste.\n");
+			resposta_menu_user = menuUser();
 			break;
 
 		case 3:
-			printf("Terceiro teste.\n");
+			system("clear");
+			printf("Você saiu do programa. Volte sempre.\n");
+			printf("\n");
 			break;
 
 	}
