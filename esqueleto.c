@@ -1,6 +1,9 @@
 /* 
 SIG-Library.
-Alunos: Douglas Mateus e Lucas Silva.
+A library system made with C.
+Universidade Federal do Rio Gande do Norte (UFRN).
+Students: Douglas Mateus and Lucas Silva.
+Professor: Flavius Gorgônio. 
 */
 
 #include <stdio.h>
