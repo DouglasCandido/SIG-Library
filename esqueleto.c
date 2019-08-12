@@ -17,13 +17,22 @@ int main(void) {
 	int resposta_menu_principal;
 	char resposta_menu_admin;
 	char resposta_menu_user;
+	int resposta_menu_redefinir_user;
+	int resposta_menu_gerenciar_emprestimos;
+	int resposta_menu_log;
 
-	resposta_menu_principal = menuPrincipal();
+	menu_principal: resposta_menu_principal = menuPrincipal();
 
 	switch(resposta_menu_principal) {
 
 		case 1:
-			resposta_menu_admin = loginAdm();
+
+			if(loginAdm() == 1) {
+
+				menu_admin: resposta_menu_admin = menuAdmin();
+
+			}
+
 			switch(resposta_menu_admin) {
 
 				case 'A':
@@ -45,25 +54,71 @@ int main(void) {
 					break;
 
 				case 'G':
-					menuRedefinirUser();
+					resposta_menu_redefinir_user = menuRedefinirUser();
+
+					if(resposta_menu_redefinir_user == 3) {
+
+						goto menu_admin;
+
+					}
+
+					else if(resposta_menu_redefinir_user == 4){
+
+						break;
+
+					}
+
 					break;
+					
 
 				case 'H':
-					menuGerenciarEmprestimos();
+					resposta_menu_gerenciar_emprestimos = menuGerenciarEmprestimos();
+
+					if(resposta_menu_gerenciar_emprestimos == 4) {
+
+						goto menu_admin;
+
+					}
+
+					else if(resposta_menu_redefinir_user == 5){
+
+						break;
+
+					}
+
 					break;
 
 				case 'I':
-					menuLog();
+					resposta_menu_log = menuLog();
+
+					if(resposta_menu_log == 3) {
+
+						goto menu_admin;
+
+					}
+
+					else if(resposta_menu_redefinir_user == 4){
+
+						break;
+
+					}
+
 					break;
 
-				case '0':
+				case 'S':
 					break;
 
 			}
 			break;
 
 		case 2:
-			resposta_menu_user = menuUser();
+
+			if(loginUser() == 1) {
+
+				menu_user: resposta_menu_user = menuUser();
+
+			}
+
 			switch(resposta_menu_user) {
 				
 				case 'A':
@@ -90,19 +145,43 @@ int main(void) {
 				case 'H':
 					break;
 
-				case '0':
+				case 'S':
 					break;
 
 			}
 			break;
 
 		case 3:
+
+			printf(" A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n");
+
+			int resposta;
+
+			printf("\n Deseja voltar para o Menu Principal (1) ou Sair (0)?");
+
+			scanf("%d", &resposta);
+
+			if(resposta == 1){
+
+				goto menu_principal;
+
+			}
+
+			else {
+	
+				break;
+				
+			}
+
+			break;
+
+		case 4:
 			break;
 
 	}
 
 	printf("\n");
-	printf(" Você saiu do programa. Volte sempre.\n");
+	printf(" Você saiu do SIG-Library. Volte sempre.\n");
 	printf("\n");
 
 	return 0;
