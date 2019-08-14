@@ -13,7 +13,7 @@ int menuPrincipal() {
 
 	system("clear");
 
-	printf("\n ================================= \n | | | Programa Biblioteca | | | \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []1 - LOGIN ADM \n []2 - LOGIN USUÁRIO \n []3 - Sobre \n []4 - SAIR \n");
+	printf("\n ================================= \n | | | Programa Biblioteca | | | \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []1 - LOGIN ADM \n []2 - LOGIN USUÁRIO \n []3 - Sobre \n []4 - SAIR \n\n(LOGIN ADM e SENHA padrão - admin)\n(LOGIN USUÁRIO e SENHA padrão - teste)\n\n");
 
 	printf("\n");
 
@@ -37,25 +37,29 @@ int loginAdm(){
 	int b;
 
 	system("clear");
-    
-    printf("\n Login do Administrador \n");
-
-    printf("\n Informe o nome de usuário: ");
+    printf("\nLogin do Administrador\n");
+    printf("\nInforme o nome de usuário: ");
     scanf("%s", login1);
-	printf(" Informe a senha: ");
+	printf("\nInforme a senha: ");
 	scanf("%s", senha1);
 
 	a = strcmp(login, login1);
 	b = strcmp(senha, senha1);
 
+	while (!(a == 0 && b == 0)){
+		printf("\n\nLogin ou senha incorretos, tente novamente.");
+		printf("\nInforme o nome de usuário: ");
+    	scanf("%s",login1);
+		printf("Informe a senha: ");
+		scanf("%s",senha1);
+		a = strcmp(login,login1);
+		b = strcmp(senha, senha1);		
+
+	}
+
 	if(a == 0 && b == 0){
 		printf("\n Login realizado com sucesso.\n");
 		return 1;
-	}
-
-	else {
-		printf("\n Algo deu errado.\n");
-		return 0;
 	}
 	
 }
@@ -66,11 +70,12 @@ char menuAdmin() {
 
 	system("clear");
 
- 	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []Digite A - Cadastrar livro \n []Digite B - Cadastro de Pessoas \n []Digite C - Exibir informações de pessoas \n []Digite D - Excluir pessoa \n []Digite E - Exibir livros cadastrados \n []Digite F - Excluir livro cadastrado \n []Digite G - Redefinir nome de usuário ou senha \n []Digite H - Gerenciar empréstimos \n []Digite I - Logs e Relatórios \n []Digite S - Sair \n");
+ 	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []Digite A - Cadastrar livro \n []Digite B - Cadastro de Pessoas \n []Digite C - Exibir informações de pessoas \n []Digite D - Excluir pessoa \n []Digite E - Exibir livros cadastrados \n []Digite F - Excluir livro cadastrado \n []Digite G - Redefinir nome de usuário ou senha \n []Digite H - Gerenciar empréstimos \n []Digite I - Logs e Relatórios \n []Digite S - Sair \n\n(As opções -G-,-H- e -I-, são as únicas que possuem menu.)\n\n");
 
 	printf("\n");
 
-	printf(" Escolha uma opção: ");
+	printf("Escolha uma opção: ");
+
 
 	scanf(" %c", &resp);
 
@@ -101,15 +106,22 @@ int loginUser(){
 	a = strcmp(login, login1);
 	b = strcmp(senha, senha1);
 
+	while (!(a == 0 && b == 0)){
+		printf("\n\nLogin ou senha incorretos, tente novamente.");
+		printf("\nInforme o nome de usuário: ");
+    	scanf("%s",login1);
+		printf("Informe a senha: ");
+		scanf("%s",senha1);
+		a = strcmp(login,login1);
+		b = strcmp(senha, senha1);
+				
+
+	}
 	if(a == 0 && b == 0){
 		printf("\n Login realizado com sucesso.\n");
 		return 1;
 	}
 
-	else {
-		printf("\n Algo deu errado.\n");
-		return 0;
-	}
 	
 }
 
