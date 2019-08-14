@@ -36,21 +36,27 @@ int main(void) {
 			switch(resposta_menu_admin) {
 
 				case 'A':
+					goto menu_admin;
 					break;
 
 				case 'B':
+					goto menu_admin;
 					break;
 
 				case 'C':
+					goto menu_admin;
 					break;
 
 				case 'D':
+					goto menu_admin;
 					break;
 
 				case 'E':
+					goto menu_admin;
 					break;
 
 				case 'F':
+					goto menu_admin;
 					break;
 
 				case 'G':
