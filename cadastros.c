@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int main(void){
+int cadastroPess(){
     int cpf,dataNasc, tel;
     char nome[200], ender[200], numCasa[100];
 
@@ -22,4 +21,28 @@ int main(void){
 
     printf("\nInsira o número da sua casa: ");
     scanf(" %[^\n]s", numCasa);
+
+    return 0;
+}
+
+int cadastroLiv(){
+    int isbn;
+    char nomeLiv[200], autor[200], genero[100], editora[100], edicao[100];
+
+    printf("Insira o nome do livro: ");
+    scanf("%[^\n]s",nomeLiv);
+
+    printf("Insira o nome do autor: ");
+    scanf("%[^\n]s",autor);
+
+    printf("Insira o gênero do livro: ");
+    scanf("%[^\n]s",genero);
+    
+    printf("Insira a editora do livro: ");
+    scanf("%[^\n]s",editora);
+
+    printf("Insira a edição do livro: ");
+    scanf("%[^\n]s",edicao);
+
+    return 0;
 }
