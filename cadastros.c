@@ -2,7 +2,7 @@
 
 int cadastroPess(){
     int cpf,dataNasc, tel;
-    char nome[200], ender[200], numCasa[100];
+    char nome[200], enderEst[200], enderCid[200],enderBair[200], numCasa[100];
 
     printf("Insira seu nome completo: ");
     scanf("%[^\n]s", nome);
@@ -16,8 +16,15 @@ int cadastroPess(){
     printf("\nInsira seu número para contato: ");
     scanf("%d",&tel);
 
-    printf("\nInsira seu endereço - BAIRRO e CIDADE: ");
-    scanf(" %[^\n]s", ender);
+    printf("\nInsira seu Estado: ");
+    scanf(" %[^\n]s", enderEst);
+
+    printf("\nInsira sua cidade: ");
+    scanf(" %[^\n]s", enderCid);
+
+    printf("\nInsira seu bairro: ");
+    scanf(" %[^\n]s", enderBair);
+
 
     printf("\nInsira o número da sua casa: ");
     scanf(" %[^\n]s", numCasa);
