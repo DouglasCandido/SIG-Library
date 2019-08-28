@@ -353,7 +353,7 @@ void cadastroLivro() {
 
 void cadastroPessoa() {
 
-    char nome[100], enderEst[2], enderCid[100], enderBair[100], numCasa[50], cpf[14], dataNasc[10], tel[15];
+    char nome[100], enderEst[2], enderCid[100], enderBair[100], numCasa[50], cpf[14], dataNasc[10], tel[15], email[30];
 
     system("clear");
 
@@ -377,9 +377,23 @@ void cadastroPessoa() {
 
     printf("\n Insira sua data de nascimento: ");
     scanf(" %[^\n]s", dataNasc);
-
-    printf("\n Insira seu número para contato: ");
-    scanf(" %[^\n]s", tel);
+	
+	printf("\n Insira seu número para contato - (xx)x xxxx-xxxx: ");
+	scanf(" %[^\n]s", tel);
+	while(validaTelefone(tel)==0){
+		printf("\n Insira um número válido (xx)x xxxx-xxxx: ");
+		scanf(" %[^\n]s", tel);
+		
+	}
+		
+    printf("\n Insira seu email: ");
+	scanf(" %[^\n]s", email);
+    while(validaEmail(email)==0){
+			printf("Insira um email válido: ");
+			scanf(" %[^\n]s", email);
+	}
+   
+    
 
 }
 
