@@ -359,6 +359,10 @@ void cadastroPessoa() {
 
     printf("\n Insira seu nome completo: ");
     scanf(" %[^\n]s", nome);
+    while(validaNome(nome) == 0){
+		printf("\n Insira um nome válido: ");
+		scanf(" %[^\n]s", nome);
+	}
 
     printf("\n Insira seu Estado: ");
     scanf(" %[^\n]s", enderEst);
@@ -372,18 +376,20 @@ void cadastroPessoa() {
     printf("\n Insira o número da sua casa: ");
     scanf(" %[^\n]s", numCasa);
 
-    printf("\n Insira seu CPF: ");
+    printf("\n Insira seu CPF - xxx.xxx.xxx-xx: ");
     scanf(" %[^\n]s", cpf);
-
+	while(validaCPF(cpf)==0){
+		printf("\n Insira um CPF válido - xxx.xxx.xxx-xx: ");
+		scanf(" %[^\n]s", cpf);
+	}
     printf("\n Insira sua data de nascimento: ");
     scanf(" %[^\n]s", dataNasc);
 	
-	printf("\n Insira seu número para contato - (xx)x xxxx-xxxx: ");
+	printf("\n Insira seu número para contato - xx-xxxxxxxxx: ");
 	scanf(" %[^\n]s", tel);
 	while(validaTelefone(tel)==0){
 		printf("\n Insira um número válido (xx)x xxxx-xxxx: ");
 		scanf(" %[^\n]s", tel);
-		
 	}
 		
     printf("\n Insira seu email: ");
