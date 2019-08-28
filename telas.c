@@ -89,7 +89,7 @@ void menuAdmin() {
 		
 		system("clear");
 
-		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de Pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Sair \n\n(As opções -G-,-H- e -I-, são as únicas que possuem menu atualmente.)\n\n");
+		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de Pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Deslogar \n\n (As opções G, H e I, são as únicas que possuem menu atualmente.)\n\n");
 
 		printf("\n");
 
@@ -194,7 +194,7 @@ char menuUser() {
 
 	system("clear");
 
-	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A -  \n []B -  \n []C -  \n []D -  \n []E - Exibir todos os livros do acervo \n []F - Pesquisar livro no acervo \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []S - Sair \n");
+	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A -  \n []B -  \n []C -  \n []D -  \n []E - Exibir todos os livros do acervo \n []F - Pesquisar livro no acervo \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []S - Deslogar \n");
 
 	printf("\n");
 
