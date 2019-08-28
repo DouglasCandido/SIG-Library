@@ -125,6 +125,28 @@ int validaNome(char nome[100]) {
 }
 
 
+int validaGen(char genero[100]) {
+
+	regex_t reg;
+	
+	if((strlen(genero)) > 100) {
+		return 0;
+
+	} else {
+		if(regcomp(&reg, RE_GEN, REG_EXTENDED|REG_NOSUB) != 0) {
+			return 0;
+
+		} else {
+			if((regexec(&reg, genero, 0, (regmatch_t*)NULL, 0)) == 0) {
+				return 1;
+				
+			} else {
+				return 0;
+			}
+		}
+	}
+}
+
 
 /*
 int validaCNPJ(cnpj) {

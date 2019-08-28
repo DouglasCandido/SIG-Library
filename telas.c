@@ -49,8 +49,13 @@ int loginAdm(){
 	int b;
 
 	system("clear");
-    printf("\n Login do Administrador\n");
-    printf("\n Informe o nome de usuário: ");
+
+	printf("\n =================================");
+	printf("\n | | | Programa Biblioeteca | | |");                      
+	printf("\n =================================");
+	printf("\n >>>  LOGIN DO ADMINISTRADOR <<<");
+	printf("\n =================================");
+    printf("\n\n Informe o nome de usuário: ");
     scanf("%s", login1);
 	printf(" Informe a senha: ");
 	scanf("%s", senha1);
@@ -61,7 +66,11 @@ int loginAdm(){
 	while (!(a == 0 && b == 0)){
 
 		system("clear");
-		
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>  LOGIN DO ADMINISTRADOR <<<");
+		printf("\n =================================");
 		printf("\n Login ou senha incorretos, tente novamente.\n");
 		printf("\n Informe o nome de usuário: ");
     	scanf("%s",login1);
@@ -154,10 +163,13 @@ int loginUser(){
 	int b;
 
 	system("clear");
-    
-    printf("\n Login do Usuário \n");
+    printf("\n =================================");
+	printf("\n | | | Programa Biblioeteca | | |");                      
+	printf("\n =================================");
+	printf("\n >>>>>>   LOGIN DO USUÁRIO  <<<<<<");
+	printf("\n =================================");
 
-    printf("\n Informe o nome de usuário: ");
+    printf("\n\n Informe o nome de usuário: ");
     scanf("%s", login1);
 	printf(" Informe a senha: ");
 	scanf("%s", senha1);
@@ -168,6 +180,12 @@ int loginUser(){
 	while (!(a == 0 && b == 0)){
 
 		system("clear");
+
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>>>>   LOGIN DO USUÁRIO  <<<<<<");
+		printf("\n =================================");
 
 		printf("\n Login ou senha incorretos, tente novamente.\n");
 		printf("\n Informe o nome de usuário: ");
@@ -331,7 +349,14 @@ void cadastroLivro() {
 
     system("clear");
 
-    printf("\n Insira o nome do livro: ");
+    printf("\n =================================");
+	printf("\n | | | Programa Biblioeteca | | |");                      
+	printf("\n =================================");
+	printf("\n >>>>>>> CADASTRO DE LIVROS <<<<<<");
+	printf("\n =================================");
+
+
+    printf("\n\n Insira o nome do livro: ");
     scanf(" %[^\n]s", nomeLiv);
 
     printf("\n Insira o ISBN do livro: ");
@@ -339,9 +364,17 @@ void cadastroLivro() {
 
     printf("\n Insira o nome do autor: ");
     scanf(" %[^\n]s", autor);
+    while(validaNome(autor) == 0){
+		printf("\n Insira um nome válido: ");
+		scanf(" %[^\n]s", autor);
+	}
 
     printf("\n Insira o gênero do livro: ");
     scanf(" %[^\n]s", genero);
+    while (validaNome(genero)== 0){
+    printf("\n Insira um gênero válido do livro: ");
+    scanf(" %[^\n]s", genero);
+    }
     
     printf("\n Insira a editora do livro: ");
     scanf(" %[^\n]s", editora);
@@ -357,7 +390,14 @@ void cadastroPessoa() {
 
     system("clear");
 
-    printf("\n Insira seu nome completo: ");
+	printf("\n =================================");
+	printf("\n | | | Programa Biblioeteca | | |");                      
+	printf("\n =================================");
+	printf("\n >>>>>> CADASTRO DE PESSOAS <<<<<<");
+	printf("\n =================================");
+
+
+    printf("\n\n Insira seu nome completo: ");
     scanf(" %[^\n]s", nome);
     while(validaNome(nome) == 0){
 		printf("\n Insira um nome válido: ");
@@ -369,12 +409,20 @@ void cadastroPessoa() {
 
     printf("\n Insira sua cidade: ");
     scanf(" %[^\n]s", enderCid);
-
+     while(validaNome(enderCid) == 0){
+		printf("\n Insira um nome válido: ");
+		scanf(" %[^\n]s", nome);
+	}
     printf("\n Insira seu bairro: ");
     scanf(" %[^\n]s", enderBair);
+    while(validaNome(enderBair) == 0){
+		printf("\n Insira um nome válido: ");
+		scanf(" %[^\n]s", nome);
+	}
 
     printf("\n Insira o número da sua casa: ");
     scanf(" %[^\n]s", numCasa);
+
 
     printf("\n Insira seu CPF - xxx.xxx.xxx-xx: ");
     scanf(" %[^\n]s", cpf);
