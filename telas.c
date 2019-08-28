@@ -3,6 +3,7 @@
 #include <string.h>
 #include "telas.h"
 #include "validations.h"
+#include "cadastros.h"
 
 char menuPrincipal() {
 
@@ -104,11 +105,11 @@ void menuAdmin() {
 		switch(resp1) {
 			
 			case 'A':
-				printf("Ainda não implementado.\n");
+				cadastroLiv();
 				break;
 				
 			case 'B':
-				printf("Ainda não implementado.\n");
+				cadastroPess();
 				break;
 				
 			case 'C':
@@ -296,6 +297,7 @@ char menuLog(){
 void sobre() {
 
  	char resp;
+	char resp1;
 
  	system("clear");
 
@@ -316,17 +318,17 @@ void sobre() {
 	printf("\n Digite qualquer tecla pra continuar.\n\n");
 	scanf(" %c", &resp);
 
-	resp = maius(resp);
-
+	resp1 = maius(resp);
 }
 
 char sair() {
 	 
 	char resp;
+	char resp1;
 	 
 	printf("\n Deseja sair do sistema? (S/N)?");
 	scanf(" %c", &resp);
-	resp = maius(resp);
-	return resp;
+	resp1 = maius(resp);
+	return resp1;
 
 }
