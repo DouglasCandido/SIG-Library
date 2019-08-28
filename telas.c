@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "telas.h"
 #include "validations.h"
 
@@ -39,21 +42,23 @@ int loginAdm(){
 	int b;
 
 	system("clear");
-    printf("\nLogin do Administrador\n");
-    printf("\nInforme o nome de usuário: ");
+    printf("\n Login do Administrador\n");
+    printf("\n Informe o nome de usuário: ");
     scanf("%s", login1);
-	printf("\nInforme a senha: ");
+	printf(" Informe a senha: ");
 	scanf("%s", senha1);
 
 	a = strcmp(login, login1);
 	b = strcmp(senha, senha1);
 
 	while (!(a == 0 && b == 0)){
+
+		system("clear");
 		
-		printf("\n\nLogin ou senha incorretos, tente novamente.");
-		printf("\nInforme o nome de usuário: ");
+		printf("\n Login ou senha incorretos, tente novamente.\n");
+		printf("\n Informe o nome de usuário: ");
     	scanf("%s",login1);
-		printf("Informe a senha: ");
+		printf(" Informe a senha: ");
 		scanf("%s",senha1);
 		a = strcmp(login,login1);
 		b = strcmp(senha, senha1);		
@@ -153,10 +158,13 @@ int loginUser(){
 	b = strcmp(senha, senha1);
 
 	while (!(a == 0 && b == 0)){
-		printf("\n\nLogin ou senha incorretos, tente novamente.");
-		printf("\nInforme o nome de usuário: ");
+
+		system("clear");
+
+		printf("\n Login ou senha incorretos, tente novamente.\n");
+		printf("\n Informe o nome de usuário: ");
     	scanf("%s",login1);
-		printf("Informe a senha: ");
+		printf(" Informe a senha: ");
 		scanf("%s",senha1);
 		a = strcmp(login,login1);
 		b = strcmp(senha, senha1);
@@ -265,6 +273,18 @@ char menuLog(){
 
  }
  
+void sobre() {
+
+ 	char resp;
+
+ 	system("clear");
+
+	printf("\n A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n");
+	printf("\n Digite qualquer tecla pra continuar.\n\n");
+	scanf(" %c", &resp);
+
+}
+
 char sair() {
 	 
 	char resp;
@@ -274,17 +294,4 @@ char sair() {
 	
 	return resp;
 
-	 
- }
- 
- void sobre() {
-
- 	char resp;
-
- 	system("clear");
-
-	printf(" A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n");
-	printf("\nDigite qualquer tecla pra continuar.\n\n");
-	scanf(" %c", &resp);
-
- }
+}

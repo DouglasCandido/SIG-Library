@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int cadastroPess(){
+
     int cpf,dataNasc, tel;
     char nome[200], enderEst[200], enderCid[200],enderBair[200], numCasa[100];
 
@@ -30,9 +31,11 @@ int cadastroPess(){
     scanf(" %[^\n]s", numCasa);
 
     return 0;
+
 }
 
 int cadastroLiv(){
+
     int isbn;
     char nomeLiv[200], autor[200], genero[100], editora[100], edicao[100];
 
@@ -52,4 +55,5 @@ int cadastroLiv(){
     scanf("%[^\n]s",edicao);
 
     return 0;
+    
 }

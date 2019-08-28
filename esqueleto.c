@@ -9,16 +9,12 @@ Professor: Flavius Gorgônio.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "telas.c"
+#include "telas.h"
+#include "validations.h"
 
 int main(void) {
 
 	char resposta_menu_principal;
-	char resposta_menu_admin;
-	char resposta_menu_user;
-	int resposta_menu_redefinir_user;
-	int resposta_menu_gerenciar_emprestimos;
-	int resposta_menu_log;
 
 	do {
 
