@@ -7,6 +7,7 @@
 char menuPrincipal() {
 
 	char resp;
+	char resp1;
 
 	system("clear");
 
@@ -24,17 +25,18 @@ char menuPrincipal() {
 	printf(" Digite uma opção: ");
 
 	scanf(" %c", &resp);
+	resp1 = maius(resp);
     printf("\n");
     
     
-	while(resp != 'A' && resp !=  'B' && resp != 'C' && resp != 'S') { 
+	while(resp1 != 'A' && resp1 !=  'B' && resp1 != 'C' && resp1 != 'S') { 
 		
 		printf("\nDigite uma opção válida: ");
-		scanf(" %c", &resp);
+		scanf(" %c", &resp1);
 		
 	}
 
-    return resp;
+    return resp1;
 
 }
 
@@ -83,7 +85,8 @@ int loginAdm(){
 
 void menuAdmin() {
 
-	char resp; 
+	char resp;
+	char resp1; 
 
 	do {
 		
@@ -96,8 +99,9 @@ void menuAdmin() {
 		printf("Escolha uma opção: ");
 
 		scanf(" %c", &resp);
-		
-		switch(resp) {
+		resp1 = maius(resp);
+
+		switch(resp1) {
 			
 			case 'A':
 				printf("Ainda não implementado.\n");
@@ -136,7 +140,7 @@ void menuAdmin() {
 				
 		}
 		
-	}while(resp != 'S');
+	}while(resp1 != 'S');
 
 	printf("\n");
 
@@ -191,6 +195,7 @@ int loginUser(){
 char menuUser() {
 
 	char resp; 
+	char resp1;
 
 	system("clear");
 
@@ -201,15 +206,19 @@ char menuUser() {
 	printf(" Escolha uma opção: ");
 
 	scanf(" %c", &resp);
+	resp1 = maius(resp);
+
 	printf("\n");
 
-	return resp;
+
+	return resp1;
 
 }
 
 char menuRedefinirUser(){
 	
 	char resp;
+	char resp1;
 
 	system("clear");
 
@@ -224,16 +233,18 @@ char menuRedefinirUser(){
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
+	resp1 = maius(resp);
 
 	printf("\n");
 
-    return resp;
+    return resp1;
 
 }
 
 char menuGerenciarEmprestimos(){
 	
 	char resp;
+	char resp1;
 
 	system("clear");
 
@@ -249,15 +260,17 @@ char menuGerenciarEmprestimos(){
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
+	resp1 = maius(resp);
 
 	printf("\n");
 
-	return resp;
+	return resp1;
 }
 
 char menuLog(){
 	
 	char resp;
+	char resp1;
 
 	system("clear");
 
@@ -272,16 +285,18 @@ char menuLog(){
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
-
+	
+	resp1 = maius(resp);
 	printf("\n");
 
-	return resp;
+	return resp1;
 
  }
  
 void sobre() {
 
  	char resp;
+	char resp1;
 
  	system("clear");
 
@@ -302,15 +317,17 @@ void sobre() {
 	printf("\n Digite qualquer tecla pra continuar.\n\n");
 	scanf(" %c", &resp);
 
+	resp1 = maius(resp);
 }
 
 char sair() {
 	 
 	char resp;
+	char resp1;
 	 
 	printf("\n Deseja sair do sistema? (S/N)?");
 	scanf(" %c", &resp);
-	
-	return resp;
+	resp1 = maius(resp);
+	return resp1;
 
 }
