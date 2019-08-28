@@ -39,7 +39,7 @@ int main(void) {
 				printf("\n");
 				break;
 			default:
-				printf("Você digitou uma opção errada.");
+				printf("Você digitou uma opção inválida.");
 				
 			
 	}

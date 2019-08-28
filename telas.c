@@ -10,13 +10,19 @@ char menuPrincipal() {
 
 	system("clear");
 
-	printf("\n ================================= \n ||||SIG-Library - Biblioteca!|||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN ADM \n []B - LOGIN USUÁRIO \n []C - Sobre \n []S - SAIR \n\n(LOGIN ADM e SENHA padrão - admin)\n(LOGIN USUÁRIO e SENHA padrão - teste)\n\n");
+	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN ADMINISTRADOR \n []B - LOGIN USUÁRIO \n []C - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
+
+	printf("       ______ ______\n");
+	printf("     _/      Y      \\_\n");
+	printf("    // ~~ ~~ | ~~ ~  \\\\\n");
+	printf("   // ~ ~ ~~ | ~~~ ~~ \\\\      \n");
+	printf("  //________.|.________\\\\     \n");
+	printf(" `----------`-'----------'\n");
 
 	printf("\n");
 
-	printf("Digite: ");
+	printf(" Digite uma opção: ");
 
-   
 	scanf(" %c", &resp);
     printf("\n");
     
@@ -83,7 +89,7 @@ void menuAdmin() {
 		
 		system("clear");
 
-		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []Digite A - Cadastrar livro \n []Digite B - Cadastro de Pessoas \n []Digite C - Exibir informações de pessoas \n []Digite D - Excluir pessoa \n []Digite E - Exibir livros cadastrados \n []Digite F - Excluir livro cadastrado \n []Digite G - Redefinir nome de usuário ou senha \n []Digite H - Gerenciar empréstimos \n []Digite I - Logs e Relatórios \n []Digite S - Sair \n\n(As opções -G-,-H- e -I-, são as únicas que possuem menu.)\n\n");
+		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de Pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Sair \n\n(As opções -G-,-H- e -I-, são as únicas que possuem menu atualmente.)\n\n");
 
 		printf("\n");
 
@@ -188,7 +194,7 @@ char menuUser() {
 
 	system("clear");
 
-	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []Digite A -  \n []Digite B -  \n []Digite C -  \n []Digite D -  \n []Digite E - Exibir todos os livros do acervo \n []Digite F - Pesquisar livro no acervo \n []Digite G - Redefinir nome de usuário ou senha \n []Digite H - Gerenciar empréstimos \n []Digite S - Sair \n");
+	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A -  \n []B -  \n []C -  \n []D -  \n []E - Exibir todos os livros do acervo \n []F - Pesquisar livro no acervo \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []S - Sair \n");
 
 	printf("\n");
 
@@ -279,7 +285,20 @@ void sobre() {
 
  	system("clear");
 
-	printf("\n A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n");
+	printf("\n A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n\n");
+	
+	printf("       _.--._  _.--._\n");
+	printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
+	printf(" \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	printf("  \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	printf("   \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	printf("    \\\\\\:;:;:;:;:;\\:;::;:;:;:\\\n");
+	printf("     \\\\\\;:;::;:;:;\\:;:;:;::;:\\\n");
+	printf("      \\\\\\;;:;:_:--:\\:_:--:_;:;\\    SIG-Library\n");
+	printf("       \\\\\\_.-\"      :      \"-._\\\n");
+	printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
+	printf("         \"");
+
 	printf("\n Digite qualquer tecla pra continuar.\n\n");
 	scanf(" %c", &resp);
 
