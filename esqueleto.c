@@ -9,14 +9,28 @@ Professor: Flavius Gorgônio.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <regex.h>
 #include "telas.h"
 #include "validations.h"
 
+int starter(void);
+
 int main(void) {
+
+	
+	starter();
+
+		
+	return 0;
+
+}
+
+int starter() {
 
 	char resposta_menu_principal;
 
-	do {
+		do {
 
 		switch(resposta_menu_principal = menuPrincipal()) {
 			
@@ -34,21 +48,32 @@ int main(void) {
 				sobre();
 				break;
 			case 'S':
-				printf("\n");
-				printf(" Você saiu do SIG-Library. Volte sempre.\n");
-				printf("\n");
+				if((sair()) == 'S') {
+					system("clear");
+					printf("       _.--._  _.--._\n");
+					printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
+					printf(" \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+					printf("  \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+					printf("   \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+					printf("    \\\\\\:;:;:;:;:;\\:;::;:;:;:\\\n");
+					printf("     \\\\\\;:;::;:;:;\\:;:;:;::;:\\\n");
+					printf("      \\\\\\;;:;:_:--:\\:_:--:_;:;\\    Adeus, caro leitor!\n");
+					printf("       \\\\\\_.-\"      :      \"-._\\\n");
+					printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
+					printf("         \"");
+					printf("\n Você saiu do SIG-Library. Volte sempre.\n\n");
+					break;
+				} else {
+					resposta_menu_principal = starter();
+				}			
 				break;
 			default:
-				printf("Você digitou uma opção inválida.");
+				printf("Você digitou uma opção inválida.\n");
 				
-			
-	}
-		
-	
+		}
+
 	}while(resposta_menu_principal != 'S');
 
-	
-			
-	return 0;
-
+	return 1;
+  
 }
