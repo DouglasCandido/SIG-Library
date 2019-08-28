@@ -1,13 +1,2 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h> 
-#include "telas.h"
+char maius(char r); // Essa função é responsável por converter letras minúsculas em maiúsculas para casos de validação de entradas.
 
-
-char maius(char);
-
-char maius(char a){
-    char letra;
-    letra = toupper(a);
-    return letra;
-}

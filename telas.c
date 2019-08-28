@@ -296,7 +296,6 @@ char menuLog(){
 void sobre() {
 
  	char resp;
-	char resp1;
 
  	system("clear");
 
@@ -317,17 +316,17 @@ void sobre() {
 	printf("\n Digite qualquer tecla pra continuar.\n\n");
 	scanf(" %c", &resp);
 
-	resp1 = maius(resp);
+	resp = maius(resp);
+
 }
 
 char sair() {
 	 
 	char resp;
-	char resp1;
 	 
 	printf("\n Deseja sair do sistema? (S/N)?");
 	scanf(" %c", &resp);
-	resp1 = maius(resp);
-	return resp1;
+	resp = maius(resp);
+	return resp;
 
 }
