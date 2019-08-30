@@ -7,7 +7,7 @@
 char menuPrincipal() {
 
 	char resp;
-
+	do{
 	system("clear");
 
 	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN ADMINISTRADOR \n []B - LOGIN USUÁRIO \n []C - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
@@ -27,13 +27,7 @@ char menuPrincipal() {
 	resp = maius(resp);
     printf("\n");
     
-    
-	while(resp != 'A' && resp !=  'B' && resp != 'C' && resp != 'S') { 
-		
-		printf("\n Digite uma opção válida: ");
-		scanf(" %c", &resp);
-		
-	}
+	}while(resp != 'A' && resp !=  'B' && resp != 'C' && resp != 'S'); 	
 
     return resp;
 
@@ -71,7 +65,7 @@ int loginAdm(){
 		printf("\n =================================");
 		printf("\n >>>  LOGIN DO ADMINISTRADOR <<<");
 		printf("\n =================================");
-		printf("\n Login ou senha incorretos, tente novamente.\n");
+		printf("\n\n Login ou senha incorretos, tente novamente.\n");
 		printf("\n Informe o nome de usuário: ");
     	scanf("%s",login1);
 		printf(" Informe a senha: ");
@@ -101,9 +95,9 @@ void menuAdmin() {
 
 		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Deslogar \n\n (As opções A, B, G, H e I, são as únicas que possuem menu atualmente.)\n\n");
 
-		printf("\n");
+	
 
-		printf("Escolha uma opção: ");
+		printf("\n\nEscolha uma opção: ");
 
 		scanf(" %c", &resp);
 		resp = maius(resp);
@@ -148,9 +142,6 @@ void menuAdmin() {
 		}
 		
 	}while(resp != 'S');
-
-	printf("\n");
-
 }
 
 int loginUser(){
@@ -187,7 +178,7 @@ int loginUser(){
 		printf("\n >>>>>>   LOGIN DO USUÁRIO  <<<<<<");
 		printf("\n =================================");
 
-		printf("\n Login ou senha incorretos, tente novamente.\n");
+		printf("\n\n LOGIN OU SENHA INCORRETOS, TENTE NOVAMENTE.\n");
 		printf("\n Informe o nome de usuário: ");
     	scanf("%s",login1);
 		printf(" Informe a senha: ");
@@ -212,18 +203,21 @@ void menuUser() {
 
 	char resp; 
 
+	do{
+
 	system("clear");
 
 	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A - Exibir todos os livros do acervo \n []B - Pesquisar livro no acervo \n []C - Gerenciar empréstimos \n []D - Redefinir dados pessoais \n []S - Deslogar \n");
 
-	printf("\n");
+	
 
-	printf(" Escolha uma opção: ");
+	printf(" \n\nEscolha uma opção: ");
 
 	scanf(" %c", &resp);
 	resp = maius(resp);
 
 	printf("\n");
+	}while(resp != 'S');
 
 }
 
@@ -231,6 +225,7 @@ char menuRedefinirUser(){
 	
 	char resp;
 
+	do{
 	system("clear");
 
 	printf("\n =================================");
@@ -240,14 +235,13 @@ char menuRedefinirUser(){
 	printf("\n =================================");
 	printf("\n []A - Alterar nome de Usuário");              
 	printf("\n []B - Alterar senha"); 
-	printf("\n []C - Voltar ao Menu do Administrador");
+	printf("\n []S - Voltar ao Menu do Administrador");
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
-	
 	resp = maius(resp);
 
-	printf("\n");
+	}while(resp != 'S');	
 
 	return resp;
 
@@ -257,6 +251,7 @@ char menuGerenciarEmprestimos(){
 	
 	char resp;
 
+	do{
 	system("clear");
 
 	printf("\n =================================");
@@ -267,13 +262,13 @@ char menuGerenciarEmprestimos(){
 	printf("\n []A - Emprestar Livro");
 	printf("\n []B - Devolução de Livro");
 	printf("\n []C - Relatório");
-	printf("\n []D - Voltar ao Menu do Administrador");
+	printf("\n []S - Voltar ao Menu do Administrador");
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
 	resp = maius(resp);
 
-	printf("\n");
+	}while(resp != 'S');
 
 	return resp;
 }
@@ -282,6 +277,7 @@ char menuLog(){
 	
 	char resp;
 
+	do{
 	system("clear");
 
 	printf("\n =================================");
@@ -291,13 +287,13 @@ char menuLog(){
 	printf("\n ================================="); 
 	printf("\n []A - Relatório Emprestimos");
 	printf("\n []B - Histórico de todos os empréstimos");
-	printf("\n []C - Voltar ao Menu do Administrador");
+	printf("\n []S - Voltar ao Menu do Administrador");
 
 	printf("\n\n Escolha uma opção: ");
 	scanf(" %c", &resp);
 	
 	resp = maius(resp);
-	printf("\n");
+	}while(resp != 'S');
 
 	return resp;
 
@@ -323,11 +319,8 @@ void sobre() {
 	printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
 	printf("         \"");
 
-	printf("\n Digite qualquer tecla pra continuar.\n\n");
+	printf("\n Digite algo e tecle ENTER para continuar.\n\n");
 	scanf(" %c", &resp);
-
-	resp = maius(resp);
-
 }
 
 char sair() {
@@ -358,29 +351,46 @@ void cadastroLivro() {
 
     printf("\n\n Insira o nome do livro: ");
     scanf(" %[^\n]s", nomeLiv);
+    while(validaEdt(nomeLiv) == 0){
+    	printf(" Insira um nome válido para o livro: ");
+    	scanf(" %[^\n]s", nomeLiv);
+    }
 
-    printf("\n Insira o ISBN do livro: ");
+    printf("\n Insira o ISBN do livro [xxx-xx-xxx-xxxx-x]: ");
     scanf(" %[^\n]s", isbn);
+    while(validaISBN(isbn) == 0){
+		printf(" Insira o ISBN correto [xxx-xx-xxx-xxxx-x]: ");
+		scanf(" %[^\n]s", isbn);
+	}
 
     printf("\n Insira o nome do autor: ");
     scanf(" %[^\n]s", autor);
     while(validaNome(autor) == 0){
-		printf("\n Insira um nome válido: ");
+		printf(" Insira um nome válido: ");
 		scanf(" %[^\n]s", autor);
 	}
 
     printf("\n Insira o gênero do livro: ");
     scanf(" %[^\n]s", genero);
     while (validaNome(genero)== 0){
-    printf("\n Insira um gênero válido do livro: ");
-    scanf(" %[^\n]s", genero);
+    	printf(" Insira um gênero válido do livro: ");
+    	scanf(" %[^\n]s", genero);
     }
     
     printf("\n Insira a editora do livro: ");
     scanf(" %[^\n]s", editora);
+    while(validaEdt(editora) == 0){
+    	printf(" Insira um nome válido para a editora do livro: ");
+    	scanf(" %[^\n]s", editora);
+    }
+
 
     printf("\n Insira a edição do livro: ");
     scanf(" %[^\n]s", edicao);
+    while(validaEdt(edicao)==0){
+    	printf(" Insira uma edição válida para o livro: ");
+    	scanf(" %[^\n]s", edicao);
+    }
     
 }
 
@@ -400,7 +410,7 @@ void cadastroPessoa() {
     printf("\n\n Insira seu nome completo: ");
     scanf(" %[^\n]s", nome);
     while(validaNome(nome) == 0){
-		printf("\n Insira um nome válido: ");
+		printf(" Insira um nome válido: ");
 		scanf(" %[^\n]s", nome);
 	}
 
@@ -410,24 +420,29 @@ void cadastroPessoa() {
     printf("\n Insira sua cidade: ");
     scanf(" %[^\n]s", enderCid);
      while(validaNome(enderCid) == 0){
-		printf("\n Insira um nome válido: ");
-		scanf(" %[^\n]s", nome);
+		printf(" Insira um nome válido para a cidade: ");
+		scanf(" %[^\n]s", enderCid);
 	}
+
     printf("\n Insira seu bairro: ");
     scanf(" %[^\n]s", enderBair);
     while(validaNome(enderBair) == 0){
-		printf("\n Insira um nome válido: ");
-		scanf(" %[^\n]s", nome);
+		printf(" Insira um nome válido para o bairro: ");
+		scanf(" %[^\n]s", enderBair);
 	}
 
     printf("\n Insira o número da sua casa: ");
     scanf(" %[^\n]s", numCasa);
+    while(validaEdt(numCasa)==0){
+    	printf(" Insira um número válido da sua casa: ");
+    	scanf(" %[^\n]s", numCasa);
+    }
 
 
     printf("\n Insira seu CPF - xxx.xxx.xxx-xx: ");
     scanf(" %[^\n]s", cpf);
 	while(validaCPF(cpf)==0){
-		printf("\n Insira um CPF válido - xxx.xxx.xxx-xx: ");
+		printf("Insira um CPF válido - xxx.xxx.xxx-xx: ");
 		scanf(" %[^\n]s", cpf);
 	}
     printf("\n Insira sua data de nascimento: ");
@@ -436,7 +451,7 @@ void cadastroPessoa() {
 	printf("\n Insira seu número para contato - xx-xxxxxxxxx: ");
 	scanf(" %[^\n]s", tel);
 	while(validaTelefone(tel)==0){
-		printf("\n Insira um número válido (xx)x xxxx-xxxx: ");
+		printf("Insira um número válido (xx)x xxxx-xxxx: ");
 		scanf(" %[^\n]s", tel);
 	}
 		
