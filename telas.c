@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include "telas.h"
 #include "validations.h"
+#include "esqueleto.h"
 
 char menuPrincipal() {
 
@@ -13,7 +14,7 @@ char menuPrincipal() {
 
 	system("clear");
 
-	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN ADMINISTRADOR \n []B - LOGIN USUÁRIO \n []C - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
+	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN \n []B - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
 
 	printf("       ______ ______\n");
 	printf("     _/      Y      \\_\n");
@@ -30,60 +31,61 @@ char menuPrincipal() {
 	resp = maius(resp);
     printf("\n");
     
-	}while(resp != 'A' && resp !=  'B' && resp != 'C' && resp != 'S'); 	
+	}while(resp != 'A' && resp !=  'B' && resp != 'S'); 	
 
     return resp;
 
 }
 
-int loginAdm(){
+int login() {
 
-    char login[51] = "admin";
+    char loginA[51] = "admin";
+    char senhaA[51] = "admin";
+    char loginU[51] = "teste";
+    char senhaU[51] = "teste";
     char login1[51];
-    char senha[51] = "admin";
     char senha1[51];
-	int a;
-	int b;
 
 	system("clear");
 
 	printf("\n =================================");
 	printf("\n | | | Programa Biblioeteca | | |");                      
 	printf("\n =================================");
-	printf("\n >>>  LOGIN DO ADMINISTRADOR <<<");
+	printf("\n >>>      LOGIN DO LEITOR      <<<");
 	printf("\n =================================");
+
     printf("\n\n Informe o nome de usuário: ");
     scanf("%s", login1);
 	printf(" Informe a senha: ");
 	scanf("%s", senha1);
 
-	a = strcmp(login, login1);
-	b = strcmp(senha, senha1);
-
-	while (!(a == 0 && b == 0)){
+	while(!(strcmp(loginA, login1) == 0 && strcmp(senhaA, senha1) == 0) && !(strcmp(loginU, login1) == 0 && strcmp(senhaU, senha1) == 0)) {
 
 		system("clear");
+
 		printf("\n =================================");
 		printf("\n | | | Programa Biblioeteca | | |");                      
 		printf("\n =================================");
-		printf("\n >>>  LOGIN DO ADMINISTRADOR <<<");
+		printf("\n >>>      LOGIN DO LEITOR      <<<");
 		printf("\n =================================");
-		printf("\n\n Login ou senha incorretos, tente novamente.\n");
-		printf("\n Informe o nome de usuário: ");
-    	scanf("%s",login1);
-		printf(" Informe a senha: ");
-		scanf("%s",senha1);
-		a = strcmp(login,login1);
-		b = strcmp(senha, senha1);		
-
-	}
-
-	if(a == 0 && b == 0){
 		
-		printf("\n Login realizado com sucesso.\n");
-		return 1;
+	    printf("\n\n Informe o nome de usuário: ");
+	    scanf("%s", login1);
+		printf(" Informe a senha: ");
+		scanf("%s", senha1);
+
 	}
-	
+
+	if(strcmp(loginA, login1) == 0 && strcmp(senhaA, senha1) == 0) {
+		
+		// printf("\n Login realizado com sucesso.\n");
+		return 1;
+
+	} else if(strcmp(loginU, login1) == 0 && strcmp(senhaU, senha1) == 0) {
+		// printf("\n Login realizado com sucesso.\n");
+		return 2;
+	}
+
 	return 0;
 	
 }
@@ -98,9 +100,7 @@ void menuAdmin() {
 
 		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Deslogar \n\n (As opções A, B, G, H e I, são as únicas que possuem menu atualmente.)\n\n");
 
-	
-
-		printf("\n\nEscolha uma opção: ");
+		printf("\n\n Escolha uma opção: ");
 
 		scanf(" %c", &resp);
 		resp = maius(resp);
@@ -141,12 +141,21 @@ void menuAdmin() {
 			case 'I':
 				menuLog();
 				break;
+			case 'S':
+				if((sair()) == 'S') {
+					starter();
+				} else {
+					menuAdmin();
+				}
+				break;
 				
 		}
 		
 	}while(resp != 'S');
+
 }
 
+/*
 int loginUser(){
 
     char login[51] = "teste";
@@ -201,6 +210,7 @@ int loginUser(){
 	return 1;
 	
 }
+*/
 
 void menuUser() {
 
@@ -208,18 +218,45 @@ void menuUser() {
 
 	do{
 
-	system("clear");
+		system("clear");
 
-	printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A - Exibir todos os livros do acervo \n []B - Pesquisar livro no acervo \n []C - Gerenciar empréstimos \n []D - Redefinir dados pessoais \n []S - Deslogar \n");
+		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU USUÁRIO <<<<<<<<<<<<<<< \n ================================================= \n []A - Exibir todos os livros do acervo \n []B - Pesquisar livro no acervo \n []C - Gerenciar empréstimos \n []D - Redefinir dados pessoais \n []S - Deslogar \n");
 
-	
+		
 
-	printf(" \n\nEscolha uma opção: ");
+		printf(" \n\n Escolha uma opção: ");
 
-	scanf(" %c", &resp);
-	resp = maius(resp);
+		scanf(" %c", &resp);
+		resp = maius(resp);
 
-	printf("\n");
+		switch(resp) {
+			
+			case 'A':
+				printf("Ainda não implementado.\n");
+				break;
+				
+			case 'B':
+				printf("Ainda não implementado.\n");
+				break;
+				
+			case 'C':
+				printf("Ainda não implementado.\n");
+				break;
+				
+			case 'D':
+				printf("Ainda não implementado.\n");
+				break;
+			
+			case 'S':
+				if((sair()) == 'S') {
+					starter();
+				} else {
+					menuUser();
+				}
+				break;
+				
+		}
+		
 	}while(resp != 'S');
 
 }

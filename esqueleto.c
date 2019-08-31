@@ -13,8 +13,7 @@ Professor: Flavius Gorgônio.
 #include <regex.h>
 #include "telas.h"
 #include "validations.h"
-
-int starter(void);
+#include "esqueleto.h"
 
 int main(void) {
 
@@ -34,17 +33,15 @@ int starter() {
 	switch(resposta_menu_principal = menuPrincipal()) {
 		
 		case 'A':
-			if(loginAdm()){
+			if(login() == 1) {
 				menuAdmin();
-			}
-			break;
-		case 'B':
-			if(loginUser()){
+			} else if(login() == 2) {
 				menuUser();
 			}
 			break;
-		case 'C':
+		case 'B':
 			sobre();
+			resposta_menu_principal = starter();
 			break;
 		case 'S':
 			if((sair()) == 'S') {

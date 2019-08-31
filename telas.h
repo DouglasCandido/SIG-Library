@@ -1,7 +1,6 @@
 char menuPrincipal(void); // Essa função é chamada para apresentar o Menu Principal.
-int loginAdm(void); // Essa função é chamada para validar o login do administrador.
+int login(void); // Essa função é chamada para validar o login.
 void menuAdmin(void); // Essa função é chamada para apresentar o Menu exclusivo do administrador.
-int loginUser(void); // Essa função é chamada para validar o login do usuário.
 void menuUser(void); // Essa função é chamada para apresentar o Menu exclusivo do usuário.
 char menuGerenciarEmprestimos(void); // Essa função é chamada para apresentar o Menu Gerenciar Empréstimos.
 char menuLog(void); // Essa função é chamada para apresentar o Menu Log (Relatórios).
