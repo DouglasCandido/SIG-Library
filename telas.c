@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "telas.h"
 #include "validations.h"
 
 char menuPrincipal() {
 
 	char resp;
+
 	do{
+
 	system("clear");
 
 	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN ADMINISTRADOR \n []B - LOGIN USUÁRIO \n []C - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
@@ -396,7 +399,9 @@ void cadastroLivro() {
 
 void cadastroPessoa() {
 
-    char nome[100], enderEst[2], enderCid[100], enderBair[100], numCasa[50], cpf[14], dataNasc[10], tel[15], email[30];
+    char nome[100], enderCid[100], enderBair[100], numCasa[50], cpf[14], tel[15], email[30], *estados[27][2], c;
+    int dia, mes, ano, numero_uf, uf;
+
 
     system("clear");
 
@@ -414,8 +419,98 @@ void cadastroPessoa() {
 		scanf(" %[^\n]s", nome);
 	}
 
-    printf("\n Insira seu Estado: ");
-    scanf(" %[^\n]s", enderEst);
+	do {  
+
+        printf("\n Insira seu dia de nascimento: ");
+
+    } while (((scanf("%d%c", &dia, &c) != 2 || c != '\n') && clean_stdin()) || dia < 1 || dia > 31);
+
+
+
+    do {  
+
+        printf("\n Insira seu mês de nascimento: ");
+
+    } while (((scanf("%d%c", &mes, &c) != 2 || c != '\n') && clean_stdin()) || mes < 1 || mes > 12);
+
+    do {  
+
+        printf("\n Insira seu ano de nascimento: ");
+
+    } while (((scanf("%d%c", &ano, &c) != 2 || c != '\n') && clean_stdin()) || ano < 1900 || ano > 2019);
+
+    if(validaData(dia, mes, ano) == 1) {
+    	printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", dia, mes, ano);
+    }
+
+    estados[0][0] = "1 - AC";
+    estados[0][1] = "Acre";
+    estados[1][0] = "2 - AL";
+    estados[1][1] = "Alagoas";
+    estados[2][0] = "3 - AP";
+    estados[2][1] = "Amapá";
+    estados[3][0] = "4 - AM";
+    estados[3][1] = "Amazonas";
+    estados[4][0] = "5 - BA";
+    estados[4][1] = "Bahia";
+    estados[5][0] = "6 - CE";
+    estados[5][1] = "Ceará";
+    estados[6][0] = "7 - DF";
+    estados[6][1] = "Distrito Federal";
+    estados[7][0] = "8 - ES";
+    estados[7][1] = "Espírito Santo";
+    estados[8][0] = "9 - GO";
+    estados[8][1] = "Goiás";
+    estados[9][0] = "10 - MA";
+    estados[9][1] = "Maranhão";
+    estados[10][0] = "11 - MT";
+    estados[10][1] = "Mato Grosso";
+    estados[11][0] = "12 - MS";
+    estados[11][1] = "Mato Grosso do Sul";
+    estados[12][0] = "13 - MG";
+    estados[12][1] = "Minas Gerais";
+    estados[13][0] = "14 - PA";
+    estados[13][1] = "Pará";
+    estados[14][0] = "15 - PB";
+    estados[14][1] = "Paraíba";
+    estados[15][0] = "16 - PR";
+    estados[15][1] = "Paraná";
+    estados[16][0] = "17 - PE";
+    estados[16][1] = "Pernambuco";
+    estados[17][0] = "18 - PI";
+    estados[17][1] = "Piauí";
+    estados[18][0] = "19 - RJ";
+    estados[18][1] = "Rio de Janeiro";
+    estados[19][0] = "20 - RN";
+    estados[19][1] = "Rio Grande do Norte";
+    estados[20][0] = "21 - RS";
+    estados[20][1] = "Rio Grande do Sul";
+    estados[21][0] = "22 - RO";
+    estados[21][1] = "Rondônia";
+    estados[22][0] = "23 - RR";
+    estados[22][1] = "Roraima";
+    estados[23][0] = "24 - SC";
+    estados[23][1] = "Santa Catarina";
+    estados[24][0] = "25 - SP";
+    estados[24][1] = "São Paulo";
+    estados[25][0] = "26 - SE";
+    estados[25][1] = "Sergipe";
+    estados[26][0] = "27 - TO";
+    estados[26][1] = "Tocantins";
+
+    for(int i = 0; i < 27; i++){
+        printf(" %s ---> %s.\n", estados[i][0], estados[i][1]);
+    }
+
+    do {  
+
+    	printf("\n Digite o número correspondente ao seu estado: ");
+
+    } while (((scanf("%d%c", &uf, &c) != 2 || c != '\n') && clean_stdin()) || uf < 1 || uf > 27);
+
+    numero_uf = uf;
+
+    numero_uf = numero_uf - 1; // Para acessar o índice correto da matriz é necessário diminuir 1 do número correspondente a letra escolhida pelo usuário.
 
     printf("\n Insira sua cidade: ");
     scanf(" %[^\n]s", enderCid);
@@ -442,27 +537,24 @@ void cadastroPessoa() {
     printf("\n Insira seu CPF - xxx.xxx.xxx-xx: ");
     scanf(" %[^\n]s", cpf);
 	while(validaCPF(cpf)==0){
-		printf("Insira um CPF válido - xxx.xxx.xxx-xx: ");
+		printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
 		scanf(" %[^\n]s", cpf);
 	}
-    printf("\n Insira sua data de nascimento: ");
-    scanf(" %[^\n]s", dataNasc);
 	
 	printf("\n Insira seu número para contato - xx-xxxxxxxxx: ");
 	scanf(" %[^\n]s", tel);
 	while(validaTelefone(tel)==0){
-		printf("Insira um número válido (xx)x xxxx-xxxx: ");
+		printf(" Insira um número válido (xx)x xxxx-xxxx: ");
 		scanf(" %[^\n]s", tel);
 	}
 		
     printf("\n Insira seu email: ");
 	scanf(" %[^\n]s", email);
     while(validaEmail(email)==0){
-			printf("Insira um email válido: ");
+			printf(" Insira um email válido: ");
 			scanf(" %[^\n]s", email);
 	}
    
     
 
 }
-

@@ -13,3 +13,6 @@ int validaNome(char nome[100]);
 int validaCPF(char cpf[14]);
 int validaISBN(char isbn[17]);
 int validaEdt(char edit[100]);
+int bissexto(int ano);
+int validaData(int dia, int mes, int ano);
+int clean_stdin(void); // Essa função é responsável por limpar o buffer.
