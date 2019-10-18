@@ -320,10 +320,12 @@ void buscaLivro(void) {
 
   system("clear");
 
-  printf(" = = = Sig-Library = = = \n");
-  printf(" = =   Buscar Livro  = = \n");
-  printf(" = = = = = = = = = = = = \n");
-  printf("\n");
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>        BUSCA LIVRO        <<<");
+		printf("\n =================================");
+		printf("\n");
 
   printf(" Informe o nome do livro a ser buscado: ");
   scanf(" %199[^\n]", procurado);
@@ -388,10 +390,12 @@ void excluiLivro(void) {
 
   system("clear");
 
-  printf(" = = = Sig-Library = = = \n");
-  printf(" = =   Apagar Livro  = = \n");
-  printf(" = = = = = = = = = = = = \n");
-  printf("\n");
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>        EXCLUI LIVRO       <<<");
+		printf("\n =================================");
+		printf("\n");
 
   printf(" Informe o nome do livro a ser apagado: ");
   scanf(" %199[^\n]", procurado);
@@ -466,10 +470,12 @@ void listaLivros(void) {
 
   system("clear");
   
-  printf(" = = = Sig-Library = = = \n");
-  printf(" = =   Exibe Livros  = = \n");
-  printf(" = = = = = = = = = = = = \n");
-  printf("\n");
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>       EXIBE LIVRO         <<<");
+		printf("\n =================================");
+		printf("\n");
 
   livro = (Livro*) malloc(sizeof(Livro));
 
@@ -586,57 +592,108 @@ void menuAdmin() {
 	*/
 
 	char resp;
-
+	char op;
+	char op2;
 	do {
 		
 		system("clear");
-
-		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []J - Procurar livro \n []S - Deslogar \n\n");
-
-		printf("\n\n Escolha uma opção: ");
-
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>         MENU ADM          <<<");
+		printf("\n =================================");
+		printf("\n\n []A - Gerenciar Pessoas\n");
+		printf(" []B - Gerenciar Livros\n");
+		printf(" []C - Gerenciar Emprestimos\n");
+		printf(" []D - Logs e Relatórios\n");
+		printf(" []S - Sair\n");
+		
+		printf(" Escolha uma opção: ");
 		scanf(" %c", &resp);
 		resp = maius(resp);
 
 		switch(resp) {
 			
 			case 'A':
-				cadastroLivro();
-				break;
-				
+				do {
+				gerenciarPessoas();
+				printf(" \nEscolha uma opção: ");
+				scanf(" %c", &op);
+				op = maius(op);
+
+			
+				switch(op){
+					case 'A':
+					cadastroPessoa();
+					break;
+
+					case 'B':
+					printf("não implementado\n");
+					break;
+
+					case 'C':
+					listaPessoas();
+					break;
+
+					case 'D':
+					printf("não implementado\n");
+					break;
+
+					
+					case 'E':
+					printf("não implementado\n");
+					break;
+					
+					case 'F':
+					printf("não implementado\n");
+					break;
+					}
+
+
+					}while (op != 'S'); 
+								
+			break;
+			
+			
 			case 'B':
-				cadastroPessoa();
-				break;
+				do{
+					gerenciarLivros();
+					printf(" \nEscolha uma opção: ");
+					scanf(" %c", &op2);
+					op2 = maius(op2);
+					switch(op2){
+						case 'A':
+						cadastroLivro();
+						break;
+
+						case 'B':
+						buscaLivro();
+						break;
+
+						case 'C':
+						listaLivros();
+						break;
+
+						case 'D':
+						excluiLivro();
+						break;
+
+						case 'E':
+						printf("ainda não implementado\n" );
+						break;
+
+					}
+				}while(op2 != 'S');
+			break;
 				
 			case 'C':
-				listaPessoas();
+				menuGerenciarEmprestimos();
 				break;
 				
 			case 'D':
-				printf("Ainda não implementado.\n");
-				break;
-			
-			case 'E':
-				listaLivros();
-				break;
-			
-			case 'F':
-				excluiLivro();
-				break;
-				
-			case 'G':
-				menuRedefinirUser();
-				break;
-				
-			case 'H':
-				menuGerenciarEmprestimos();
-				break;
-			case 'I':
 				menuLog();
 				break;
-			case 'J':
-				buscaLivro();
-				break;
+			
 			case 'S':
 				if((sair()) == 'S') {
 					starter();
@@ -650,6 +707,39 @@ void menuAdmin() {
 	}while(resp != 'S');
 
 }
+
+void gerenciarPessoas(void){
+	system("clear");
+	printf("\n =================================");
+	printf("\n | | | Programa Biblioeteca | | |");                      
+	printf("\n =================================");
+	printf("\n >>>     GERENCIAR PESSOAS     <<<");
+	printf("\n =================================");
+	printf("\n\n []A - Cadastrar Pessoa\n");
+	printf(" []B - Buscar Pessoa\n");
+	printf(" []C - Listar pessoas cadastradas\n");
+	printf(" []D - Excluir pessoas\n");
+	printf(" []E - Editar informações\n");
+	printf(" []F - Redefinir nome de usuário ou senha\n");		
+	printf(" []S - Sair\n");
+}
+
+
+void gerenciarLivros(void){
+		system("clear");
+		printf("\n =================================");
+		printf("\n | | | Programa Biblioeteca | | |");                      
+		printf("\n =================================");
+		printf("\n >>>      GERENCIAR LIVROS     <<<");
+		printf("\n =================================");
+		printf("\n\n []A - Cadastrar Livro\n");
+		printf(" []B - Buscar Livro\n");
+		printf(" []C - Listar livros cadastradas\n");
+		printf(" []D - Excluir livros\n");
+		printf(" []E - Editar livro\n");		
+		printf(" []S - Sair\n");
+}
+
 
 void menuUser() {
 
