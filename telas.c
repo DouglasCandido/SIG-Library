@@ -6,6 +6,246 @@
 #include "validations.h"
 #include "esqueleto.h"
 
+typedef struct livro Livro;
+
+struct livro {
+
+  int cod;
+  char nomeLiv[200]; 
+  char autor[200]; 
+  char genero[100]; 
+  char editora[100]; 
+  char edicao[100]; 
+  char isbn[17];
+  char status;
+
+};
+
+void gravaLivro(Livro* livro) {
+
+  FILE* fp;
+
+  fp = fopen("livro.dat", "ab");
+
+  livro->status = '1';
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+  
+  }
+
+  fwrite(livro, sizeof(Livro), 1, fp);
+
+  fclose(fp);
+
+}
+
+void exibeLivro(Livro* livro) {
+
+	printf(" Código: %d\n", livro->cod);
+	printf(" Nome do livro: %s\n", livro->nomeLiv);
+	printf(" Autor: %s\n", livro->autor);
+	printf(" Gênero: %s\n", livro->genero);
+	printf(" Edição: %s\n", livro->edicao);
+	printf(" ISBN: %s\n", livro->isbn);
+	printf("\n");
+
+}
+
+void buscaLivro(void) {
+
+  FILE* fp;
+  Livro* livro;
+  int achou;
+  char procurado[200];
+  char resp;
+
+  fp = fopen("livro.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+  system("clear");
+
+  printf(" = = = Sig-Library = = = \n");
+  printf(" = =   Buscar Livro  = = \n");
+  printf(" = = = = = = = = = = = = \n");
+  printf("\n");
+
+  printf(" Informe o nome do livro a ser buscado: ");
+  scanf(" %199[^\n]", procurado);
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  achou = 0;
+
+  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+   if ((strcmp(livro->nomeLiv, procurado) == 0) && (livro->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+  fclose(fp);
+
+  if (achou) {
+
+    exibeLivro(livro);
+
+  } else {
+
+    printf("\n O livro %s não foi encontrado...\n", procurado);
+
+  }
+
+  printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+  scanf(" %c", &resp);
+
+  free(livro);
+
+}
+
+void editaLivro(void) {
+
+  printf("Menu editar Livro \n");
+
+}
+
+void excluiLivro(void) {
+
+  FILE* fp;
+  Livro* livro;
+  int achou;
+  char resp;
+  char procurado[200];
+
+  fp = fopen("livro.dat", "r+b");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+  system("clear");
+
+  printf(" = = = Sig-Library = = = \n");
+  printf(" = =   Apagar Livro  = = \n");
+  printf(" = = = = = = = = = = = = \n");
+  printf("\n");
+
+  printf(" Informe o nome do livro a ser apagado: ");
+  scanf(" %199[^\n]", procurado);
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  achou = 0;
+
+  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+   if ((strcmp(livro->nomeLiv, procurado) == 0) && (livro->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+  fclose(fp);
+
+  if (achou) {
+
+    exibeLivro(livro);
+
+    printf(" Deseja realmente apagar este livro (S/N)? ");
+
+    scanf(" %c", &resp);
+
+    if (resp == 's' || resp == 'S') {
+
+      livro->status = '0';
+
+      fseek(fp, -1 * sizeof(Livro), SEEK_CUR);
+
+      fwrite(livro, sizeof(Livro), 1, fp);
+
+      printf("\n Livro excluído com sucesso!!!\n");
+
+     } else {
+
+       printf("\n Ok, os dados não foram alterados\n");
+
+     }
+
+  } else {
+
+    printf(" O livro %s não foi encontrado...\n", procurado);
+
+  }
+
+  free(livro);
+
+}
+
+void listaLivros(void) {
+
+  char resp;
+
+  FILE* fp;
+  Livro* livro;
+
+  fp = fopen("livro.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+  system("clear");
+  
+  printf(" = = = Sig-Library = = = \n");
+  printf(" = =   Exibe Livros  = = \n");
+  printf(" = = = = = = = = = = = = \n");
+  printf("\n");
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  while(fread(livro, sizeof(Livro), 1, fp)) {
+
+    exibeLivro(livro);
+
+  }
+
+  printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+  scanf(" %c", &resp);
+
+  fclose(fp);
+
+  free(livro);
+
+}
+
+
 char menuPrincipal() {
 
 	char resp;
@@ -92,13 +332,19 @@ int login() {
 
 void menuAdmin() {
 
+	/*
+	Livro* livro;
+
+	livro = (Livro*) malloc(sizeof(Livro));
+	*/
+
 	char resp;
 
 	do {
 		
 		system("clear");
 
-		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []S - Deslogar \n\n (As opções A, B, G, H e I, são as únicas que possuem menu atualmente.)\n\n");
+		printf("\n ================================================= \n |  |  |  |  |  Programa Biblioteca  |  |  |  |  | \n ================================================= \n >>>>>>>>>>>>>> MENU ADMINISTRADOR <<<<<<<<<<<<<<< \n ================================================= \n []A - Cadastrar livro \n []B - Cadastro de pessoas \n []C - Exibir informações de pessoas \n []D - Excluir pessoa \n []E - Exibir livros cadastrados \n []F - Excluir livro cadastrado \n []G - Redefinir nome de usuário ou senha \n []H - Gerenciar empréstimos \n []I - Logs e Relatórios \n []J - Procurar livro \n []S - Deslogar \n\n");
 
 		printf("\n\n Escolha uma opção: ");
 
@@ -124,11 +370,11 @@ void menuAdmin() {
 				break;
 			
 			case 'E':
-				printf("Ainda não implementado.\n");
+				listaLivros();
 				break;
 			
 			case 'F':
-				printf("Ainda não implementado.\n");
+				excluiLivro();
 				break;
 				
 			case 'G':
@@ -140,6 +386,9 @@ void menuAdmin() {
 				break;
 			case 'I':
 				menuLog();
+				break;
+			case 'J':
+				buscaLivro();
 				break;
 			case 'S':
 				if((sair()) == 'S') {
@@ -154,63 +403,6 @@ void menuAdmin() {
 	}while(resp != 'S');
 
 }
-
-/*
-int loginUser(){
-
-    char login[51] = "teste";
-    char login1[51];
-    char senha[51] = "teste";
-    char senha1[51];
-	int a;
-	int b;
-
-	system("clear");
-    printf("\n =================================");
-	printf("\n | | | Programa Biblioeteca | | |");                      
-	printf("\n =================================");
-	printf("\n >>>>>>   LOGIN DO USUÁRIO  <<<<<<");
-	printf("\n =================================");
-
-    printf("\n\n Informe o nome de usuário: ");
-    scanf("%s", login1);
-	printf(" Informe a senha: ");
-	scanf("%s", senha1);
-
-	a = strcmp(login, login1);
-	b = strcmp(senha, senha1);
-
-	while (!(a == 0 && b == 0)){
-
-		system("clear");
-
-		printf("\n =================================");
-		printf("\n | | | Programa Biblioeteca | | |");                      
-		printf("\n =================================");
-		printf("\n >>>>>>   LOGIN DO USUÁRIO  <<<<<<");
-		printf("\n =================================");
-
-		printf("\n\n LOGIN OU SENHA INCORRETOS, TENTE NOVAMENTE.\n");
-		printf("\n Informe o nome de usuário: ");
-    	scanf("%s",login1);
-		printf(" Informe a senha: ");
-		scanf("%s",senha1);
-		a = strcmp(login,login1);
-		b = strcmp(senha, senha1);
-				
-
-	}
-	
-	if(a == 0 && b == 0){
-		
-		printf("\n Login realizado com sucesso.\n");
-		
-	}
-	
-	return 1;
-	
-}
-*/
 
 void menuUser() {
 
@@ -378,7 +570,9 @@ char sair() {
 
 void cadastroLivro() {
 
-    char nomeLiv[200], autor[200], genero[100], editora[100], edicao[100], isbn[17];
+	Livro* livro;
+
+	livro = (Livro*) malloc(sizeof(Livro));
 
     system("clear");
 
@@ -390,47 +584,52 @@ void cadastroLivro() {
 
 
     printf("\n\n Insira o nome do livro: ");
-    scanf(" %[^\n]s", nomeLiv);
-    while(validaEdt(nomeLiv) == 0){
+    scanf(" %[^\n]s", livro->nomeLiv);
+    while(validaEdt(livro->nomeLiv) == 0){
     	printf(" Insira um nome válido para o livro: ");
-    	scanf(" %[^\n]s", nomeLiv);
+    	scanf(" %[^\n]s", livro->nomeLiv);
     }
 
     printf("\n Insira o ISBN do livro [xxx-xx-xxx-xxxx-x]: ");
-    scanf(" %[^\n]s", isbn);
-    while(validaISBN(isbn) == 0){
+    scanf(" %[^\n]s", livro->isbn);
+    while(validaISBN(livro->isbn) == 0){
 		printf(" Insira o ISBN correto [xxx-xx-xxx-xxxx-x]: ");
-		scanf(" %[^\n]s", isbn);
+		scanf(" %[^\n]s", livro->isbn);
 	}
 
     printf("\n Insira o nome do autor: ");
-    scanf(" %[^\n]s", autor);
-    while(validaNome(autor) == 0){
+    scanf(" %[^\n]s", livro->autor);
+    while(validaNome(livro->autor) == 0){
 		printf(" Insira um nome válido: ");
-		scanf(" %[^\n]s", autor);
+		scanf(" %[^\n]s", livro->autor);
 	}
 
     printf("\n Insira o gênero do livro: ");
-    scanf(" %[^\n]s", genero);
-    while (validaNome(genero)== 0){
+    scanf(" %[^\n]s", livro->genero);
+    while (validaNome(livro->genero)== 0){
     	printf(" Insira um gênero válido do livro: ");
-    	scanf(" %[^\n]s", genero);
+    	scanf(" %[^\n]s", livro->genero);
     }
     
     printf("\n Insira a editora do livro: ");
-    scanf(" %[^\n]s", editora);
-    while(validaEdt(editora) == 0){
+    scanf(" %[^\n]s", livro->editora);
+    while(validaEdt(livro->editora) == 0){
     	printf(" Insira um nome válido para a editora do livro: ");
-    	scanf(" %[^\n]s", editora);
+    	scanf(" %[^\n]s", livro->editora);
     }
 
 
     printf("\n Insira a edição do livro: ");
-    scanf(" %[^\n]s", edicao);
-    while(validaEdt(edicao)==0){
+    scanf(" %[^\n]s", livro->edicao);
+    while(validaEdt(livro->edicao)==0){
     	printf(" Insira uma edição válida para o livro: ");
-    	scanf(" %[^\n]s", edicao);
+    	scanf(" %[^\n]s", livro->edicao);
     }
+
+    printf("###############################\n");
+  	exibeLivro(livro);
+  	printf("###############################\n");
+  	gravaLivro(livro);
     
 }
 
@@ -591,7 +790,6 @@ void cadastroPessoa() {
 			printf(" Insira um email válido: ");
 			scanf(" %[^\n]s", email);
 	}
-   
-    
-
+  
 }
+
