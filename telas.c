@@ -6,6 +6,8 @@
 #include "validations.h"
 #include "esqueleto.h"
 
+int codigo_incremental = 0;
+
 typedef struct livro Livro;
 
 struct livro {
@@ -23,11 +25,11 @@ struct livro {
 
 void gravaLivro(Livro* livro) {
 
+  livro->status = '1';
+
   FILE* fp;
 
   fp = fopen("livro.dat", "ab");
-
-  livro->status = '1';
 
   if (fp == NULL) {
 
@@ -167,8 +169,6 @@ void excluiLivro(void) {
 
   }
 
-  fclose(fp);
-
   if (achou) {
 
     exibeLivro(livro);
@@ -187,17 +187,19 @@ void excluiLivro(void) {
 
       printf("\n Livro excluído com sucesso!!!\n");
 
-     } else {
+    } else {
 
-       printf("\n Ok, os dados não foram alterados\n");
+      printf("\n Ok, os dados não foram alterados\n");
 
-     }
+    }
 
   } else {
 
     printf(" O livro %s não foi encontrado...\n", procurado);
 
   }
+
+  fclose(fp);
 
   free(livro);
 
@@ -232,7 +234,11 @@ void listaLivros(void) {
 
   while(fread(livro, sizeof(Livro), 1, fp)) {
 
-    exibeLivro(livro);
+  	if(livro->status == '1') {
+
+    	exibeLivro(livro);
+
+	}
 
   }
 
@@ -582,8 +588,9 @@ void cadastroLivro() {
 	printf("\n >>>>>>> CADASTRO DE LIVROS <<<<<<");
 	printf("\n =================================");
 
+	livro->cod = codigo_incremental;
 
-    printf("\n\n Insira o nome do livro: ");
+    printf("\n Insira o nome do livro: ");
     scanf(" %[^\n]s", livro->nomeLiv);
     while(validaEdt(livro->nomeLiv) == 0){
     	printf(" Insira um nome válido para o livro: ");
@@ -630,6 +637,8 @@ void cadastroLivro() {
   	exibeLivro(livro);
   	printf("###############################\n");
   	gravaLivro(livro);
+
+  	codigo_incremental += 1;
     
 }
 
