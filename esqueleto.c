@@ -35,7 +35,7 @@ int starter() {
 		case 'A':
 			if(login() == 1) {
 				menuAdmin();
-			} else if(login() == 2) {
+			}else{
 				menuUser();
 			}
 			break;
