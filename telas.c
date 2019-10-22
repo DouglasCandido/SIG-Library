@@ -52,6 +52,21 @@ struct pes {
 void exibePessoas(Pes* cadastro_pess);
 
 
+void menuEditaEndereco(void){
+    system("clear");
+    printf("\n =================================");
+    printf("\n | | | Programa Biblioeteca | | |");                      
+    printf("\n =================================");
+    printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
+    printf("\n =================================");
+    printf("\n\n[]A - Alterar Cidade");
+    printf("\n[]B - Alterar Bairro");
+    printf("\n[]C - Alterar Estado");
+    printf("\n[]D - Alterar Número casa");
+    printf("\n[]S - Voltar");
+
+}
+
 void menuEditaPessoa(void){
     system("clear");
     printf("\n =================================");
@@ -64,31 +79,233 @@ void menuEditaPessoa(void){
     printf("\n[]C - Alterar email");
     printf("\n[]D - Alterar endereço");
     printf("\n[]E - Alterar CPF");
+    printf("\n[]F - Alterar Data de nascimento");
     printf("\n[]S - Voltar");
 }
 
-
-void editaPessoa(void){
+void alteraNome(void){
   FILE* fp;
-  Pes* pes;
-  char resp;
-  fp = fopen("pessoas.dat", "ab");
-  pes = (Pes*) malloc(sizeof(Pes));
+  Pes* cadastro_pess;
+  fp = fopen("pessoas.dat", "r+b");
+  char a;
 
-  do{
-    menuEditaPessoa();
-    printf("\n\nEscolha uma opção: ");
-    scanf(" %c", &resp);
-    resp = maius(resp);
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
 
-  }while (resp != 'S');
-  
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+  printf("Informe o novo nome: ");
+  scanf(" %99[^\n]", cadastro_pess->nome);
+  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+  printf("\nInformação editada com sucesso!!!\n");
+  printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+  scanf(" %c",&a);
+  free(cadastro_pess);
   fclose(fp);
-  free(pes);
 }
 
+
+void editaPessoa(void) {
+  FILE* fp;
+  Pes* cadastro_pess;
+  int achou;
+  char a;
+  char op2;
+  char op;
+  char resp;
+  char procurado[100];
+  fp = fopen("pessoas.dat", "r+b");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  printf("\n\n");
+  system("clear");
+  printf("\n =================================");
+  printf("\n | | | Programa Biblioeteca | | |");                      
+  printf("\n =================================");
+  printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
+  printf("\n =================================");
+  printf("\n\nInforme o nome da pessoa a ser alterada: ");
+  scanf(" %99[^\n]", procurado);
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+  achou = 0;
+  while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+   if ((strcmp(cadastro_pess->nome, procurado) == 0) && (cadastro_pess->status == '1')) {
+     achou = 1;
+   }
+  }
+  if (achou) {
+    exibePessoas(cadastro_pess);
+    getchar();
+    printf("Deseja alterar informações dessa pessoa (S/N): \n");
+    scanf(" %c",&resp);
+    resp = maius(resp);
+    if (resp == 'S'){
+    do{
+
+        menuEditaPessoa();
+        exibePessoas(cadastro_pess);
+        printf("\n\nEscolha uma opção: ");
+        scanf(" %c", &op);
+        op =  maius(op);
+        switch(op){
+
+          case 'A':
+            printf("Informe o novo nome: ");
+            scanf(" %99[^\n]", cadastro_pess->nome);
+            while(validaNome(cadastro_pess->nome) == 0){
+              printf(" Insira um nome válido: ");
+            scanf(" %99[^\n]", cadastro_pess->nome);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\nInformação editada com sucesso!!!\n");
+            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);
+          break;
+
+
+
+          case 'B':
+            printf("Informe o novo telefone: ");
+            scanf(" %99[^\n]", cadastro_pess->tel);
+            while(validaTelefone(cadastro_pess->tel)==0){
+              printf(" Insira um número válido (xx)x xxxx-xxxx: ");
+              scanf(" %99[^\n]", cadastro_pess->tel);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\nInformação editada com sucesso!!!\n");
+            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);
+          break;
+
+          case 'C':
+            printf("Informe o novo email: ");
+            scanf(" %99[^\n]", cadastro_pess->email);
+
+            while(validaEmail(cadastro_pess->email)==0){
+              printf(" Insira um email válido: ");
+              scanf(" %99[^\n]", cadastro_pess->email);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\nInformação editada com sucesso!!!\n");
+            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);         
+          break;
+
+          case 'D':
+            do{
+              menuEditaEndereco();
+              exibePessoas(cadastro_pess);
+              printf(" \nEscolha uma opção: ");
+              scanf(" %c", &op2);
+              op2 = maius(op2);
+              switch(op2){
+                case 'A':
+                  printf("\n Insira sua cidade: ");
+                  scanf(" %99[^\n]", cadastro_pess->enderCid);
+                  while(validaNome(cadastro_pess->enderCid) == 0){
+                    printf(" Insira um nome válido para a cidade: ");
+                    scanf(" %99[^\n]", cadastro_pess->enderCid);
+                  }
+                break;
+
+                case 'B':
+
+                  printf("\n Insira seu bairro: ");
+                  scanf(" %99[^\n]", cadastro_pess->enderBair);
+                  while(validaNome(cadastro_pess->enderBair) == 0){
+                    printf(" Insira um nome válido para o bairro: ");
+                    scanf(" %99[^\n]", cadastro_pess->enderBair);
+                  }
+                break;
+
+                case 'C':
+
+                  exibeEstados();
+                  do {  
+                    printf("\n Digite o número correspondente ao seu estado: ");
+                  } while (((scanf("%d%c", &cadastro_pess->uf, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->uf < 1 || cadastro_pess->uf > 27);
+
+                  cadastro_pess->numero_uf = cadastro_pess->uf;
+                  cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1;
+                break;
+
+                case 'D':
+                  printf("\n Insira o número da sua casa: ");
+                  scanf(" %99[^\n]", cadastro_pess->numCasa);
+                  while(validaEdt(cadastro_pess->numCasa)==0){
+                    printf(" Insira um número válido da sua casa: ");
+                    scanf(" %99[^\n]", cadastro_pess->numCasa);
+                  }
+                break;
+
+              }
+
+            }while (resp != 'S');
+
+          break;
+
+          case 'E':
+            printf("Informe o novo CPF: ");
+            scanf(" %15[^\n]", cadastro_pess->cpf);
+            while(validaCPF(cadastro_pess->cpf)==0){
+              printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
+              scanf(" %99[^\n]", cadastro_pess->cpf);
+              setbuf(stdin, NULL);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+            printf("\nInformação editada com sucesso!!!\n");
+          break;
+
+          case 'F':
+            do {  
+              printf("\n Insira seu dia de nascimento: ");
+            }while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
+
+            do{  
+              printf("\n Insira seu mês de nascimento: ");
+
+            }while (((scanf("%d%c", &cadastro_pess->mes, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->mes < 1 || cadastro_pess->mes > 12);
+
+            do {  
+              printf("\n Insira seu ano de nascimento: ");
+            } while (((scanf("%d%c", &cadastro_pess->ano, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->ano < 1900 || cadastro_pess->ano > 2019);
+                if(validaData(cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano) == 1) {
+                  printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano);
+                }
+
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\nInformação editada com sucesso!!!\n");
+            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);
+
+      
+        }
+    }while(op != 'S');
+  }
+  free(cadastro_pess);
+  fclose(fp);
+}
+}
+
+
 void exibePessoas(Pes* cadastro_pess) {
-  printf("Nome: %s\n", cadastro_pess->nome);
+  printf("\n\nNome: %s\n", cadastro_pess->nome);
   printf("Cidade: %s\n", cadastro_pess->enderCid);
   printf("Bairro: %s\n", cadastro_pess->enderBair);
   printf("Numero da casa: %s\n", cadastro_pess->numCasa);
@@ -156,6 +373,8 @@ void gravaPessoas(Pes* pes) {
 void exibeEstados(void){
   Pes* cadastro_pess;
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    printf("\nESTADOS E SEUS RESPECTIVOS NÚMEROS.\n\n");
 
     cadastro_pess->estados[0][0] = "1 - AC";
     cadastro_pess->estados[0][1] = "Acre";
@@ -235,7 +454,6 @@ void cadastroPessoa() {
 
     printf("\n\n Insira seu nome completo: ");
     scanf(" %99[^\n]", cadastro_pess->nome);
-
     while(validaNome(cadastro_pess->nome) == 0){
         printf(" Insira um nome válido: ");
         scanf(" %99[^\n]", cadastro_pess->nome);
@@ -257,8 +475,8 @@ void cadastroPessoa() {
         if(validaData(cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano) == 1) {
           printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano);
         }
-      exibeEstados();
 
+    exibeEstados();
     do {  
       printf("\n Digite o número correspondente ao seu estado: ");
     } while (((scanf("%d%c", &cadastro_pess->uf, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->uf < 1 || cadastro_pess->uf > 27);

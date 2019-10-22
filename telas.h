@@ -17,3 +17,4 @@ void editaPessoa(void);// Essa função é usada para editar informações pesso
 void listaPessoas(void);// Esta função é usada para mostrar todas as pessoas cadastradas.
 void exibeEstados(void);// Essa função é usada para exibir todos os estados.
 void menuEditaPessoa(void);// Essa função é usada para exibir uma tela de menu de editar informações.
+void menuEditaEndereco(void);
