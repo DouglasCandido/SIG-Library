@@ -9,7 +9,6 @@
 // int codigo_incremental = 0;
 // int codigo_incremental2 = 0;
 
-
 typedef struct livro Livro;
 
 struct livro {
@@ -238,6 +237,11 @@ void editaPessoa(void) {
                     printf(" Insira um nome válido para a cidade: ");
                     scanf(" %99[^\n]", cadastro_pess->enderCid);
                   }
+                  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+                  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+                  printf("\nInformação editada com sucesso!!!\n");
+                  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+                  scanf(" %c",&a);  
                 break;
 
                 case 'B':
@@ -248,6 +252,11 @@ void editaPessoa(void) {
                     printf(" Insira um nome válido para o bairro: ");
                     scanf(" %99[^\n]", cadastro_pess->enderBair);
                   }
+                  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+                  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+                  printf("\nInformação editada com sucesso!!!\n");
+                  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+                  scanf(" %c",&a);
                 break;
 
                 case 'C':
@@ -259,6 +268,11 @@ void editaPessoa(void) {
 
                   cadastro_pess->numero_uf = cadastro_pess->uf;
                   cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1;
+                  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+                  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+                  printf("\nInformação editada com sucesso!!!\n");
+                  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+                  scanf(" %c",&a);
                 break;
 
                 case 'D':
@@ -268,6 +282,11 @@ void editaPessoa(void) {
                     printf(" Insira um número válido da sua casa: ");
                     scanf(" %99[^\n]", cadastro_pess->numCasa);
                   }
+                  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+                  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+                  printf("\nInformação editada com sucesso!!!\n");
+                  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+                  scanf(" %c",&a);
                 break;
 
               }
