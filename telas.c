@@ -469,10 +469,10 @@ void editaLivro(void) {
 
           case 'F':
           	printf("Informe um novo isbn: ");
-            scanf(" %15[^\n]", livro->isbn);
-            while(validaISBN(livro->edicao)==0){
+            scanf(" %[^\n]s", livro->isbn);
+            while(validaISBN(livro->isbn)==0){
               printf(" Insira um isbn válido: ");
-              scanf(" %15[^\n]", livro->isbn);
+              scanf(" %[^\n]s", livro->isbn);
               setbuf(stdin, NULL);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
