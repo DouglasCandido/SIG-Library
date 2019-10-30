@@ -79,27 +79,59 @@ int validaTelefone(char tel[15]) {
 
 
 
-int validaCPF(char cpf[14]) {
+int validaCPF(char cpf[12]){  
+   
+int cpfTrans[12], soma = 0, dig1, res1, res2, dig2, restante;  
 
-	regex_t reg;
+  
+ 
+for(int i = 0; i < 11 ; i++){  
+	cpfTrans[i] = cpf[i]-48;  
+
+}  
+ 
+  
+for(int i = 0; i < 9 ;i++){  
+	soma += cpfTrans[i]*(10-i);  
+
+	}  
+  
+res1 = soma % 11;  
+  
+if((res1 == 0) || (res1 == 1)){  
+	dig1 = 0;  
+
+	}else{  
+		dig1 = 11 - res1;  
 	
-	if((strlen(cpf)) > 14) {
-		return 0;
+	}  
+   
+  
+soma = 0;  
+  
+for(int i = 0; i < 10 ;i++){  
+soma += cpfTrans[i]*(11-i);  
 
-	} else {
-		if(regcomp(&reg, RE_CPF, REG_EXTENDED|REG_NOSUB) != 0) {
-			return 0;
+	}  
+  
+restante = (soma/11) * 11;  
+res2 = soma - restante;  
+  
+if((res2 == 0) || (res2 == 1)){  
+dig2 = 0;  
 
-		} else {
-			if((regexec(&reg, cpf, 0, (regmatch_t*)NULL, 0)) == 0) {
-				return 1;
-				
-			} else {
-				return 0;
-			}
-		}
-	}
-}
+	}else{  
+		dig2 = 11 - res2;  
+
+	}  
+  
+  
+if((dig1 == cpfTrans[9]) && (dig2 == cpfTrans[10])){  
+return 1;
+
+	}return 0;     
+
+}  
 
 
 int validaNome(char nome[100]) {
