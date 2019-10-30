@@ -1426,14 +1426,14 @@ char menuPrincipal() {
 
     return resp;
 
-}
+}loginU
 
 int login() {
 
     char loginA[50] = "admin";
     char senhaA[50] = "admin";
-    char loginU[50] = "user";
-    char senhaU[50] = "user";
+    char loginU[50] = "teste";
+    char senhaU[50] = "teste";
     char login1[50];
     char senha1[50];
 
