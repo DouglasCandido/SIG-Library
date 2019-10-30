@@ -11,12 +11,12 @@ typedef struct livro Livro;
 struct livro {
 
   // int cod;
-  char nome[100];
-  char isbn[17]; 
-  char autor[200]; 
-  char genero[100]; 
-  char editora[100]; 
-  char edicao[100]; 
+  char nome[101];
+  char isbn[18]; 
+  char autor[201]; 
+  char genero[101]; 
+  char editora[101]; 
+  char edicao[101]; 
   char status;
 
 };
@@ -30,15 +30,15 @@ struct pes {
   int ano;
   int numero_uf;
   int uf;
-  char nome[100];
-  char enderCid[100];
-  char enderBair[100];
-  char numCasa[50];
-  char cpf[15];
-  char tel[16];
-  char email[30];
-  char login[50];
-  char senha[50];
+  char nome[101];
+  char enderCid[101];
+  char enderBair[101];
+  char numCasa[51];
+  char cpf[16];
+  char tel[17];
+  char email[31];
+  char login[51];
+  char senha[51];
   char c;
   char status;
 
@@ -112,7 +112,7 @@ void alteraNomeLivro(void){
   livro = (Livro*) malloc(sizeof(Livro));
 
   printf("\n Informe o novo nome: ");
-  scanf(" %99[^\n]", livro->nome);
+  scanf(" %100[^\n]", livro->nome);
   fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
   fwrite(livro, sizeof(Livro), 1, fp);
   printf("\nInformação editada com sucesso!\n");
@@ -137,7 +137,7 @@ void alteraNome(void){
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
   printf("\n Informe o novo nome: ");
-  scanf(" %99[^\n]", cadastro_pess->nome);
+  scanf(" %100[^\n]", cadastro_pess->nome);
   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
   printf("\nInformação editada com sucesso!\n");
@@ -162,7 +162,7 @@ void alteraLogin(void){
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
   printf("\n Informe o novo login: ");
-  scanf(" %99[^\n]", cadastro_pess->login);
+  scanf(" %100[^\n]", cadastro_pess->login);
   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
   printf("\nInformação editada com sucesso!\n");
@@ -187,7 +187,7 @@ void alteraSenha(void){
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
   printf("\n Informe a nova senha: ");
-  scanf(" %99[^\n]", cadastro_pess->senha);
+  scanf(" %100[^\n]", cadastro_pess->senha);
   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
   printf("\nInformação editada com sucesso!\n");
@@ -221,7 +221,7 @@ void editaPessoa(void) {
   printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
   printf("\n =================================");
   printf("\n\n Informe o nome da pessoa a ser alterada: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
   achou = 0;
   while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
@@ -247,10 +247,10 @@ void editaPessoa(void) {
 
           case 'A':
             printf("\n Informe o novo nome: ");
-            scanf(" %99[^\n]", cadastro_pess->nome);
+            scanf(" %100[^\n]", cadastro_pess->nome);
             while(validaNome(cadastro_pess->nome) == 0){
               printf(" Insira um nome válido: ");
-            scanf(" %99[^\n]", cadastro_pess->nome);
+            scanf(" %100[^\n]", cadastro_pess->nome);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -264,10 +264,10 @@ void editaPessoa(void) {
 
           case 'B':
             printf(" Informe o novo telefone: ");
-            scanf(" %99[^\n]", cadastro_pess->tel);
+            scanf(" %100[^\n]", cadastro_pess->tel);
             while(validaTelefone(cadastro_pess->tel)==0){
               printf(" Insira um número válido (xx)xx-xxxxxxx: ");
-              scanf(" %99[^\n]", cadastro_pess->tel);
+              scanf(" %100[^\n]", cadastro_pess->tel);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -279,11 +279,11 @@ void editaPessoa(void) {
 
           case 'C':
             printf(" Informe o novo email: ");
-            scanf(" %99[^\n]", cadastro_pess->email);
+            scanf(" %100[^\n]", cadastro_pess->email);
 
             while(validaEmail(cadastro_pess->email)==0){
               printf(" Insira um email válido: ");
-              scanf(" %99[^\n]", cadastro_pess->email);
+              scanf(" %100[^\n]", cadastro_pess->email);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -295,11 +295,11 @@ void editaPessoa(void) {
 
           case 'D':
             printf(" Informe o novo login: ");
-            scanf(" %49[^\n]", cadastro_pess->login);
+            scanf(" %50[^\n]", cadastro_pess->login);
 
             while(validaNome(cadastro_pess->login)==0){
               printf(" Insira um login válido: ");
-              scanf(" %49[^\n]", cadastro_pess->login);
+              scanf(" %50[^\n]", cadastro_pess->login);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -311,11 +311,11 @@ void editaPessoa(void) {
 
           case 'E':
             printf(" Informe a nova senha: ");
-            scanf(" %49[^\n]", cadastro_pess->senha);
+            scanf(" %50[^\n]", cadastro_pess->senha);
 
             while(validaNome(cadastro_pess->senha)==0){
               printf(" Insira uma senha válida: ");
-              scanf(" %49[^\n]", cadastro_pess->senha);
+              scanf(" %50[^\n]", cadastro_pess->senha);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -335,10 +335,10 @@ void editaPessoa(void) {
               switch(op2){
                 case 'A':
                   printf("\n Insira sua cidade: ");
-                  scanf(" %99[^\n]", cadastro_pess->enderCid);
+                  scanf(" %100[^\n]", cadastro_pess->enderCid);
                   while(validaNome(cadastro_pess->enderCid) == 0){
                     printf(" Insira um nome válido para a cidade: ");
-                    scanf(" %99[^\n]", cadastro_pess->enderCid);
+                    scanf(" %100[^\n]", cadastro_pess->enderCid);
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -350,10 +350,10 @@ void editaPessoa(void) {
                 case 'B':
 
                   printf("\n Insira seu bairro: ");
-                  scanf(" %99[^\n]", cadastro_pess->enderBair);
+                  scanf(" %100[^\n]", cadastro_pess->enderBair);
                   while(validaNome(cadastro_pess->enderBair) == 0){
                     printf(" Insira um nome válido para o bairro: ");
-                    scanf(" %99[^\n]", cadastro_pess->enderBair);
+                    scanf(" %100[^\n]", cadastro_pess->enderBair);
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -380,10 +380,10 @@ void editaPessoa(void) {
 
                 case 'D':
                   printf("\n Insira o número da sua casa: ");
-                  scanf(" %99[^\n]", cadastro_pess->numCasa);
+                  scanf(" %100[^\n]", cadastro_pess->numCasa);
                   while(validaEdt(cadastro_pess->numCasa)==0){
                     printf(" Insira um número válido da sua casa: ");
-                    scanf(" %99[^\n]", cadastro_pess->numCasa);
+                    scanf(" %100[^\n]", cadastro_pess->numCasa);
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -403,7 +403,7 @@ void editaPessoa(void) {
             scanf(" %15[^\n]", cadastro_pess->cpf);
             while(validaCPF(cadastro_pess->cpf)==0){
               printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
-              scanf(" %99[^\n]", cadastro_pess->cpf);
+              scanf(" %100[^\n]", cadastro_pess->cpf);
               setbuf(stdin, NULL);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
@@ -469,7 +469,7 @@ void editaLivro(void) {
   printf("\n >>>>>>    EDITAR LIVROS    <<<<<<");
   printf("\n =================================");
   printf("\n\n Informe o nome do livro a ser alterado: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
   livro = (Livro*) malloc(sizeof(Livro));
   achou = 0;
   while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
@@ -495,10 +495,10 @@ void editaLivro(void) {
 
           case 'A':
             printf("\n Informe o novo nome: ");
-            scanf(" %99[^\n]", livro->nome);
+            scanf(" %100[^\n]", livro->nome);
             while(validaNome(livro->nome) == 0){
               printf(" Insira um nome válido: ");
-            scanf(" %99[^\n]", livro->nome);
+            scanf(" %100[^\n]", livro->nome);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
@@ -525,11 +525,11 @@ void editaLivro(void) {
 
           case 'C':
             printf(" Informe o novo autor: ");
-            scanf(" %199[^\n]", livro->autor);
+            scanf(" %200[^\n]", livro->autor);
 
             while(validaNome(livro->autor)==0){
               printf(" Insira um autor válido: ");
-              scanf(" %199[^\n]", livro->autor);
+              scanf(" %200[^\n]", livro->autor);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
@@ -541,11 +541,11 @@ void editaLivro(void) {
 
           case 'D':
             printf(" Informe o novo gênero: ");
-            scanf(" %199[^\n]", livro->genero);
+            scanf(" %100[^\n]", livro->genero);
 
             while(validaNome(livro->genero)==0){
               printf(" Insira um gênero válido: ");
-              scanf(" %199[^\n]", livro->genero);
+              scanf(" %100[^\n]", livro->genero);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
@@ -557,11 +557,11 @@ void editaLivro(void) {
 
           case 'E':
             printf(" Informe a nova editora: ");
-            scanf(" %99[^\n]", livro->editora);
+            scanf(" %100[^\n]", livro->editora);
 
             while(validaNome(livro->editora)==0){
               printf(" Insira uma editora válida: ");
-              scanf(" %99[^\n]", livro->editora);
+              scanf(" %100[^\n]", livro->editora);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
@@ -573,10 +573,10 @@ void editaLivro(void) {
 
           case 'F':
             printf(" Informe a nova edição: ");
-            scanf(" %99[^\n]", livro->edicao);
+            scanf(" %100[^\n]", livro->edicao);
             while(validaNome(livro->edicao)==0){
               printf(" Insira uma edição válida: ");
-              scanf(" %99[^\n]", livro->edicao);
+              scanf(" %100[^\n]", livro->edicao);
               setbuf(stdin, NULL);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
@@ -913,10 +913,10 @@ void cadastroPessoa() {
 
 
     printf("\n\n Insira o nome: ");
-    scanf(" %99[^\n]", cadastro_pess->nome);
+    scanf(" %100[^\n]", cadastro_pess->nome);
     while(validaNome(cadastro_pess->nome) == 0){
         printf(" Insira um nome válido: ");
-        scanf(" %99[^\n]", cadastro_pess->nome);
+        scanf(" %100[^\n]", cadastro_pess->nome);
     }
 
 
@@ -947,62 +947,62 @@ void cadastroPessoa() {
 
 
     printf("\n Insira a cidade: ");
-    scanf(" %99[^\n]", cadastro_pess->enderCid);
+    scanf(" %100[^\n]", cadastro_pess->enderCid);
     while(validaNome(cadastro_pess->enderCid) == 0){
       printf(" Insira um nome válido para a cidade: ");
-      scanf(" %99[^\n]", cadastro_pess->enderCid);
+      scanf(" %100[^\n]", cadastro_pess->enderCid);
     }
 
     printf("\n Insira o bairro: ");
-    scanf(" %99[^\n]", cadastro_pess->enderBair);
+    scanf(" %100[^\n]", cadastro_pess->enderBair);
     while(validaNome(cadastro_pess->enderBair) == 0){
       printf(" Insira um nome válido para o bairro: ");
-      scanf(" %99[^\n]", cadastro_pess->enderBair);
+      scanf(" %100[^\n]", cadastro_pess->enderBair);
     }
 
     printf("\n Insira o número da casa: ");
-    scanf(" %99[^\n]", cadastro_pess->numCasa);
+    scanf(" %100[^\n]", cadastro_pess->numCasa);
     while(validaEdt(cadastro_pess->numCasa)==0){
       printf(" Insira o número válido da casa: ");
-      scanf(" %99[^\n]", cadastro_pess->numCasa);
+      scanf(" %100[^\n]", cadastro_pess->numCasa);
     }
 
 
     printf("\n Insira o CPF - xxx.xxx.xxx-xx: ");
-    scanf(" %99[^\n]", cadastro_pess->cpf);
+    scanf(" %100[^\n]", cadastro_pess->cpf);
     setbuf(stdin, NULL);
     while(validaCPF(cadastro_pess->cpf)==0){
       printf(" Insira o CPF válido - xxx.xxx.xxx-xx: ");
-      scanf(" %99[^\n]", cadastro_pess->cpf);
+      scanf(" %100[^\n]", cadastro_pess->cpf);
       setbuf(stdin, NULL);
     }
     
     printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
-    scanf(" %99[^\n]", cadastro_pess->tel);
+    scanf(" %100[^\n]", cadastro_pess->tel);
     while(validaTelefone(cadastro_pess->tel)==0){
       printf(" Insira um número válido (xx)x xxxx-xxxx: ");
-      scanf(" %99[^\n]", cadastro_pess->tel);
+      scanf(" %100[^\n]", cadastro_pess->tel);
     }
         
     printf("\n Insira o email: ");
-    scanf(" %99[^\n]", cadastro_pess->email);
+    scanf(" %100[^\n]", cadastro_pess->email);
     while(validaEmail(cadastro_pess->email)==0){
       printf(" Insira um email válido: ");
-      scanf(" %99[^\n]", cadastro_pess->email);
+      scanf(" %100[^\n]", cadastro_pess->email);
     }
 
     printf("\n Insira o login: ");
-    scanf(" %49[^\n]", cadastro_pess->login);
+    scanf(" %50[^\n]", cadastro_pess->login);
     while(validaNome(cadastro_pess->login)==0){
       printf(" Insira um login válido: ");
-      scanf(" %49[^\n]", cadastro_pess->login);
+      scanf(" %50[^\n]", cadastro_pess->login);
     }
 
     printf("\n Insira a senha: ");
-    scanf(" %49[^\n]", cadastro_pess->senha);
+    scanf(" %50[^\n]", cadastro_pess->senha);
     while(validaNome(cadastro_pess->senha)==0){
       printf(" Insira uma senha válida: ");
-      scanf(" %49[^\n]", cadastro_pess->senha);
+      scanf(" %50[^\n]", cadastro_pess->senha);
     }
 
     gravaPessoa(cadastro_pess);
@@ -1041,10 +1041,10 @@ void cadastroLivro() {
     printf("\n =================================");
 
     printf("\n\n Insira o nome: ");
-    scanf(" %99[^\n]", livro->nome);
+    scanf(" %100[^\n]", livro->nome);
     while(validaNome(livro->nome) == 0){
         printf(" Insira um nome válido: ");
-        scanf(" %99[^\n]", livro->nome);
+        scanf(" %100[^\n]", livro->nome);
     }
 
     printf("\n Insira o ISBN [xxx-xx-xxx-xxxx-x]: ");
@@ -1081,6 +1081,14 @@ void cadastroLivro() {
       printf(" Insira um nome válido para a edição: ");
       scanf(" %99[^\n]", livro->edicao);
     }
+
+
+    char resp;
+    
+    exibeLivro(livro);
+
+    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+    scanf(" %c", &resp);
 
     gravaLivro(livro);
    
@@ -1613,7 +1621,7 @@ void gerenciarLivros(void){
 		printf("\n =================================");
 		printf("\n\n []A - Cadastrar Livro\n");
 		printf(" []B - Buscar Livro\n");
-		printf(" []C - Listar livros cadastradas\n");
+		printf(" []C - Listar livros cadastrados\n");
 		printf(" []D - Excluir livros\n");
 		printf(" []E - Editar livro\n");		
 		printf(" []S - Sair\n");
