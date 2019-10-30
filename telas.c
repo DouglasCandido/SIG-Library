@@ -4,26 +4,22 @@
 #include <ctype.h>
 #include "telas.h"
 #include "validations.h"
-#include "esqueleto.h"
-
-// int codigo_incremental = 0;
-// int codigo_incremental2 = 0;
+#include "esqueleto.h" 
 
 typedef struct livro Livro;
 
 struct livro {
 
   // int cod;
-  char nomeLiv[200]; 
+  char nome[100];
+  char isbn[17]; 
   char autor[200]; 
   char genero[100]; 
   char editora[100]; 
   char edicao[100]; 
-  char isbn[17];
   char status;
 
 };
-
 
 typedef struct pes Pes;
 
@@ -41,18 +37,16 @@ struct pes {
   char cpf[15];
   char tel[16];
   char email[30];
-  char *estados[27][2];
+  char login[50];
+  char senha[50];
   char c;
   char status;
 
 };
 
-
-void exibePessoas(Pes* cadastro_pess);
-
+void exibePessoa(Pes* cadastro_pess);
 
 void exibeLivro(Livro* livro);
-
 
 void menuEditaEndereco(void){
     system("clear");
@@ -61,11 +55,11 @@ void menuEditaEndereco(void){
     printf("\n =================================");
     printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
     printf("\n =================================");
-    printf("\n\n[]A - Alterar Cidade");
-    printf("\n[]B - Alterar Bairro");
-    printf("\n[]C - Alterar Estado");
-    printf("\n[]D - Alterar Número casa");
-    printf("\n[]S - Voltar");
+    printf("\n\n []A - Alterar Cidade");
+    printf("\n []B - Alterar Bairro");
+    printf("\n []C - Alterar Estado");
+    printf("\n []D - Alterar Número casa");
+    printf("\n []S - Voltar");
 
 }
 
@@ -74,15 +68,17 @@ void menuEditaPessoa(void){
     printf("\n =================================");
     printf("\n | | | Programa Biblioeteca | | |");                      
     printf("\n =================================");
-    printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
+    printf("\n >>>>>>    EDITAR PESSOAS   <<<<<<");
     printf("\n =================================");
-    printf("\n\n[]A - Alterar nome");
-    printf("\n[]B - Alterar telefone");
-    printf("\n[]C - Alterar email");
-    printf("\n[]D - Alterar endereço");
-    printf("\n[]E - Alterar CPF");
-    printf("\n[]F - Alterar Data de nascimento");
-    printf("\n[]S - Voltar");
+    printf("\n\n []A - Alterar nome");
+    printf("\n []B - Alterar telefone");
+    printf("\n []C - Alterar email");
+    printf("\n []D - Alterar login");
+    printf("\n []E - Alterar senha");
+    printf("\n []F - Alterar endereço");
+    printf("\n []G - Alterar CPF");
+    printf("\n []H - Alterar Data de nascimento");
+    printf("\n []S - Voltar");
 }
 
 void menuEditaLivro(void){
@@ -90,15 +86,40 @@ void menuEditaLivro(void){
     printf("\n =================================");
     printf("\n | | | Programa Biblioeteca | | |");                      
     printf("\n =================================");
-    printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
+    printf("\n >>>>>>    EDITAR LIVROS    <<<<<<");
     printf("\n =================================");
     printf("\n\n []A - Alterar Nome");
-    printf("\n []B - Alterar Autor");
-    printf("\n []C - Alterar Gênero");
-    printf("\n []D - Alterar Edição");
+    printf("\n []B - Alterar ISBN");
+    printf("\n []C - Alterar Autor");
+    printf("\n []D - Alterar Gênero");
     printf("\n []E - Alterar Editora");
-    printf("\n []F - Alterar ISBN");
+    printf("\n []F - Alterar Edição");
     printf("\n []S - Voltar");
+}
+
+void alteraNomeLivro(void){
+  FILE* fp;
+  Livro* livro;
+  fp = fopen("livros.dat", "r+b");
+  char a;
+
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  printf("\n Informe o novo nome: ");
+  scanf(" %99[^\n]", livro->nome);
+  fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+  fwrite(livro, sizeof(Livro), 1, fp);
+  printf("\nInformação editada com sucesso!\n");
+  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+  scanf(" %c",&a);
+  free(livro);
+  fclose(fp);
 }
 
 void alteraNome(void){
@@ -115,19 +136,69 @@ void alteraNome(void){
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
-  printf(" Informe o novo nome: ");
+  printf("\n Informe o novo nome: ");
   scanf(" %99[^\n]", cadastro_pess->nome);
   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-  printf("\nInformação editada com sucesso!!!\n");
+  printf("\nInformação editada com sucesso!\n");
   printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
   scanf(" %c",&a);
   free(cadastro_pess);
   fclose(fp);
 }
 
+void alteraLogin(void){
+  FILE* fp;
+  Pes* cadastro_pess;
+  fp = fopen("pessoas.dat", "r+b");
+  char a;
+
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+  printf("\n Informe o novo login: ");
+  scanf(" %99[^\n]", cadastro_pess->login);
+  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+  printf("\nInformação editada com sucesso!\n");
+  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+  scanf(" %c",&a);
+  free(cadastro_pess);
+  fclose(fp);
+}
+
+void alteraSenha(void){
+  FILE* fp;
+  Pes* cadastro_pess;
+  fp = fopen("pessoas.dat", "r+b");
+  char a;
+
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+  printf("\n Informe a nova senha: ");
+  scanf(" %99[^\n]", cadastro_pess->senha);
+  fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+  fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+  printf("\nInformação editada com sucesso!\n");
+  printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+  scanf(" %c",&a);
+  free(cadastro_pess);
+  fclose(fp);
+}
 
 void editaPessoa(void) {
+
   FILE* fp;
   Pes* cadastro_pess;
   int achou;
@@ -149,7 +220,7 @@ void editaPessoa(void) {
   printf("\n =================================");
   printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
   printf("\n =================================");
-  printf("\n\nInforme o nome da pessoa a ser alterada: ");
+  printf("\n\n Informe o nome da pessoa a ser alterada: ");
   scanf(" %99[^\n]", procurado);
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
   achou = 0;
@@ -159,23 +230,23 @@ void editaPessoa(void) {
    }
   }
   if (achou) {
-    exibePessoas(cadastro_pess);
-    getchar();
-    printf("Deseja alterar informações dessa pessoa (S/N): \n");
+    exibePessoa(cadastro_pess);
+    // getchar();
+    printf("Deseja alterar informações dessa pessoa (S/N): ");
     scanf(" %c",&resp);
     resp = maius(resp);
     if (resp == 'S'){
     do{
 
         menuEditaPessoa();
-        exibePessoas(cadastro_pess);
-        printf("\n\nEscolha uma opção: ");
+        exibePessoa(cadastro_pess);
+        printf("\n\n Escolha uma opção: ");
         scanf(" %c", &op);
         op =  maius(op);
         switch(op){
 
           case 'A':
-            printf("Informe o novo nome: ");
+            printf("\n Informe o novo nome: ");
             scanf(" %99[^\n]", cadastro_pess->nome);
             while(validaNome(cadastro_pess->nome) == 0){
               printf(" Insira um nome válido: ");
@@ -184,7 +255,7 @@ void editaPessoa(void) {
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
+            printf("\nInformação editada com sucesso!\n");
             printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);
           break;
@@ -192,22 +263,22 @@ void editaPessoa(void) {
 
 
           case 'B':
-            printf("Informe o novo telefone: ");
+            printf(" Informe o novo telefone: ");
             scanf(" %99[^\n]", cadastro_pess->tel);
             while(validaTelefone(cadastro_pess->tel)==0){
-              printf(" Insira um número válido (xx)x xxxx-xxxx: ");
+              printf(" Insira um número válido (xx)xx-xxxxxxx: ");
               scanf(" %99[^\n]", cadastro_pess->tel);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);
           break;
 
           case 'C':
-            printf("Informe o novo email: ");
+            printf(" Informe o novo email: ");
             scanf(" %99[^\n]", cadastro_pess->email);
 
             while(validaEmail(cadastro_pess->email)==0){
@@ -217,16 +288,48 @@ void editaPessoa(void) {
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);         
           break;
 
           case 'D':
+            printf(" Informe o novo login: ");
+            scanf(" %49[^\n]", cadastro_pess->login);
+
+            while(validaNome(cadastro_pess->login)==0){
+              printf(" Insira um login válido: ");
+              scanf(" %49[^\n]", cadastro_pess->login);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);         
+          break;
+
+          case 'E':
+            printf(" Informe a nova senha: ");
+            scanf(" %49[^\n]", cadastro_pess->senha);
+
+            while(validaNome(cadastro_pess->senha)==0){
+              printf(" Insira uma senha válida: ");
+              scanf(" %49[^\n]", cadastro_pess->senha);
+            }
+            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);         
+          break;
+
+          case 'F':
             do{
               menuEditaEndereco();
-              exibePessoas(cadastro_pess);
-              printf(" \nEscolha uma opção: ");
+              exibePessoa(cadastro_pess);
+              printf("\n Escolha uma opção: ");
               scanf(" %c", &op2);
               op2 = maius(op2);
               switch(op2){
@@ -239,7 +342,7 @@ void editaPessoa(void) {
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-                  printf("\nInformação editada com sucesso!!!\n");
+                  printf("\n Informação editada com sucesso!\n");
                   printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                   scanf(" %c",&a);  
                 break;
@@ -254,7 +357,7 @@ void editaPessoa(void) {
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-                  printf("\nInformação editada com sucesso!!!\n");
+                  printf("\n Informação editada com sucesso!\n");
                   printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                   scanf(" %c",&a);
                 break;
@@ -270,7 +373,7 @@ void editaPessoa(void) {
                   cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1;
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-                  printf("\nInformação editada com sucesso!!!\n");
+                  printf("\n Informação editada com sucesso!\n");
                   printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                   scanf(" %c",&a);
                 break;
@@ -284,7 +387,7 @@ void editaPessoa(void) {
                   }
                   fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                   fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-                  printf("\nInformação editada com sucesso!!!\n");
+                  printf("\n Informação editada com sucesso!\n");
                   printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                   scanf(" %c",&a);
                 break;
@@ -295,8 +398,8 @@ void editaPessoa(void) {
 
           break;
 
-          case 'E':
-            printf("Informe o novo CPF: ");
+          case 'G':
+            printf(" Informe o novo CPF: ");
             scanf(" %15[^\n]", cadastro_pess->cpf);
             while(validaCPF(cadastro_pess->cpf)==0){
               printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
@@ -305,10 +408,10 @@ void editaPessoa(void) {
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-            printf("\nInformação editada com sucesso!!!\n");
+            printf("\n Informação editada com sucesso!\n");
           break;
 
-          case 'F':
+          case 'H':
             do {  
               printf("\n Insira seu dia de nascimento: ");
             }while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
@@ -328,8 +431,8 @@ void editaPessoa(void) {
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);
 
       
@@ -341,9 +444,8 @@ void editaPessoa(void) {
 	}
 }
 
-
-
 void editaLivro(void) {
+	
   FILE* fp;
   Livro* livro;
   int achou;
@@ -351,32 +453,34 @@ void editaLivro(void) {
   char op;
   char resp;
   char procurado[100];
-  fp = fopen("livro.dat", "r+b");
+  fp = fopen("livros.dat", "r+b");
+
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
     exit(1);
   }
+
   printf("\n\n");
   system("clear");
   printf("\n =================================");
   printf("\n | | | Programa Biblioeteca | | |");                      
   printf("\n =================================");
-  printf("\n >>>>>>ATUALIZAR INFORMAÇÕES<<<<<<");
+  printf("\n >>>>>>    EDITAR LIVROS    <<<<<<");
   printf("\n =================================");
-  printf("\n\nInforme o nome do livro a ser alterado: ");
-  scanf(" %199[^\n]", procurado);
+  printf("\n\n Informe o nome do livro a ser alterado: ");
+  scanf(" %99[^\n]", procurado);
   livro = (Livro*) malloc(sizeof(Livro));
   achou = 0;
   while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
-   if ((strcmp(livro->nomeLiv, procurado) == 0) && (livro->status == '1')) {
+   if ((strcmp(livro->nome, procurado) == 0) && (livro->status == '1')) {
      achou = 1;
    }
   }
   if (achou) {
     exibeLivro(livro);
-    getchar();
-    printf(" Deseja alterar informações desse livro (S/N): \n");
+    // getchar();
+    printf("Deseja alterar informações desse livro (S/N): ");
     scanf(" %c",&resp);
     resp = maius(resp);
     if (resp == 'S'){
@@ -384,61 +488,75 @@ void editaLivro(void) {
 
         menuEditaLivro();
         exibeLivro(livro);
-        printf("\n\nEscolha uma opção: ");
+        printf("\n\n Escolha uma opção: ");
         scanf(" %c", &op);
         op =  maius(op);
         switch(op){
 
           case 'A':
-            printf("Informe o novo nome: ");
-            scanf(" %199[^\n]", livro->nomeLiv);
-            while(validaNome(livro->nomeLiv) == 0){
+            printf("\n Informe o novo nome: ");
+            scanf(" %99[^\n]", livro->nome);
+            while(validaNome(livro->nome) == 0){
               printf(" Insira um nome válido: ");
-            scanf(" %199[^\n]", livro->nomeLiv);
+            scanf(" %99[^\n]", livro->nome);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
+            printf("\nInformação editada com sucesso!\n");
             printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);
           break;
 
-
-
           case 'B':
-            printf("Informe o novo autor: ");
+            printf(" Informe o novo ISBN [xxx-xx-xxx-xxxx-x]: ");
+            scanf(" %17[^\n]", livro->isbn);
+            while(validaISBN(livro->isbn)==0){
+              printf(" Insira um ISBN válido [xxx-xx-xxx-xxxx-x]: ");
+              scanf(" %17[^\n]", livro->isbn);
+            }
+            fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+            fwrite(livro, sizeof(Livro), 1, fp);
+
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);
+          break;
+
+          case 'C':
+            printf(" Informe o novo autor: ");
             scanf(" %199[^\n]", livro->autor);
+
             while(validaNome(livro->autor)==0){
-              printf(" Insira um nome válido: ");
+              printf(" Insira um autor válido: ");
               scanf(" %199[^\n]", livro->autor);
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
-            scanf(" %c",&a);
-          break;
-
-          case 'C':
-            printf("Informe o novo genero: ");
-            scanf(" %99[^\n]", livro->genero);
-
-            while(validaNome(livro->genero)==0){
-              printf(" Insira um genero válido: ");
-              scanf(" %99[^\n]", livro->genero);
-            }
-            fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
-            fwrite(livro, sizeof(Livro), 1, fp);
-
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
             scanf(" %c",&a);         
           break;
 
           case 'D':
-            printf("Informe uma nova editora: ");
+            printf(" Informe o novo gênero: ");
+            scanf(" %199[^\n]", livro->genero);
+
+            while(validaNome(livro->genero)==0){
+              printf(" Insira um gênero válido: ");
+              scanf(" %199[^\n]", livro->genero);
+            }
+            fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+            fwrite(livro, sizeof(Livro), 1, fp);
+
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);         
+          break;
+
+          case 'E':
+            printf(" Informe a nova editora: ");
             scanf(" %99[^\n]", livro->editora);
 
             while(validaNome(livro->editora)==0){
@@ -448,14 +566,13 @@ void editaLivro(void) {
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
 
-            printf("\nInformação editada com sucesso!!!\n");
-            printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
-            scanf(" %c",&a);       
-
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);         
           break;
 
-          case 'E':
-            printf("Informe uma nova edição: ");
+          case 'F':
+            printf(" Informe a nova edição: ");
             scanf(" %99[^\n]", livro->edicao);
             while(validaNome(livro->edicao)==0){
               printf(" Insira uma edição válida: ");
@@ -464,40 +581,127 @@ void editaLivro(void) {
             }
             fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
             fwrite(livro, sizeof(Livro), 1, fp);
-            printf("\nInformação editada com sucesso!!!\n");
-          break;
+            printf("\n Informação editada com sucesso!\n");
+            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+            scanf(" %c",&a);
+           break;
+      
+        }
 
-          case 'F':
-          	printf("Informe um novo isbn: ");
-            scanf(" %[^\n]s", livro->isbn);
-            while(validaISBN(livro->isbn)==0){
-              printf(" Insira um isbn válido: ");
-              scanf(" %[^\n]s", livro->isbn);
-              setbuf(stdin, NULL);
-            }
-            fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
-            fwrite(livro, sizeof(Livro), 1, fp);
-            printf("\nInformação editada com sucesso!!!\n");
-          break;
-
-    }
     }while(op != 'S');
+
   }
+
   free(livro);
   fclose(fp);
+
 	}
+
 }
 
+void exibePessoa(Pes* cadastro_pess) {
 
-void exibePessoas(Pes* cadastro_pess) {
-  printf("\n\nNome: %s\n", cadastro_pess->nome);
-  printf("Cidade: %s\n", cadastro_pess->enderCid);
-  printf("Bairro: %s\n", cadastro_pess->enderBair);
-  printf("Numero da casa: %s\n", cadastro_pess->numCasa);
-  printf("Email: %s\n", cadastro_pess->email);
-  printf("CPF: %s\n", cadastro_pess->cpf);
-  printf("Telefone: %s\n", cadastro_pess->tel);
-  printf("Estado: %d\n", cadastro_pess->uf);
+  int dia = cadastro_pess->dia;
+  int mes = cadastro_pess->mes;
+  int ano = cadastro_pess->ano;
+  int numero_uf = cadastro_pess->uf;
+
+  printf("\n\n Nome: %s \n", cadastro_pess->nome);
+  printf(" CPF: %s \n", cadastro_pess->cpf);
+
+  printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
+
+  printf(" Email: %s \n", cadastro_pess->email);
+  printf(" Login: %s \n", cadastro_pess->login);
+  printf(" Senha: %s \n", cadastro_pess->senha);
+  printf(" Telefone: %s \n", cadastro_pess->tel);
+  
+  if(numero_uf == 1) {
+  	char nome_uf[] = "Acre";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 2) {
+  	char nome_uf[] = "Alagoas";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 3) {
+  	char nome_uf[] = "Amapá";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 4) {
+  	char nome_uf[] = "Amazonas";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 5) {
+  	char nome_uf[] = "Bahia";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 6) {
+  	char nome_uf[] = "Ceará";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 7) {
+  	char nome_uf[] = "Distrito Federal";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 8) {
+  	char nome_uf[] = "Espírito Santo";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 9) {
+  	char nome_uf[] = "Goiás";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 10) {
+  	char nome_uf[] = "Maranhão";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 11) {
+  	char nome_uf[] = "Mato Grosso";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 12) {
+  	char nome_uf[] = "Mato Grosso do Sul";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 13) {
+  	char nome_uf[] = "Minas Gerais";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 14) {
+  	char nome_uf[] = "Pará";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 15) {
+  	char nome_uf[] = "Paraíba";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 16) {
+  	char nome_uf[] = "Paraná";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 17) {
+  	char nome_uf[] = "Pernambuco";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 18) {
+  	char nome_uf[] = "Piauí";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 19) {
+  	char nome_uf[] = "Rio de Janeiro";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 20) {
+  	char nome_uf[] = "Rio Grande do Norte";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 21) {
+  	char nome_uf[] = "Rio Grande do Sul";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 22) {
+  	char nome_uf[] = "Rondônia";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 23) {
+  	char nome_uf[] = "Roraima";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 24) {
+  	char nome_uf[] = "Santa Catarina";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 25) {
+  	char nome_uf[] = "São Paulo";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 26) {
+  	char nome_uf[] = "Sergipe";
+  	printf(" Estado: %s \n", nome_uf);
+  } else if(numero_uf == 27) {
+  	char nome_uf[] = "Tocantins";
+  	printf(" Estado: %s \n", nome_uf);
+  }
+
+  printf(" Cidade: %s \n", cadastro_pess->enderCid);
+  printf(" Bairro: %s \n", cadastro_pess->enderBair);
+  printf(" Numero da casa: %s \n", cadastro_pess->numCasa);
   printf("\n");
 }
 
@@ -514,34 +718,72 @@ void listaPessoas(void) {
     exit(1);
   }
 
-  printf("\n\n");
+  printf("\n");
   printf("\n =================================");
   printf("\n | | | Programa Biblioeteca | | |");                      
   printf("\n =================================");
-  printf("\n >>>>>> Listar Pessoas <<<<<<");
-  printf("\n =================================\n\n");
+  printf("\n >>>>>> PESSOAS CADASTRADAS <<<<<<");
+  printf("\n ================================= \n");
 
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
-  // cadastro_pess->cod = codigo_incremental2;
-
   while(fread(cadastro_pess, sizeof(Pes), 1, fp)) {
     if(cadastro_pess->status == '1') {
-    	exibePessoas(cadastro_pess);
+    	exibePessoa(cadastro_pess);
 	}
         
   }
-  exibeEstados();
+  
   fclose(fp);
   free(cadastro_pess);
 
-  printf("Digite algo e tecle ENTER para continuar.\n");
+  printf(" Digite algo e tecle ENTER para continuar.\n");
   scanf(" %c",&a);
 
 }
 
-void gravaPessoas(Pes* pes) {
+void listaLivros(void) {
+
+  char a;
+  system("clear");
+
+  FILE* fp;
+  Livro* livro;
+  fp = fopen("livros.dat", "rb");
+
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  printf("\n");
+  printf("\n =================================");
+  printf("\n | | | Programa Biblioeteca | | |");                      
+  printf("\n =================================");
+  printf("\n >>>>>>       ACERVO        <<<<<<");
+  printf("\n ================================= \n");
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  while(fread(livro, sizeof(Livro), 1, fp)) {
+    if(livro->status == '1') {
+    	exibeLivro(livro);
+	}
+        
+  }
+  
+  fclose(fp);
+  free(livro);
+
+  printf(" Digite algo e tecle ENTER para continuar.\n");
+  scanf(" %c",&a);
+
+}
+
+void gravaPessoa(Pes* pes) {
+
   FILE* fp;
   pes->status = '1';
 
@@ -556,74 +798,107 @@ void gravaPessoas(Pes* pes) {
 }
 
 void exibeEstados(void){
-    Pes* cadastro_pess;
-    cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
     printf("\nESTADOS E SEUS RESPECTIVOS NÚMEROS.\n\n");
 
-    cadastro_pess->estados[0][0] = "1 - AC";
-    cadastro_pess->estados[0][1] = "Acre";
-    cadastro_pess->estados[1][0] = "2 - AL";
-    cadastro_pess->estados[1][1] = "Alagoas";
-    cadastro_pess->estados[2][0] = "3 - AP";
-    cadastro_pess->estados[2][1] = "Amapá";
-    cadastro_pess->estados[3][0] = "4 - AM";
-    cadastro_pess->estados[3][1] = "Amazonas";
-    cadastro_pess->estados[4][0] = "5 - BA";
-    cadastro_pess->estados[4][1] = "Bahia";
-    cadastro_pess->estados[5][0] = "6 - CE";
-    cadastro_pess->estados[5][1] = "Ceará";
-    cadastro_pess->estados[6][0] = "7 - DF";
-    cadastro_pess->estados[6][1] = "Distrito Federal";
-    cadastro_pess->estados[7][0] = "8 - ES";
-    cadastro_pess->estados[7][1] = "Espírito Santo";
-    cadastro_pess->estados[8][0] = "9 - GO";
-    cadastro_pess->estados[8][1] = "Goiás";
-    cadastro_pess->estados[9][0] = "10 - MA";
-    cadastro_pess->estados[9][1] = "Maranhão";
-    cadastro_pess->estados[10][0] = "11 - MT";
-    cadastro_pess->estados[10][1] = "Mato Grosso";
-    cadastro_pess->estados[11][0] = "12 - MS";
-    cadastro_pess->estados[11][1] = "Mato Grosso do Sul";
-    cadastro_pess->estados[12][0] = "13 - MG";
-    cadastro_pess->estados[12][1] = "Minas Gerais";
-    cadastro_pess->estados[13][0] = "14 - PA";
-    cadastro_pess->estados[13][1] = "Pará";
-    cadastro_pess->estados[14][0] = "15 - PB";
-    cadastro_pess->estados[14][1] = "Paraíba";
-    cadastro_pess->estados[15][0] = "16 - PR";
-    cadastro_pess->estados[15][1] = "Paraná";
-    cadastro_pess->estados[16][0] = "17 - PE";
-    cadastro_pess->estados[16][1] = "Pernambuco";
-    cadastro_pess->estados[17][0] = "18 - PI";
-    cadastro_pess->estados[17][1] = "Piauí";
-    cadastro_pess->estados[18][0] = "19 - RJ";
-    cadastro_pess->estados[18][1] = "Rio de Janeiro";
-    cadastro_pess->estados[19][0] = "20 - RN";
-    cadastro_pess->estados[19][1] = "Rio Grande do Norte";
-    cadastro_pess->estados[20][0] = "21 - RS";
-    cadastro_pess->estados[20][1] = "Rio Grande do Sul";
-    cadastro_pess->estados[21][0] = "22 - RO";
-    cadastro_pess->estados[21][1] = "Rondônia";
-    cadastro_pess->estados[22][0] = "23 - RR";
-    cadastro_pess->estados[22][1] = "Roraima";
-    cadastro_pess->estados[23][0] = "24 - SC";
-    cadastro_pess->estados[23][1] = "Santa Catarina";
-    cadastro_pess->estados[24][0] = "25 - SP";
-    cadastro_pess->estados[24][1] = "São Paulo";
-    cadastro_pess->estados[25][0] = "26 - SE";
-    cadastro_pess->estados[25][1] = "Sergipe";
-    cadastro_pess->estados[26][0] = "27 - TO";
-    cadastro_pess->estados[26][1] = "Tocantins";
+    /*
 
-    for(int i = 0; i < 27; i++){
-        printf(" %s ---> %s.\n", cadastro_pess->estados[i][0], cadastro_pess->estados[i][1]);
+	char estados[27][2];
+
+	estados[0][0] = "1 - AC";
+	estados[0][1] = "Acre";
+	estados[1][0] = "2 - AL";
+	estados[1][1] = "Alagoas";
+	estados[2][0] = "3 - AP";
+	estados[2][1] = "Amapá";
+	estados[3][0] = "4 - AM";
+	estados[3][1] = "Amazonas";
+	estados[4][0] = "5 - BA";
+	estados[4][1] = "Bahia";
+	estados[5][0] = "6 - CE";
+	estados[5][1] = "Ceará";
+	estados[6][0] = "7 - DF";
+	estados[6][1] = "Distrito Federal";
+	estados[7][0] = "8 - ES";
+	estados[7][1] = "Espírito Santo";
+	estados[8][0] = "9 - GO";
+	estados[8][1] = "Goiás";
+	estados[9][0] = "10 - MA";
+	estados[9][1] = "Maranhão";
+	estados[10][0] = "11 - MT";
+	estados[10][1] = "Mato Grosso";
+	estados[11][0] = "12 - MS";
+	estados[11][1] = "Mato Grosso do Sul";
+	estados[12][0] = "13 - MG";
+	estados[12][1] = "Minas Gerais";
+	estados[13][0] = "14 - PA";
+	estados[13][1] = "Pará";
+	estados[14][0] = "15 - PB";
+	estados[14][1] = "Paraíba";
+	estados[15][0] = "16 - PR";
+	estados[15][1] = "Paraná";
+	estados[16][0] = "17 - PE";
+	estados[16][1] = "Pernambuco";
+	estados[17][0] = "18 - PI";
+	estados[17][1] = "Piauí";
+	estados[18][0] = "19 - RJ";
+	estados[18][1] = "Rio de Janeiro";
+	estados[19][0] = "20 - RN";
+	estados[19][1] = "Rio Grande do Norte";
+	estados[20][0] = "21 - RS";
+	estados[20][1] = "Rio Grande do Sul";
+	estados[21][0] = "22 - RO";
+	estados[21][1] = "Rondônia";
+	estados[22][0] = "23 - RR";
+	estados[22][1] = "Roraima";
+	estados[23][0] = "24 - SC";
+	estados[23][1] = "Santa Catarina";
+	estados[24][0] = "25 - SP";
+	estados[24][1] = "São Paulo";
+	estados[25][0] = "26 - SE";
+	estados[25][1] = "Sergipe";
+	estados[26][0] = "27 - TO";
+
+	for(int i = 0; i < 27; i++){
+
+        printf(" %s ---> %s.\n", estados[i][0], estados[i][1]);
+
     }
-    free(cadastro_pess);
+
+    */
+
+    printf(" 1 - AC \n");
+	printf(" 2 - AL \n");
+	printf(" 3 - AP \n");
+	printf(" 4 - AM \n");
+	printf(" 5 - BA \n");
+	printf(" 6 - CE \n");
+	printf(" 7 - DF \n");
+	printf(" 8 - ES \n");
+	printf(" 9 - GO \n");
+	printf(" 10 - MA \n");
+	printf(" 11 - MT \n");
+	printf(" 12 - MS \n");
+	printf(" 13 - MG \n");
+	printf(" 14 - PA \n");
+	printf(" 15 - PB \n");
+	printf(" 16 - PR \n");
+	printf(" 17 - PE \n");
+	printf(" 18 - PI \n");
+	printf(" 19 - RJ \n");
+	printf(" 20 - RN \n");
+	printf(" 21 - RS \n");
+	printf(" 22 - RO \n");
+	printf(" 23 - RR \n");
+	printf(" 24 - SC \n");
+	printf(" 25 - SP \n");
+	printf(" 26 - SE \n");
+	printf(" 27 - TO \n");
+
 }
 
-
 void cadastroPessoa() {
+
     Pes* cadastro_pess;
 
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
@@ -633,11 +908,11 @@ void cadastroPessoa() {
     printf("\n =================================");
     printf("\n | | | Programa Biblioeteca | | |");                      
     printf("\n =================================");
-    printf("\n >>>>>> CADASTRO DE PESSOAS <<<<<<");
+    printf("\n >>>>>> CADASTRO DE PESSOA  <<<<<<");
     printf("\n =================================");
 
 
-    printf("\n\n Insira seu nome completo: ");
+    printf("\n\n Insira o nome: ");
     scanf(" %99[^\n]", cadastro_pess->nome);
     while(validaNome(cadastro_pess->nome) == 0){
         printf(" Insira um nome válido: ");
@@ -646,16 +921,16 @@ void cadastroPessoa() {
 
 
     do {  
-      printf("\n Insira seu dia de nascimento: ");
+      printf("\n Insira o dia de nascimento: ");
     }while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
 
     do{  
-      printf("\n Insira seu mês de nascimento: ");
+      printf("\n Insira o mês de nascimento: ");
 
     }while (((scanf("%d%c", &cadastro_pess->mes, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->mes < 1 || cadastro_pess->mes > 12);
 
     do {  
-      printf("\n Insira seu ano de nascimento: ");
+      printf("\n Insira o ano de nascimento: ");
     } while (((scanf("%d%c", &cadastro_pess->ano, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->ano < 1900 || cadastro_pess->ano > 2019);
         if(validaData(cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano) == 1) {
           printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano);
@@ -663,7 +938,7 @@ void cadastroPessoa() {
 
     exibeEstados();
     do {  
-      printf("\n Digite o número correspondente ao seu estado: ");
+      printf("\n Digite o número correspondente ao estado: ");
     } while (((scanf("%d%c", &cadastro_pess->uf, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->uf < 1 || cadastro_pess->uf > 27);
 
     cadastro_pess->numero_uf = cadastro_pess->uf;
@@ -671,154 +946,156 @@ void cadastroPessoa() {
 
 
 
-    printf("\n Insira sua cidade: ");
+    printf("\n Insira a cidade: ");
     scanf(" %99[^\n]", cadastro_pess->enderCid);
     while(validaNome(cadastro_pess->enderCid) == 0){
       printf(" Insira um nome válido para a cidade: ");
       scanf(" %99[^\n]", cadastro_pess->enderCid);
     }
 
-    printf("\n Insira seu bairro: ");
+    printf("\n Insira o bairro: ");
     scanf(" %99[^\n]", cadastro_pess->enderBair);
     while(validaNome(cadastro_pess->enderBair) == 0){
       printf(" Insira um nome válido para o bairro: ");
       scanf(" %99[^\n]", cadastro_pess->enderBair);
     }
 
-    printf("\n Insira o número da sua casa: ");
+    printf("\n Insira o número da casa: ");
     scanf(" %99[^\n]", cadastro_pess->numCasa);
     while(validaEdt(cadastro_pess->numCasa)==0){
-      printf(" Insira um número válido da sua casa: ");
+      printf(" Insira o número válido da casa: ");
       scanf(" %99[^\n]", cadastro_pess->numCasa);
     }
 
 
-    printf("\n Insira seu CPF - xxx.xxx.xxx-xx: ");
+    printf("\n Insira o CPF - xxx.xxx.xxx-xx: ");
     scanf(" %99[^\n]", cadastro_pess->cpf);
     setbuf(stdin, NULL);
     while(validaCPF(cadastro_pess->cpf)==0){
-      printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
+      printf(" Insira o CPF válido - xxx.xxx.xxx-xx: ");
       scanf(" %99[^\n]", cadastro_pess->cpf);
       setbuf(stdin, NULL);
     }
     
-    printf("\n Insira seu número para contato - xx-xxxxxxxxx: ");
+    printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
     scanf(" %99[^\n]", cadastro_pess->tel);
     while(validaTelefone(cadastro_pess->tel)==0){
       printf(" Insira um número válido (xx)x xxxx-xxxx: ");
       scanf(" %99[^\n]", cadastro_pess->tel);
     }
         
-    printf("\n Insira seu email: ");
+    printf("\n Insira o email: ");
     scanf(" %99[^\n]", cadastro_pess->email);
     while(validaEmail(cadastro_pess->email)==0){
       printf(" Insira um email válido: ");
       scanf(" %99[^\n]", cadastro_pess->email);
     }
-    gravaPessoas(cadastro_pess);
-    // codigo_incremental += 1;    
+
+    printf("\n Insira o login: ");
+    scanf(" %49[^\n]", cadastro_pess->login);
+    while(validaNome(cadastro_pess->login)==0){
+      printf(" Insira um login válido: ");
+      scanf(" %49[^\n]", cadastro_pess->login);
+    }
+
+    printf("\n Insira a senha: ");
+    scanf(" %49[^\n]", cadastro_pess->senha);
+    while(validaNome(cadastro_pess->senha)==0){
+      printf(" Insira uma senha válida: ");
+      scanf(" %49[^\n]", cadastro_pess->senha);
+    }
+
+    gravaPessoa(cadastro_pess);
+   
 }
-
-
 
 void gravaLivro(Livro* livro) {
 
+  FILE* fp;
   livro->status = '1';
 
-  FILE* fp;
-
-  fp = fopen("livro.dat", "ab");
-
+  fp = fopen("livros.dat", "ab");
   if (fp == NULL) {
-
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
-
     exit(1);
-  
   }
 
   fwrite(livro, sizeof(Livro), 1, fp);
-
   fclose(fp);
 
 }
 
+void cadastroLivro() {
 
+    Livro* livro;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | | Programa Biblioeteca | | |");                      
+    printf("\n =================================");
+    printf("\n >>>>>> CADASTRO DE LIVRO  <<<<<<");
+    printf("\n =================================");
+
+    printf("\n\n Insira o nome: ");
+    scanf(" %99[^\n]", livro->nome);
+    while(validaNome(livro->nome) == 0){
+        printf(" Insira um nome válido: ");
+        scanf(" %99[^\n]", livro->nome);
+    }
+
+    printf("\n Insira o ISBN [xxx-xx-xxx-xxxx-x]: ");
+    scanf(" %17[^\n]", livro->isbn);
+    while(validaISBN(livro->isbn) == 0){
+      printf(" Insira um ISBN válido [xxx-xx-xxx-xxxx-x]: ");
+      scanf(" %17[^\n]", livro->isbn);
+    }
+
+    printf("\n Insira o autor: ");
+    scanf(" %199[^\n]", livro->autor);
+    while(validaNome(livro->autor) == 0){
+      printf(" Insira um nome válido para o autor: ");
+      scanf(" %199[^\n]", livro->autor);
+    }
+
+    printf("\n Insira o gênero: ");
+    scanf(" %99[^\n]", livro->genero);
+    while(validaNome(livro->genero) == 0){
+      printf(" Insira um nome válido para o gênero: ");
+      scanf(" %99[^\n]", livro->genero);
+    }
+
+    printf("\n Insira a editora: ");
+    scanf(" %99[^\n]", livro->editora);
+    while(validaNome(livro->editora) == 0){
+      printf(" Insira um nome válido para a editora: ");
+      scanf(" %99[^\n]", livro->editora);
+    }
+
+    printf("\n Insira a edição: ");
+    scanf(" %99[^\n]", livro->edicao);
+    while(validaNome(livro->edicao) == 0){
+      printf(" Insira um nome válido para a edição: ");
+      scanf(" %99[^\n]", livro->edicao);
+    }
+
+    gravaLivro(livro);
+   
+}
 
 void exibeLivro(Livro* livro) {
 
 	// printf(" Código: %d\n", livro->cod);
-	printf("\n\nNome do livro: %s\n", livro->nomeLiv);
-	printf("Autor: %s\n", livro->autor);
-	printf("Gênero: %s\n", livro->genero);
-	printf("Edição: %s\n", livro->edicao);
-	printf("ISBN: %s\n", livro->isbn);
+	printf("\n\n Nome do livro: %s \n", livro->nome);
+	printf(" ISBN: %s \n", livro->isbn);
+	printf(" Autor: %s \n", livro->autor);
+	printf(" Gênero: %s \n", livro->genero);
+	printf(" Editora: %s \n", livro->editora);
+	printf(" Edição: %s \n", livro->edicao);
 	printf("\n");
-
-}
-
-void buscaLivro(void) {
-
-  FILE* fp;
-  Livro* livro;
-  int achou;
-  char procurado[200];
-  char resp;
-
-  fp = fopen("livro.dat", "rb");
-
-  if (fp == NULL) {
-
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-
-    exit(1);
-
-  }
-
-  system("clear");
-
-		printf("\n =================================");
-		printf("\n | | | Programa Biblioeteca | | |");                      
-		printf("\n =================================");
-		printf("\n >>>        BUSCA LIVRO        <<<");
-		printf("\n =================================");
-		printf("\n");
-
-  printf(" Informe o nome do livro a ser buscado: ");
-  scanf(" %199[^\n]", procurado);
-
-  livro = (Livro*) malloc(sizeof(Livro));
-
-  achou = 0;
-
-  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
-
-   if ((strcmp(livro->nomeLiv, procurado) == 0) && (livro->status == '1')) {
-
-     achou = 1;
-
-   }
-
-  }
-
-  fclose(fp);
-
-  if (achou) {
-
-    exibeLivro(livro);
-
-  } else {
-
-    printf("\n O livro %s não foi encontrado...\n", procurado);
-
-  }
-
-  printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-  scanf(" %c", &resp);
-
-  free(livro);
 
 }
 
@@ -827,7 +1104,7 @@ void buscaPessoa(void) {
   FILE* fp;
   Pes* cadastro_pess;
   int achou;
-  char procurado[200];
+  char procurado[100];
   char resp;
 
   fp = fopen("pessoas.dat", "rb");
@@ -846,12 +1123,12 @@ void buscaPessoa(void) {
 		printf("\n =================================");
 		printf("\n | | | Programa Biblioeteca | | |");                      
 		printf("\n =================================");
-		printf("\n >>>        BUSCA PESSOAS        <<<");
+		printf("\n >>>       BUSCA PESSOAS       <<<");
 		printf("\n =================================");
 		printf("\n");
 
   printf(" Informe o nome da pessoa a ser buscada: ");
-  scanf(" %199[^\n]", procurado);
+  scanf(" %99[^\n]", procurado);
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -871,11 +1148,11 @@ void buscaPessoa(void) {
 
   if (achou) {
 
-    exibePessoas(cadastro_pess);
+    exibePessoa(cadastro_pess);
 
   } else {
 
-    printf("\n  %s não foi encontrado(a)...\n", procurado);
+    printf("\n %s não foi encontrado(a)...\n", procurado);
 
   }
 
@@ -886,16 +1163,15 @@ void buscaPessoa(void) {
 
 }
 
-
-void excluiLivro(void) {
+void buscaLivro(void) {
 
   FILE* fp;
   Livro* livro;
   int achou;
+  char procurado[100];
   char resp;
-  char procurado[200];
 
-  fp = fopen("livro.dat", "r+b");
+  fp = fopen("livros.dat", "rb");
 
   if (fp == NULL) {
 
@@ -908,15 +1184,15 @@ void excluiLivro(void) {
 
   system("clear");
 
-		printf("\n =================================");
-		printf("\n | | | Programa Biblioeteca | | |");                      
-		printf("\n =================================");
-		printf("\n >>>        EXCLUI LIVRO       <<<");
-		printf("\n =================================");
-		printf("\n");
+  printf("\n =================================");
+  printf("\n | | | Programa Biblioeteca | | |");                      
+  printf("\n =================================");
+  printf("\n >>>        BUSCA LIVRO        <<<");
+  printf("\n =================================");
+  printf("\n");
 
-  printf(" Informe o nome do livro a ser apagado: ");
-  scanf(" %199[^\n]", procurado);
+  printf(" Informe o nome do livro a ser buscado: ");
+  scanf(" %99[^\n]", procurado);
 
   livro = (Livro*) malloc(sizeof(Livro));
 
@@ -924,7 +1200,7 @@ void excluiLivro(void) {
 
   while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
 
-   if ((strcmp(livro->nomeLiv, procurado) == 0) && (livro->status == '1')) {
+   if ((strcmp(livro->nome, procurado) == 0) && (livro->status == '1')) {
 
      achou = 1;
 
@@ -932,37 +1208,20 @@ void excluiLivro(void) {
 
   }
 
+  fclose(fp);
+
   if (achou) {
 
     exibeLivro(livro);
 
-    printf(" Deseja realmente apagar este livro (S/N)? ");
-
-    scanf(" %c", &resp);
-
-    if (resp == 's' || resp == 'S') {
-
-      livro->status = '0';
-
-      fseek(fp, -1 * sizeof(Livro), SEEK_CUR);
-
-      fwrite(livro, sizeof(Livro), 1, fp);
-
-      printf("\n Livro excluído com sucesso!!!\n");
-
-    } else {
-
-      printf("\n Ok, os dados não foram alterados\n");
-
-    }
-
   } else {
 
-    printf(" O livro %s não foi encontrado...\n", procurado);
+    printf("\n %s não foi encontrado(a)...\n", procurado);
 
   }
 
-  fclose(fp);
+  printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+  scanf(" %c", &resp);
 
   free(livro);
 
@@ -974,7 +1233,7 @@ void excluiPessoa(void) {
   Pes* cadastro_pess;
   int achou;
   char resp;
-  char procurado[200];
+  char procurado[100];
 
   fp = fopen("pessoas.dat", "r+b");
 
@@ -997,7 +1256,7 @@ void excluiPessoa(void) {
 		printf("\n");
 
   printf(" Informe o nome da pessoa a ser removida: ");
-  scanf(" %199[^\n]", procurado);
+  scanf(" %99[^\n]", procurado);
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -1015,7 +1274,7 @@ void excluiPessoa(void) {
 
   if (achou) {
 
-    exibePessoas(cadastro_pess);
+    exibePessoa(cadastro_pess);
 
     printf(" Deseja realmente remover esta pessoa (S/N)? ");
 
@@ -1029,7 +1288,7 @@ void excluiPessoa(void) {
 
       fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
-      printf("\nPessoa removida com sucesso!!!\n");
+      printf("\nPessoa removida com sucesso!\n");
 
     } else {
 
@@ -1049,17 +1308,15 @@ void excluiPessoa(void) {
 
 }
 
-
-
-
-void listaLivros(void) {
-
-  char resp;
+void excluiLivro(void) {
 
   FILE* fp;
   Livro* livro;
+  int achou;
+  char resp;
+  char procurado[100];
 
-  fp = fopen("livro.dat", "rb");
+  fp = fopen("livros.dat", "r+b");
 
   if (fp == NULL) {
 
@@ -1071,35 +1328,66 @@ void listaLivros(void) {
   }
 
   system("clear");
-  
-		printf("\n =================================");
-		printf("\n | | | Programa Biblioeteca | | |");                      
-		printf("\n =================================");
-		printf("\n >>>       EXIBE LIVRO         <<<");
-		printf("\n =================================");
-		printf("\n");
+
+  printf("\n =================================");
+  printf("\n | | | Programa Biblioeteca | | |");                      
+  printf("\n =================================");
+  printf("\n >>>        EXCLUI LIVRO       <<<");
+  printf("\n =================================");
+  printf("\n");
+
+  printf(" Informe o nome do livro a ser removido: ");
+  scanf(" %99[^\n]", procurado);
 
   livro = (Livro*) malloc(sizeof(Livro));
 
-  while(fread(livro, sizeof(Livro), 1, fp)) {
+  achou = 0;
 
-  	if(livro->status == '1') {
+  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
 
-    	exibeLivro(livro);
+   if ((strcmp(livro->nome, procurado) == 0) && (livro->status == '1')) {
 
-	}
+     achou = 1;
+
+   }
 
   }
 
-  printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-  scanf(" %c", &resp);
+  if (achou) {
+
+    exibeLivro(livro);
+
+    printf(" Deseja realmente remover este livro (S/N)? ");
+
+    scanf(" %c", &resp);
+
+    if (resp == 's' || resp == 'S') {
+
+      livro->status = '0';
+
+      fseek(fp, -1 * sizeof(Livro), SEEK_CUR);
+
+      fwrite(livro, sizeof(Livro), 1, fp);
+
+      printf("\nLivro removido com sucesso!\n");
+
+    } else {
+
+      printf("\n Ok, os dados não foram alterados\n");
+
+    }
+
+  } else {
+
+    printf(" %s não foi encontrado...\n", procurado);
+
+  }
 
   fclose(fp);
 
   free(livro);
 
 }
-
 
 char menuPrincipal() {
 
@@ -1109,7 +1397,7 @@ char menuPrincipal() {
 
 	system("clear");
 
-	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN \n []B - Sobre \n []S - SAIR \n\n * Credenciais default: \n (Administrador ---> Username: admin / Password: admin)\n (Usuário ---> Username: teste / Password: teste)\n\n");
+	printf("\n ================================= \n ||| SIG-Library - Biblioteca! ||| \n ================================= \n >>>>>>>  MENU PRINCIPAL  <<<<<<<< \n ================================= \n Escolha uma opção: \n []A - LOGIN \n []B - Sobre \n []S - SAIR \n\n * Credenciais padrão: \n (Administrador ---> Username: admin / Password: admin) \n\n");
 
 	printf("       ______ ______\n");
 	printf("     _/      Y      \\_\n");
@@ -1134,12 +1422,12 @@ char menuPrincipal() {
 
 int login() {
 
-    char loginA[51] = "admin";
-    char senhaA[51] = "admin";
-    char loginU[51] = "teste";
-    char senhaU[51] = "teste";
-    char login1[51];
-    char senha1[51];
+    char loginA[50] = "admin";
+    char senhaA[50] = "admin";
+    char loginU[50] = "user";
+    char senhaU[50] = "user";
+    char login1[50];
+    char senha1[50];
 
 	system("clear");
 
@@ -1187,12 +1475,6 @@ int login() {
 
 void menuAdmin() {
 
-	/*
-	Livro* livro;
-
-	livro = (Livro*) malloc(sizeof(Livro));
-	*/
-
 	char resp;
 	char op;
 	char op2;
@@ -1210,7 +1492,7 @@ void menuAdmin() {
 		printf(" []D - Logs e Relatórios\n");
 		printf(" []S - Sair\n");
 		
-		printf(" \nEscolha uma opção: ");
+		printf("\n Escolha uma opção: ");
 		scanf(" %c", &resp);
 		resp = maius(resp);
 
@@ -1219,7 +1501,7 @@ void menuAdmin() {
 			case 'A':
 				do {
 				gerenciarPessoas();
-				printf(" \nEscolha uma opção: ");
+				printf("\n Escolha uma opção: ");
 				scanf(" %c", &op);
 				op = maius(op);
 
@@ -1246,9 +1528,6 @@ void menuAdmin() {
 					editaPessoa();
 					break;
 					
-					case 'F':
-					printf("não implementado\n");
-					break;
 					}
 
 
@@ -1260,7 +1539,7 @@ void menuAdmin() {
 			case 'B':
 				do{
 					gerenciarLivros();
-					printf(" \nEscolha uma opção: ");
+					printf("\n Escolha uma opção: ");
 					scanf(" %c", &op2);
 					op2 = maius(op2);
 					switch(op2){
@@ -1321,11 +1600,9 @@ void gerenciarPessoas(void){
 	printf(" []B - Buscar Pessoa\n");
 	printf(" []C - Listar pessoas cadastradas\n");
 	printf(" []D - Excluir pessoas\n");
-	printf(" []E - Editar informações\n");
-	printf(" []F - Redefinir nome de usuário ou senha\n");		
+	printf(" []E - Editar informações\n");		
 	printf(" []S - Sair\n");
 }
-
 
 void gerenciarLivros(void){
 		system("clear");
@@ -1341,7 +1618,6 @@ void gerenciarLivros(void){
 		printf(" []E - Editar livro\n");		
 		printf(" []S - Sair\n");
 }
-
 
 void menuUser() {
 
@@ -1432,7 +1708,6 @@ char menuGerenciarEmprestimos(){
 	printf("\n =================================");
 	printf("\n []A - Emprestar Livro");
 	printf("\n []B - Devolução de Livro");
-	printf("\n []C - Relatório");
 	printf("\n []S - Voltar ao Menu do Administrador");
 
 	printf("\n\n Escolha uma opção: ");
@@ -1454,10 +1729,11 @@ char menuLog(){
 	printf("\n =================================");
 	printf("\n | | | Programa Biblioteca | | | ");              
 	printf("\n =================================");
-	printf("\n >>>>>>>> MENU RELATÓRIO <<<<<<<<");
+	printf("\n >>>>>>>> MENU RELATÓRIOS <<<<<<<<");
 	printf("\n ================================="); 
-	printf("\n []A - Relatório Emprestimos");
+	printf("\n []A - Histórico de todos os logins no sistema");
 	printf("\n []B - Histórico de todos os empréstimos");
+	printf("\n []C - Histórico de todos os empréstimos de um usuário");
 	printf("\n []S - Voltar ao Menu do Administrador");
 
 	printf("\n\n Escolha uma opção: ");
@@ -1476,7 +1752,7 @@ void sobre() {
 
  	system("clear");
 
-	printf("\n A library system made with C. \n Universidade Federal do Rio Gande do Norte (UFRN). \n Students: Douglas Mateus and Lucas Silva. \n Professor: Flavius Gorgônio. \n\n");
+	printf("\n A library system made with C. \n \n Universidade Federal do Rio Gande do Norte (UFRN). \n \n Students: \n Douglas Mateus Soares Cândidoda Silva / Email: douglasmateus1@hotmail.com / Cellphone: (84)99996-4793 \n Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 \n \n Professor: Flavius Gorgônio. \n\n");
 	
 	printf("       _.--._  _.--._\n");
 	printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
@@ -1507,71 +1783,5 @@ char sair() {
 
 }
 
-void cadastroLivro() {
 
-	Livro* livro;
-
-	livro = (Livro*) malloc(sizeof(Livro));
-
-    system("clear");
-
-    printf("\n =================================");
-	printf("\n | | | Programa Biblioeteca | | |");                      
-	printf("\n =================================");
-	printf("\n >>>>>>> CADASTRO DE LIVROS <<<<<<");
-	printf("\n =================================");
-
-	// livro->cod = codigo_incremental;
-
-    printf("\n Insira o nome do livro: ");
-    scanf(" %[^\n]s", livro->nomeLiv);
-    while(validaEdt(livro->nomeLiv) == 0){
-    	printf(" Insira um nome válido para o livro: ");
-    	scanf(" %[^\n]s", livro->nomeLiv);
-    }
-
-    printf("\n Insira o ISBN do livro [xxx-xx-xxx-xxxx-x]: ");
-    scanf(" %[^\n]s", livro->isbn);
-    while(validaISBN(livro->isbn) == 0){
-		printf(" Insira o ISBN correto [xxx-xx-xxx-xxxx-x]: ");
-		scanf(" %[^\n]s", livro->isbn);
-	}
-
-    printf("\n Insira o nome do autor: ");
-    scanf(" %[^\n]s", livro->autor);
-    while(validaNome(livro->autor) == 0){
-		printf(" Insira um nome válido: ");
-		scanf(" %[^\n]s", livro->autor);
-	}
-
-    printf("\n Insira o gênero do livro: ");
-    scanf(" %[^\n]s", livro->genero);
-    while (validaNome(livro->genero)== 0){
-    	printf(" Insira um gênero válido do livro: ");
-    	scanf(" %[^\n]s", livro->genero);
-    }
-    
-    printf("\n Insira a editora do livro: ");
-    scanf(" %[^\n]s", livro->editora);
-    while(validaEdt(livro->editora) == 0){
-    	printf(" Insira um nome válido para a editora do livro: ");
-    	scanf(" %[^\n]s", livro->editora);
-    }
-
-
-    printf("\n Insira a edição do livro: ");
-    scanf(" %[^\n]s", livro->edicao);
-    while(validaEdt(livro->edicao)==0){
-    	printf(" Insira uma edição válida para o livro: ");
-    	scanf(" %[^\n]s", livro->edicao);
-    }
-
-    printf("###############################\n");
-  	exibeLivro(livro);
-  	printf("###############################\n");
-  	gravaLivro(livro);
-
-  	// codigo_incremental += 1;
-    
-}
 

@@ -129,18 +129,23 @@ int validaISBN(char isbn[17]) {
 	regex_t reg;
 	
 	if((strlen(isbn)) > 17) {
+
 		return 0;
 
 	} else {
 		if(regcomp(&reg, RE_ISBN, REG_EXTENDED|REG_NOSUB) != 0) {
+
 			return 0;
 
 		} else {
 			if((regexec(&reg, isbn, 0, (regmatch_t*)NULL, 0)) == 0) {
+
 				return 1;
 				
 			} else {
+
 				return 0;
+				
 			}
 		}
 	}
