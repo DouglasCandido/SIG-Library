@@ -206,7 +206,7 @@ void editaPessoa(void) {
   char op2;
   char op;
   char resp;
-  char procurado[100];
+  char procurado[101];
   fp = fopen("pessoas.dat", "r+b");
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
@@ -403,7 +403,7 @@ void editaPessoa(void) {
             scanf(" %15[^\n]", cadastro_pess->cpf);
             while(validaCPF(cadastro_pess->cpf)==0){
               printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
-              scanf(" %100[^\n]", cadastro_pess->cpf);
+              scanf(" %15[^\n]", cadastro_pess->cpf);
               setbuf(stdin, NULL);
             }
             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
@@ -452,7 +452,7 @@ void editaLivro(void) {
   char a;
   char op;
   char resp;
-  char procurado[100];
+  char procurado[101];
   fp = fopen("livros.dat", "r+b");
 
   if (fp == NULL) {
@@ -969,11 +969,11 @@ void cadastroPessoa() {
 
 
     printf("\n Insira o CPF - xxx.xxx.xxx-xx: ");
-    scanf(" %100[^\n]", cadastro_pess->cpf);
+    scanf(" %15[^\n]", cadastro_pess->cpf);
     setbuf(stdin, NULL);
     while(validaCPF(cadastro_pess->cpf)==0){
       printf(" Insira o CPF válido - xxx.xxx.xxx-xx: ");
-      scanf(" %100[^\n]", cadastro_pess->cpf);
+      scanf(" %15[^\n]", cadastro_pess->cpf);
       setbuf(stdin, NULL);
     }
     
@@ -1136,7 +1136,7 @@ void buscaPessoa(void) {
 		printf("\n");
 
   printf(" Informe o nome da pessoa a ser buscada: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -1200,7 +1200,7 @@ void buscaLivro(void) {
   printf("\n");
 
   printf(" Informe o nome do livro a ser buscado: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
 
   livro = (Livro*) malloc(sizeof(Livro));
 
@@ -1264,7 +1264,7 @@ void excluiPessoa(void) {
 		printf("\n");
 
   printf(" Informe o nome da pessoa a ser removida: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
 
   cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -1345,7 +1345,7 @@ void excluiLivro(void) {
   printf("\n");
 
   printf(" Informe o nome do livro a ser removido: ");
-  scanf(" %99[^\n]", procurado);
+  scanf(" %100[^\n]", procurado);
 
   livro = (Livro*) malloc(sizeof(Livro));
 
