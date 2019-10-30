@@ -34,7 +34,7 @@ struct pes {
   char enderCid[101];
   char enderBair[101];
   char numCasa[51];
-  char cpf[16];
+  char cpf[12];
   char tel[17];
   char email[31];
   char login[51];
@@ -402,7 +402,7 @@ void editaPessoa(void) {
             printf(" Informe o novo CPF: ");
             scanf(" %15[^\n]", cadastro_pess->cpf);
             while(validaCPF(cadastro_pess->cpf)==0){
-              printf(" Insira um CPF válido - xxx.xxx.xxx-xx: ");
+              printf(" Insira um CPF válido - (SOMENTE NÚMEROS): ");
               scanf(" %15[^\n]", cadastro_pess->cpf);
               setbuf(stdin, NULL);
             }
@@ -968,11 +968,11 @@ void cadastroPessoa() {
     }
 
 
-    printf("\n Insira o CPF - xxx.xxx.xxx-xx: ");
+    printf("\n Insira o CPF - (SOMENTE NÚMEROS): ");
     scanf(" %15[^\n]", cadastro_pess->cpf);
     setbuf(stdin, NULL);
     while(validaCPF(cadastro_pess->cpf)==0){
-      printf(" Insira o CPF válido - xxx.xxx.xxx-xx: ");
+      printf(" Insira o CPF válido - (SOMENTE NÚMEROS): ");
       scanf(" %15[^\n]", cadastro_pess->cpf);
       setbuf(stdin, NULL);
     }
@@ -993,14 +993,14 @@ void cadastroPessoa() {
 
     printf("\n Insira o login: ");
     scanf(" %50[^\n]", cadastro_pess->login);
-    while(validaNome(cadastro_pess->login)==0){
+    while(validaEdt(cadastro_pess->login)==0){
       printf(" Insira um login válido: ");
       scanf(" %50[^\n]", cadastro_pess->login);
     }
 
     printf("\n Insira a senha: ");
     scanf(" %50[^\n]", cadastro_pess->senha);
-    while(validaNome(cadastro_pess->senha)==0){
+    while(validaEdt(cadastro_pess->senha)==0){
       printf(" Insira uma senha válida: ");
       scanf(" %50[^\n]", cadastro_pess->senha);
     }
@@ -1070,14 +1070,14 @@ void cadastroLivro() {
 
     printf("\n Insira a editora: ");
     scanf(" %99[^\n]", livro->editora);
-    while(validaNome(livro->editora) == 0){
+    while(validaEdt(livro->editora) == 0){
       printf(" Insira um nome válido para a editora: ");
       scanf(" %99[^\n]", livro->editora);
     }
 
     printf("\n Insira a edição: ");
     scanf(" %99[^\n]", livro->edicao);
-    while(validaNome(livro->edicao) == 0){
+    while(validaEdt(livro->edicao) == 0){
       printf(" Insira um nome válido para a edição: ");
       scanf(" %99[^\n]", livro->edicao);
     }
@@ -1790,6 +1790,59 @@ char sair() {
 	return resp;
 
 }
+
+
+
+
+
+int starter() {
+
+  char resposta_menu_principal;
+
+
+  switch(resposta_menu_principal = menuPrincipal()) {
+    
+    case 'A':
+      if(login() == 1) {
+        menuAdmin();
+      }else{
+        menuUser();
+      }
+
+      break;
+    case 'B':
+      sobre();
+      resposta_menu_principal = starter();
+      break;
+    case 'S':
+      if((sair()) == 'S') {
+        system("clear");
+        printf("       _.--._  _.--._\n");
+        printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
+        printf(" \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+        printf("  \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+        printf("   \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+        printf("    \\\\\\:;:;:;:;:;\\:;::;:;:;:\\\n");
+        printf("     \\\\\\;:;::;:;:;\\:;:;:;::;:\\\n");
+        printf("      \\\\\\;;:;:_:--:\\:_:--:_;:;\\    Adeus, caro leitor!\n");
+        printf("       \\\\\\_.-\"      :      \"-._\\\n");
+        printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
+        printf("         \"");
+        printf("\n Você saiu do SIG-Library. Volte sempre.\n\n");
+        break;
+      } else {
+        resposta_menu_principal = starter();
+      }     
+      break;
+    default:
+      printf("Você digitou uma opção inválida.\n");
+      
+  }
+
+  return 1;
+  
+}
+
 
 
 
