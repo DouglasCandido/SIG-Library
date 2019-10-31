@@ -45,7 +45,7 @@ struct pes {
 };
 
 void exibePessoa(Pes* cadastro_pess);
-
+int verificaCPF(char procurado[12]);
 void exibeLivro(Livro* livro);
 
 void menuEditaEndereco(void){
@@ -399,10 +399,12 @@ void editaPessoa(void) {
           break;
 
           case 'G':
-            printf(" Informe o novo CPF: ");
+            printf("\n Insira o novo CPF - (SOMENTE NÚMEROS): ");
             scanf(" %15[^\n]", cadastro_pess->cpf);
-            while(validaCPF(cadastro_pess->cpf)==0){
-              printf(" Insira um CPF válido - (SOMENTE NÚMEROS): ");
+            setbuf(stdin, NULL);
+
+            while((validaCPF(cadastro_pess->cpf)==0)){
+              printf(" Insira o CPF válido ou que não esteja cadastrado- (SOMENTE NÚMEROS)\n  >>>>>:");
               scanf(" %15[^\n]", cadastro_pess->cpf);
               setbuf(stdin, NULL);
             }
@@ -898,9 +900,9 @@ void exibeEstados(void){
 }
 
 void cadastroPessoa() {
-
+    char resp;
     Pes* cadastro_pess;
-
+  
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
     system("clear");
@@ -912,100 +914,108 @@ void cadastroPessoa() {
     printf("\n =================================");
 
 
-    printf("\n\n Insira o nome: ");
-    scanf(" %100[^\n]", cadastro_pess->nome);
-    while(validaNome(cadastro_pess->nome) == 0){
-        printf(" Insira um nome válido: ");
-        scanf(" %100[^\n]", cadastro_pess->nome);
-    }
-
-
-    do {  
-      printf("\n Insira o dia de nascimento: ");
-    }while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
-
-    do{  
-      printf("\n Insira o mês de nascimento: ");
-
-    }while (((scanf("%d%c", &cadastro_pess->mes, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->mes < 1 || cadastro_pess->mes > 12);
-
-    do {  
-      printf("\n Insira o ano de nascimento: ");
-    } while (((scanf("%d%c", &cadastro_pess->ano, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->ano < 1900 || cadastro_pess->ano > 2019);
-        if(validaData(cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano) == 1) {
-          printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano);
-        }
-
-    exibeEstados();
-    do {  
-      printf("\n Digite o número correspondente ao estado: ");
-    } while (((scanf("%d%c", &cadastro_pess->uf, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->uf < 1 || cadastro_pess->uf > 27);
-
-    cadastro_pess->numero_uf = cadastro_pess->uf;
-    cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1; // Para acessar o índice correto da matriz é necessário diminuir 1 do número correspondente a letra escolhida pelo usuário.
-
-
-
-    printf("\n Insira a cidade: ");
-    scanf(" %100[^\n]", cadastro_pess->enderCid);
-    while(validaNome(cadastro_pess->enderCid) == 0){
-      printf(" Insira um nome válido para a cidade: ");
-      scanf(" %100[^\n]", cadastro_pess->enderCid);
-    }
-
-    printf("\n Insira o bairro: ");
-    scanf(" %100[^\n]", cadastro_pess->enderBair);
-    while(validaNome(cadastro_pess->enderBair) == 0){
-      printf(" Insira um nome válido para o bairro: ");
-      scanf(" %100[^\n]", cadastro_pess->enderBair);
-    }
-
-    printf("\n Insira o número da casa: ");
-    scanf(" %100[^\n]", cadastro_pess->numCasa);
-    while(validaEdt(cadastro_pess->numCasa)==0){
-      printf(" Insira o número válido da casa: ");
-      scanf(" %100[^\n]", cadastro_pess->numCasa);
-    }
-
-
-    printf("\n Insira o CPF - (SOMENTE NÚMEROS): ");
-    scanf(" %15[^\n]", cadastro_pess->cpf);
-    setbuf(stdin, NULL);
-    while(validaCPF(cadastro_pess->cpf)==0){
-      printf(" Insira o CPF válido - (SOMENTE NÚMEROS): ");
+    do{
+      printf("\n Insira o CPF - (SOMENTE NÚMEROS): ");
       scanf(" %15[^\n]", cadastro_pess->cpf);
       setbuf(stdin, NULL);
-    }
-    
-    printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
-    scanf(" %100[^\n]", cadastro_pess->tel);
-    while(validaTelefone(cadastro_pess->tel)==0){
-      printf(" Insira um número válido (xx)x xxxx-xxxx: ");
+
+      while((validaCPF(cadastro_pess->cpf)==0)){
+        printf(" Insira o CPF válido ou que não esteja cadastrado- (SOMENTE NÚMEROS)\n  >>>>>:");
+        scanf(" %15[^\n]", cadastro_pess->cpf);
+        setbuf(stdin, NULL);
+      }
+
+
+      printf("\n\n Insira o nome: ");
+      scanf(" %100[^\n]", cadastro_pess->nome);
+      while(validaNome(cadastro_pess->nome) == 0){
+          printf(" Insira um nome válido: ");
+          scanf(" %100[^\n]", cadastro_pess->nome);
+      }
+
+
+      do {  
+        printf("\n Insira o dia de nascimento: ");
+      }while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
+
+      do{  
+        printf("\n Insira o mês de nascimento: ");
+
+      }while (((scanf("%d%c", &cadastro_pess->mes, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->mes < 1 || cadastro_pess->mes > 12);
+
+      do {  
+        printf("\n Insira o ano de nascimento: ");
+      } while (((scanf("%d%c", &cadastro_pess->ano, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->ano < 1900 || cadastro_pess->ano > 2019);
+          if(validaData(cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano) == 1) {
+            printf("\n Data de nascimento registrada: %d/%d/%d.\n\n", cadastro_pess->dia, cadastro_pess->mes, cadastro_pess->ano);
+          }
+
+      exibeEstados();
+      do {  
+        printf("\n Digite o número correspondente ao estado: ");
+      } while (((scanf("%d%c", &cadastro_pess->uf, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->uf < 1 || cadastro_pess->uf > 27);
+
+      cadastro_pess->numero_uf = cadastro_pess->uf;
+      cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1; // Para acessar o índice correto da matriz é necessário diminuir 1 do número correspondente a letra escolhida pelo usuário.
+
+
+
+      printf("\n Insira a cidade: ");
+      scanf(" %100[^\n]", cadastro_pess->enderCid);
+      while(validaNome(cadastro_pess->enderCid) == 0){
+        printf(" Insira um nome válido para a cidade: ");
+        scanf(" %100[^\n]", cadastro_pess->enderCid);
+      }
+
+      printf("\n Insira o bairro: ");
+      scanf(" %100[^\n]", cadastro_pess->enderBair);
+      while(validaNome(cadastro_pess->enderBair) == 0){
+        printf(" Insira um nome válido para o bairro: ");
+        scanf(" %100[^\n]", cadastro_pess->enderBair);
+      }
+
+      printf("\n Insira o número da casa: ");
+      scanf(" %100[^\n]", cadastro_pess->numCasa);
+      while(validaEdt(cadastro_pess->numCasa)==0){
+        printf(" Insira o número válido da casa: ");
+        scanf(" %100[^\n]", cadastro_pess->numCasa);
+      }
+
+
+      printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
       scanf(" %100[^\n]", cadastro_pess->tel);
-    }
-        
-    printf("\n Insira o email: ");
-    scanf(" %100[^\n]", cadastro_pess->email);
-    while(validaEmail(cadastro_pess->email)==0){
-      printf(" Insira um email válido: ");
+      while(validaTelefone(cadastro_pess->tel)==0){
+        printf(" Insira um número válido (xx)x xxxx-xxxx: ");
+        scanf(" %100[^\n]", cadastro_pess->tel);
+      }
+          
+      printf("\n Insira o email: ");
       scanf(" %100[^\n]", cadastro_pess->email);
-    }
+      while(validaEmail(cadastro_pess->email)==0){
+        printf(" Insira um email válido: ");
+        scanf(" %100[^\n]", cadastro_pess->email);
+      }
 
-    printf("\n Insira o login: ");
-    scanf(" %50[^\n]", cadastro_pess->login);
-    while(validaEdt(cadastro_pess->login)==0){
-      printf(" Insira um login válido: ");
+      printf("\n Insira o login: ");
       scanf(" %50[^\n]", cadastro_pess->login);
-    }
+      while(validaEdt(cadastro_pess->login)==0){
+        printf(" Insira um login válido: ");
+        scanf(" %50[^\n]", cadastro_pess->login);
+      }
 
-    printf("\n Insira a senha: ");
-    scanf(" %50[^\n]", cadastro_pess->senha);
-    while(validaEdt(cadastro_pess->senha)==0){
-      printf(" Insira uma senha válida: ");
+      printf("\n Insira a senha: ");
       scanf(" %50[^\n]", cadastro_pess->senha);
-    }
-
+      while(validaEdt(cadastro_pess->senha)==0){
+        printf(" Insira uma senha válida: ");
+        scanf(" %50[^\n]", cadastro_pess->senha);
+      }
     gravaPessoa(cadastro_pess);
+    printf("Deseja cadastrar outra pessoa? (S/N)\n>>>>");
+    scanf(" %c", &resp);
+    
+    }while((resp == 'S'));  
+
+    
    
 }
 
@@ -1845,4 +1855,51 @@ int starter() {
 
 
 
+int verificaCPF(char procurado[12]){
 
+  FILE* fp;
+  Pes* cadastro_pess;
+  int achou;
+  
+  fp = fopen("pessoas.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+  
+
+  achou = 0;
+
+  while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+   if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+
+  if (achou) {
+
+    return 0;
+
+  } else {
+
+    return 1;
+
+  }
+
+  fclose(fp);
+  free(cadastro_pess);
+
+}
