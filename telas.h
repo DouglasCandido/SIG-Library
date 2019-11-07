@@ -2,7 +2,7 @@ char menuPrincipal(void); // Essa função é chamada para apresentar o Menu Pri
 int login(void); // Essa função é chamada para validar o login.
 void menuAdmin(void); // Essa função é chamada para apresentar o Menu exclusivo do administrador.
 void menuUser(void); // Essa função é chamada para apresentar o Menu exclusivo do usuário.
-char menuGerenciarEmprestimos(void); // Essa função é chamada para apresentar o Menu Gerenciar Empréstimos.
+void menuGerenciarEmprestimos(void); // Essa função é chamada para apresentar o Menu Gerenciar Empréstimos.
 char menuLog(void); // Essa função é chamada para apresentar o Menu Log (Relatórios).
 char menuRedefinirUser(void); // Essa função é chamada para apresentar o Menu Redefinir Usuário (Alterar os seus dados de cadastros).
 void sobre(void); // Essa função é chamada para apresentar o Menu Sobre.
@@ -19,3 +19,6 @@ void exibeEstados(void);// Essa função é usada para exibir todos os estados.
 void menuEditaPessoa(void);// Essa função é usada para exibir uma tela de menu de editar informações.
 void menuEditaEndereco(void);
 int starter();
+void emprestimo(void);
+int verifica_cpf_emprestimo(char cpf[12]);
+void mostraPessoa(char cpf[12]);

@@ -6,6 +6,19 @@
 #include "validations.h"
 #include "esqueleto.h" 
 
+typedef struct emprestimo Emprestimo;
+
+struct emprestimo {
+  char nome[101];
+  char cpf[12];
+  char nomeLiv[101];
+  char isbn[18]; 
+  char status;
+
+};
+
+
+
 typedef struct livro Livro;
 
 struct livro {
@@ -43,10 +56,96 @@ struct pes {
   char status;
 
 };
-
+void gravaEmprestimo(Emprestimo* emprestimo);
 void exibePessoa(Pes* cadastro_pess);
 int verificaCPF(char procurado[12]);
 void exibeLivro(Livro* livro);
+
+void gerenciarEmprestimos (void){
+  char op;
+  do{
+    menuGerenciarEmprestimos();
+    printf("\n\nEscolha uma opção: ");
+    scanf(" %c", &op);
+    op = maius(op);
+
+    switch (op){
+      case 'A':
+        emprestimo();
+      break;
+    }
+  }while(op != 'S');
+}
+
+
+void gravaEmprestimo(Emprestimo* emprestimo) {
+
+  FILE* fp;
+  emprestimo->status = '1';
+
+  fp = fopen("emprestimo.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(emprestimo, sizeof(Emprestimo), 1, fp);
+  fclose(fp);
+}
+
+
+void emprestimo(void){
+  char resp;
+  char op2;
+
+  FILE* fp;
+  fp = fopen("livros.dat", "rb");
+  fp = fopen("pessoas.dat", "rb");
+  Emprestimo* emprestar;
+  Pes* cadastro_pess;
+  emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+
+  system("clear");
+  printf("\n =================================");
+  printf("\n | | | Programa Biblioeteca | | |");                      
+  printf("\n =================================");
+  printf("\n >>>      EMPRESTAR LIVRO      <<<");
+  printf("\n =================================");
+  printf("\n");
+
+  printf("Deseja mesmo emprestar o livro? (S/N): ");
+  scanf(" %c",&resp);
+  resp = maius(resp);
+
+  if (resp == 'S'){
+
+    do{
+      printf("\nInsira o CPF  previamente cadastrado - (SOMENTE NÚMEROS): ");
+      scanf(" %15[^\n]", emprestar->cpf);
+
+      if((verifica_cpf_emprestimo(emprestar->cpf) == 1)){
+      mostraPessoa(emprestar->cpf);
+      }
+
+      setbuf(stdin, NULL);
+      }while((verifica_cpf_emprestimo(emprestar->cpf) == 0));
+
+  } 
+printf("\n\nDigite qualquer coisa e tecle ENTER para continuar.\n");
+scanf(" %c",&op2);
+free(emprestar);
+free(cadastro_pess);
+fclose(fp);
+}
 
 void menuEditaEndereco(void){
     system("clear");
@@ -1586,7 +1685,8 @@ void menuAdmin() {
 			break;
 				
 			case 'C':
-				menuGerenciarEmprestimos();
+				gerenciarEmprestimos();
+        
 				break;
 				
 			case 'D':
@@ -1712,11 +1812,7 @@ char menuRedefinirUser(){
 
 }
 
-char menuGerenciarEmprestimos(){
-	
-	char resp;
-
-	do{
+void menuGerenciarEmprestimos(void){
 	system("clear");
 
 	printf("\n =================================");
@@ -1728,13 +1824,6 @@ char menuGerenciarEmprestimos(){
 	printf("\n []B - Devolução de Livro");
 	printf("\n []S - Voltar ao Menu do Administrador");
 
-	printf("\n\n Escolha uma opção: ");
-	scanf(" %c", &resp);
-	resp = maius(resp);
-
-	}while(resp != 'S');
-
-	return resp;
 }
 
 char menuLog(){
@@ -1903,3 +1992,102 @@ int verificaCPF(char procurado[12]){
   free(cadastro_pess);
 
 }
+
+
+int verifica_cpf_emprestimo(char procurado[12]){
+
+  FILE* fp;
+  Pes* cadastro_pess;
+  int achou;
+  
+  fp = fopen("pessoas.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+  
+
+  achou = 0;
+
+  while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+   if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+
+  if (achou) {
+
+    return 1;
+
+  } else {
+
+    return 0;
+
+  }
+
+  fclose(fp);
+  free(cadastro_pess);
+
+}
+
+
+void mostraPessoa(char cpf[12]) {
+
+  FILE* fp;
+  Pes* cadastro_pess;
+  Emprestimo* emprestar;
+  int achou = 0;
+
+  fp = fopen("pessoas.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+  
+  emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
+  cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+  
+
+  while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+   if ((strcmp(cadastro_pess->cpf, cpf) == 0) && (cadastro_pess->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+  fclose(fp);
+
+  if (achou) {
+    strcpy(emprestar->nome, cadastro_pess->nome);
+    strcpy(emprestar->cpf, cadastro_pess->cpf);
+    printf("\nNome cadastrado com este CPF: %s\n", emprestar->nome);
+
+  } 
+  gravaEmprestimo(emprestar);
+  free(cadastro_pess);
+  free(emprestar);
+}
+
