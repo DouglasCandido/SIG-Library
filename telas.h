@@ -22,3 +22,5 @@ int starter();
 void emprestimo(void);
 int verifica_cpf_emprestimo(char cpf[12]);
 void mostraPessoa(char cpf[12]);
+int verifica_matricula_emprestimo(char procurado[13]);
+void mostraLivro(char matricula[13]);

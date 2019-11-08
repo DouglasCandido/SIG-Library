@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "telas.h"
 #include "validations.h"
 #include "esqueleto.h" 
@@ -12,10 +13,14 @@ struct emprestimo {
   char nome[101];
   char cpf[12];
   char nomeLiv[101];
-  char isbn[18]; 
+  char isbn[18];
+  char matricula[13]; 
+  time_t segundos;
+  time_t segundos2;
   char status;
 
 };
+
 
 
 
@@ -31,7 +36,7 @@ struct livro {
   char editora[101]; 
   char edicao[101]; 
   char status;
-
+  char matricula[13];
 };
 
 typedef struct pes Pes;
@@ -95,24 +100,13 @@ void gravaEmprestimo(Emprestimo* emprestimo) {
 
 
 void emprestimo(void){
+
   char resp;
   char op2;
 
-  FILE* fp;
-  fp = fopen("livros.dat", "rb");
-  fp = fopen("pessoas.dat", "rb");
   Emprestimo* emprestar;
-  Pes* cadastro_pess;
+
   emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
-  cadastro_pess = (Pes*) malloc(sizeof(Pes));
-
-
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-
 
   system("clear");
   printf("\n =================================");
@@ -129,23 +123,38 @@ void emprestimo(void){
   if (resp == 'S'){
 
     do{
-      printf("\nInsira o CPF  previamente cadastrado - (SOMENTE NÚMEROS): ");
+
+      printf("\nInsira o CPF previamente cadastrado - (Somente números): ");
       scanf(" %15[^\n]", emprestar->cpf);
 
       if((verifica_cpf_emprestimo(emprestar->cpf) == 1)){
-      mostraPessoa(emprestar->cpf);
+
+        mostraPessoa(emprestar->cpf);
+
+      }
+
+      printf("\nInsira a matrícula previamente cadastrada - (Somente numeros): ");
+      scanf(" %12[^\n]", emprestar->matricula);
+
+      if((verifica_matricula_emprestimo(emprestar->matricula) == 1)){
+
+        mostraLivro(emprestar->matricula);
+
       }
 
       setbuf(stdin, NULL);
-      }while((verifica_cpf_emprestimo(emprestar->cpf) == 0));
+
+    }while((verifica_cpf_emprestimo(emprestar->cpf) == 0 && verifica_matricula_emprestimo(emprestar->matricula) == 0));
 
   } 
+
 printf("\n\nDigite qualquer coisa e tecle ENTER para continuar.\n");
 scanf(" %c",&op2);
+
 free(emprestar);
-free(cadastro_pess);
-fclose(fp);
+
 }
+
 
 void menuEditaEndereco(void){
     system("clear");
@@ -1191,6 +1200,12 @@ void cadastroLivro() {
       scanf(" %99[^\n]", livro->edicao);
     }
 
+    printf("\n Insira a matrícula: ");
+    scanf(" %12[^\n]", livro->matricula);
+    while(validaMatr(livro->matricula) == 0){
+      printf(" Insira uma matrícula válida para o livro: ");
+      scanf(" %12[^\n]", livro->matricula);
+    }
 
     char resp;
     
@@ -1203,10 +1218,12 @@ void cadastroLivro() {
    
 }
 
+
 void exibeLivro(Livro* livro) {
 
 	// printf(" Código: %d\n", livro->cod);
 	printf("\n\n Nome do livro: %s \n", livro->nome);
+  printf("Matricula: %s \n", livro->matricula);
 	printf(" ISBN: %s \n", livro->isbn);
 	printf(" Autor: %s \n", livro->autor);
 	printf(" Gênero: %s \n", livro->genero);
@@ -2091,3 +2108,105 @@ void mostraPessoa(char cpf[12]) {
   free(emprestar);
 }
 
+int verifica_matricula_emprestimo(char procurado[13]){
+
+  FILE* fp;
+  Livro* livro;
+  int achou;
+  
+  fp = fopen("livros.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+
+  livro = (Livro*) malloc(sizeof(Livro));
+  
+
+  achou = 0;
+
+  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+   if ((strcmp(livro->matricula, procurado) == 0) && (livro->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+
+  if (achou) {
+
+    return 1;
+
+  } else {
+
+    return 0;
+
+  }
+
+  fclose(fp);
+  free(livro);
+
+}
+
+
+void mostraLivro(char matricula[13]) {
+
+  FILE* fp;
+  Livro* livro;
+  Emprestimo* emprestar;
+
+  int achou = 0;
+
+  fp = fopen("livros.dat", "rb");
+
+  if (fp == NULL) {
+
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+
+    exit(1);
+
+  }
+
+  emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+  livro = (Livro*) malloc(sizeof(Livro));
+
+  while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+   if ((strcmp(livro->matricula, matricula) == 0) && (livro->status == '1')) {
+
+     achou = 1;
+
+   }
+
+  }
+
+  fclose(fp);
+
+  if (achou) {
+
+    strcpy(emprestar->matricula, livro->matricula);
+    strcpy(emprestar->nomeLiv, livro->nome);
+    strcpy(emprestar->isbn, livro->isbn);
+    printf("\nMatrícula: %s\n", emprestar->matricula);
+    printf("\nNome do livro cadastrado com esta matricula: %s\n", emprestar->nomeLiv);
+    printf("\nISBN do livro cadastrado com esta matricula: %s\n", emprestar->isbn);
+
+  } 
+
+  gravaEmprestimo(emprestar);
+
+  free(livro);
+  free(emprestar);
+
+}

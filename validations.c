@@ -7,6 +7,38 @@
 #include "telas.h"
 
 
+int validaMatr(char matricula[13]) {
+
+	regex_t reg;
+	
+	if((strlen(matricula)) > 12) {
+
+		return 0;
+
+	} else {
+
+		if(regcomp(&reg, RE_MATR, REG_EXTENDED|REG_NOSUB) != 0) {
+
+			return 0;
+
+		} else {
+
+			if((regexec(&reg, matricula, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+				return 1;
+
+			} else {
+
+				return 0;
+
+			}
+			
+		}
+		
+	}
+
+}
+
 
 char maius(char r) {
 
