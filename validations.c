@@ -7,9 +7,14 @@
 #include "telas.h"
 
 
+
 int validaMatr(char matricula[13]) {
 
 	regex_t reg;
+
+	if (verifica_matricula(matricula) == 0){
+		return 0;
+	}
 	
 	if((strlen(matricula)) > 12) {
 
