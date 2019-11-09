@@ -1,21 +1,21 @@
 # SIG-Library
 A library system made with C. 
 
-<br /> <br />
+<br /> 
 
 Universidade Federal do Rio Gande do Norte (UFRN). 
 
-<br /> <br />
+<br /> 
 
 Students: 
 Douglas Mateus Soares Cândido da Silva / Email: douglasmateus1@hotmail.com / Cellphone: (84)99996-4793 
 Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 
           
-<br /> <br />
+<br /> 
 
 Professor: Flavius Gorgônio. 
 
-<br /> <br />
+<br /> 
 
 * Instruções: 
 Para executar o software execute o script makefile.sh. <br />
