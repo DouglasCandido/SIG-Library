@@ -6,6 +6,8 @@ Students: Douglas Mateus and Lucas Silva.
 Professor: Flavius Gorgônio. 
 */
 
+// O arquivo esqueleto.c é utilizado para inicializar o programa.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

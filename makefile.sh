@@ -1,3 +1,5 @@
+# Apenas um script que facilita a compilação e execução do programa.
+
 #!/bin/bash
 
 function pause(){
