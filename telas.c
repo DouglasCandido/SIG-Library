@@ -167,6 +167,8 @@ void gerenciarEmprestimos (void) {
         case 'A':
             emprestimo();
             break;
+        case 'B':
+            devolve_livro();
 
         }
 
@@ -2403,5 +2405,88 @@ int verifica_matricula(char procurado[13]) {
 
     fclose(fp);
     free(livro);
+
+}
+
+
+void devolve_livro(void) {
+
+    FILE* fp;
+    Emprestimo* devolve;
+    int achou;
+    char resp;
+    char matricula[13];
+
+    fp = fopen("emprestimos.dat", "r+b");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>    DEVOLUÇÃO DE LIVRO     <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a matricula do livro a ser devolvido: ");
+    scanf(" %100[^\n]", matricula);
+
+    devolve = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    achou = 0;
+
+    while((!achou) && (fread(devolve, sizeof(Emprestimo), 1, fp))) {
+
+        if ((strcmp(devolve->matricula, matricula) == 0) && (devolve->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    if (achou) {
+
+        exibeEmprestimo(devolve);
+
+        printf(" Deseja devolver este livro (S/N)? ");
+
+        scanf(" %c", &resp);
+
+        if (resp == 's' || resp == 'S') {
+
+            devolve->status = '0';
+
+            fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
+            fwrite(devolve, sizeof(Emprestimo), 1, fp);
+
+            printf("\nLivro devolvido com sucesso!\n");
+
+        } else {
+
+            printf("\n Ok, os dados não foram alterados\n");
+
+        }
+
+    } else {
+
+        printf(" Matricula %s não foi encontrada...\n", matricula);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar...\n");
+    scanf(" %c", &resp);
+
+    fclose(fp);
+    free(devolve);
 
 }
