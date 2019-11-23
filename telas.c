@@ -947,7 +947,7 @@ void exibePessoa(Pes* cadastro_pess) {
     int numero_uf = cadastro_pess->uf;
 
     printf("\n\n Nome: %s \n", cadastro_pess->nome);
-    printf(" CPF: %s \n", cadastro_pess->cpf);
+    printf(" CPF: %c%c%c.%c%c%c.%c%c%c-%c%c \n", cadastro_pess->cpf[0], cadastro_pess->cpf[1], cadastro_pess->cpf[2], cadastro_pess->cpf[3], cadastro_pess->cpf[4], cadastro_pess->cpf[5], cadastro_pess->cpf[6], cadastro_pess->cpf[7], cadastro_pess->cpf[8], cadastro_pess->cpf[9], cadastro_pess->cpf[10]);
 
     printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
 
