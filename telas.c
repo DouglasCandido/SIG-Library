@@ -582,7 +582,7 @@ void editaPessoa(void) {
                     printf(" Informe o novo telefone: ");
                     scanf(" %100[^\n]", cadastro_pess->tel);
                     while(validaTelefone(cadastro_pess->tel)==0) {
-                        printf(" Insira um número válido (xx)xx-xxxxxxx: ");
+                        printf(" Insira um número válido xx-xxxxxxxxx: ");
                         scanf(" %100[^\n]", cadastro_pess->tel);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
@@ -1274,7 +1274,7 @@ void cadastroPessoa() {
         printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
         scanf(" %100[^\n]", cadastro_pess->tel);
         while(validaTelefone(cadastro_pess->tel)==0) {
-            printf(" Insira um número válido (xx)x xxxx-xxxx: ");
+            printf(" Insira um número válido xx-xxxxxxxxx: ");
             scanf(" %100[^\n]", cadastro_pess->tel);
         }
 

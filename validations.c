@@ -118,11 +118,77 @@ int validaTelefone(char tel[15]) {
 
 }
 
-int validaCPF(char cpf[12]) {
+int validaCPF(char cpf[12]) { 
 
     int cpfTrans[12], soma = 0, dig1, res1, res2, dig2, restante;
 
-    if (verificaCPF(cpf) == 0) {
+    if(strlen(cpf) > 11) {
+
+        return 0;
+
+    } 
+
+    else if(strcmp(cpf, "00000000000") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "11111111111") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "22222222222") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "33333333333") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "44444444444") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "55555555555") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "66666666666") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "77777777777") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "88888888888") == 0) {
+
+        return 0;
+
+    }
+
+    else if(strcmp(cpf, "99999999999") == 0) {
+
+        return 0;
+
+    }
+
+    else if(verificaCPF(cpf) == 0) {
 
         return 0;
 
@@ -178,6 +244,7 @@ int validaCPF(char cpf[12]) {
             return 1;
 
         }
+
         return 0;
 
     }
