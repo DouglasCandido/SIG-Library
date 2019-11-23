@@ -86,11 +86,11 @@ int validaEmail(char email[30]) {
 
 }
 
-int validaTelefone(char tel[15]) {
+int validaTelefone(char tel[12]) { //(xx) xxxxx-xxxx
 
     regex_t reg;
 
-    if((strlen(tel)) > 15) {
+    if((strlen(tel)) > 12) {
 
         return 0;
 

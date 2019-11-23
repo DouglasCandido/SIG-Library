@@ -22,7 +22,7 @@ struct pes {
     char enderBair[101];
     char numCasa[51];
     char cpf[12];
-    char tel[17];
+    char tel[13];
     char email[31];
     char login[51];
     char senha[51];
@@ -511,11 +511,11 @@ void editaPessoa(void) {
                     break;
 
                 case 'B':
-                    printf(" Informe o novo telefone: ");
-                    scanf(" %100[^\n]", cadastro_pess->tel);
+                    printf(" Informe o novo númerode telefone telefone: ");
+                    scanf(" %12[^\n]", cadastro_pess->tel);
                     while(validaTelefone(cadastro_pess->tel)==0) {
-                        printf(" Insira um número válido xx-xxxxxxxxx: ");
-                        scanf(" %100[^\n]", cadastro_pess->tel);
+                        printf(" Insira um número de telefone válido no formato xx-xxxxxxxxx: ");
+                        scanf(" %12[^\n]", cadastro_pess->tel);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -1216,11 +1216,11 @@ void cadastroPessoa() {
             scanf(" %100[^\n]", cadastro_pess->numCasa);
         }
 
-        printf("\n Insira o número para contato - xx-xxxxxxxxx: ");
-        scanf(" %100[^\n]", cadastro_pess->tel);
+        printf("\n Insira o número de telefone para contato no formato xx-xxxxxxxxx: "); 
+        scanf(" %12[^\n]", cadastro_pess->tel);
         while(validaTelefone(cadastro_pess->tel)==0) {
-            printf(" Insira um número válido xx-xxxxxxxxx: ");
-            scanf(" %100[^\n]", cadastro_pess->tel);
+            printf(" Insira um número de telefone válido no formato xx-xxxxxxxxx: ");
+            scanf(" %12[^\n]", cadastro_pess->tel);
         }
 
         printf("\n Insira o email: ");
