@@ -43,6 +43,7 @@ struct livro {
     char edicao[101];
     char status;
     char matricula[13];
+    char preco[4];
 
 };
 
@@ -347,77 +348,8 @@ void menuEditaLivro(void) {
     printf("\n []D - Alterar Gênero");
     printf("\n []E - Alterar Editora");
     printf("\n []F - Alterar Edição");
+    printf("\n []G - Alterar Preço");
     printf("\n []S - Voltar");
-
-}
-
-void alteraNomeLivro(void) {
-
-    FILE* fp;
-    Livro* livro;
-
-    fp = fopen("livros.dat", "r+b");
-
-    char a;
-
-    if (fp == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
-
-    livro = (Livro*) malloc(sizeof(Livro));
-
-    printf("\n Informe o novo nome: ");
-    scanf(" %100[^\n]", livro->nome);
-
-    fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
-    fwrite(livro, sizeof(Livro), 1, fp);
-
-    printf("\nInformação editada com sucesso!\n");
-    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-    scanf(" %c",&a);
-
-    free(livro);
-    fclose(fp);
-
-}
-
-void alteraNome(void) {
-
-    FILE* fp;
-    Pes* cadastro_pess;
-
-    fp = fopen("pessoas.dat", "r+b");
-
-    char a;
-
-    if (fp == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
-
-    cadastro_pess = (Pes*) malloc(sizeof(Pes));
-
-    printf("\n Informe o novo nome: ");
-    scanf(" %100[^\n]", cadastro_pess->nome);
-
-    fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
-    fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-
-    printf("\nInformação editada com sucesso!\n");
-    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-    scanf(" %c",&a);
-
-    free(cadastro_pess);
-    fclose(fp);
 
 }
 
@@ -695,7 +627,7 @@ void editaPessoa(void) {
                         case 'D':
                             printf("\n Insira o número da sua casa: ");
                             scanf(" %100[^\n]", cadastro_pess->numCasa);
-                            while(validaEdt(cadastro_pess->numCasa)==0) {
+                            while(validaLetrasNumeros(cadastro_pess->numCasa)==0) {
                                 printf(" Insira um número válido da sua casa: ");
                                 scanf(" %100[^\n]", cadastro_pess->numCasa);
                             }
@@ -866,7 +798,6 @@ void editaLivro(void) {
                 case 'C':
                     printf(" Informe o novo autor: ");
                     scanf(" %200[^\n]", livro->autor);
-
                     while(validaNome(livro->autor)==0) {
                         printf(" Insira um autor válido: ");
                         scanf(" %200[^\n]", livro->autor);
@@ -898,7 +829,6 @@ void editaLivro(void) {
                 case 'E':
                     printf(" Informe a nova editora: ");
                     scanf(" %100[^\n]", livro->editora);
-
                     while(validaNome(livro->editora)==0) {
                         printf(" Insira uma editora válida: ");
                         scanf(" %100[^\n]", livro->editora);
@@ -925,6 +855,21 @@ void editaLivro(void) {
                     printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                     scanf(" %c",&a);
                     break;
+
+                case 'G':
+                	printf(" Informe o novo preço: ");
+                    scanf(" %3[^\n]", livro->preco);
+                    while(validaPreco(livro->preco)==0) {
+                        printf(" Insira um preço válido: ");
+                        scanf(" %3[^\n]", livro->preco);
+                        setbuf(stdin, NULL);
+                    }
+                    fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+                    fwrite(livro, sizeof(Livro), 1, fp);
+                    printf("\n Informação editada com sucesso!\n");
+                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
+                    scanf(" %c",&a);
+                	break;
 
                 }
 
@@ -1266,7 +1211,7 @@ void cadastroPessoa() {
 
         printf("\n Insira o número da casa: ");
         scanf(" %100[^\n]", cadastro_pess->numCasa);
-        while(validaEdt(cadastro_pess->numCasa)==0) {
+        while(validaLetrasNumeros(cadastro_pess->numCasa)==0) {
             printf(" Insira o número válido da casa: ");
             scanf(" %100[^\n]", cadastro_pess->numCasa);
         }
@@ -1287,14 +1232,14 @@ void cadastroPessoa() {
 
         printf("\n Insira o login: ");
         scanf(" %50[^\n]", cadastro_pess->login);
-        while(validaEdt(cadastro_pess->login)==0) {
+        while(validaLetrasNumeros(cadastro_pess->login)==0) {
             printf(" Insira um login válido: ");
             scanf(" %50[^\n]", cadastro_pess->login);
         }
 
         printf("\n Insira a senha: ");
         scanf(" %50[^\n]", cadastro_pess->senha);
-        while(validaEdt(cadastro_pess->senha)==0) {
+        while(validaLetrasNumeros(cadastro_pess->senha)==0) {
             printf(" Insira uma senha válida: ");
             scanf(" %50[^\n]", cadastro_pess->senha);
         }
@@ -1381,16 +1326,23 @@ void cadastroLivro() {
 
     printf("\n Insira a editora: ");
     scanf(" %99[^\n]", livro->editora);
-    while(validaEdt(livro->editora) == 0) {
+    while(validaNome(livro->editora) == 0) {
         printf(" Insira um nome válido para a editora: ");
         scanf(" %99[^\n]", livro->editora);
     }
 
     printf("\n Insira a edição: ");
     scanf(" %99[^\n]", livro->edicao);
-    while(validaEdt(livro->edicao) == 0) {
+    while(validaEdicao(livro->edicao) == 0) {
         printf(" Insira um nome válido para a edição: ");
         scanf(" %99[^\n]", livro->edicao);
+    }
+
+    printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
+    scanf(" %3[^\n]", livro->preco);
+    while(validaPreco(livro->preco) == 0) {
+    	printf("\n Insira um preço válido para o livro: ");
+    	scanf(" %3[^\n]", livro->preco);
     }
 
     char resp;
@@ -1413,7 +1365,8 @@ void exibeLivro(Livro* livro) {
     printf(" Autor: %s \n", livro->autor);
     printf(" Gênero: %s \n", livro->genero);
     printf(" Editora: %s \n", livro->editora);
-    printf(" Edição: %s \n", livro->edicao);
+    printf(" Edição: %sª \n", livro->edicao);
+    printf(" Preço: %s R$ \n", livro->preco);
     printf("\n");
 
 }

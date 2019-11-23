@@ -315,23 +315,23 @@ int validaISBN(char isbn[17]) {
 
 }
 
-int validaEdt(char edit[100]) {
+int validaLetrasNumeros(char string[100]) {
 
     regex_t reg;
 
-    if((strlen(edit)) > 100) {
+    if((strlen(string)) > 100) {
 
         return 0;
 
     } else {
 
-        if(regcomp(&reg, RE_NUM, REG_EXTENDED|REG_NOSUB) != 0) {
+        if(regcomp(&reg, RE_MIX, REG_EXTENDED|REG_NOSUB) != 0) {
 
             return 0;
 
         } else {
 
-            if((regexec(&reg, edit, 0, (regmatch_t*)NULL, 0)) == 0) {
+            if((regexec(&reg, string, 0, (regmatch_t*)NULL, 0)) == 0) {
 
                 return 1;
 
@@ -404,6 +404,74 @@ int validaData(int dia, int mes, int ano) {
     }
 
     return 1;
+
+}
+
+int validaPreco(char preco[4]) {
+
+    regex_t reg;
+
+    if(strlen(preco) > 4) {
+
+        return 0;
+
+    }
+
+    else {
+
+        if(regcomp(&reg, RE_NUMBER, REG_EXTENDED|REG_NOSUB) != 0) {
+
+            return 0;
+
+        } else {
+
+            if((regexec(&reg, preco, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+                return 1;
+
+            } else {
+
+                return 0;
+
+            }
+
+        }
+
+    }
+
+}
+
+int validaEdicao(char edicao[2]) {
+
+    regex_t reg;
+
+    if(strlen(edicao) > 2) {
+
+        return 0;
+
+    }
+
+    else {
+
+        if(regcomp(&reg, RE_NUMBER, REG_EXTENDED|REG_NOSUB) != 0) {
+
+            return 0;
+
+        } else {
+
+            if((regexec(&reg, edicao, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+                return 1;
+
+            } else {
+
+                return 0;
+
+            }
+
+        }
+
+    }
 
 }
 
