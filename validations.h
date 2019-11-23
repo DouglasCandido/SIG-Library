@@ -5,9 +5,9 @@
 #define RE_ISBN "^[0-9]{3}\\-[0-9]{2}\\-[0-9]{3}\\-[0-9]{4}\\-[0-9]{1}$"
 #define RE_MATR "^[0-9]{12}$"
 #define RE_NUMBER "[0-9*]"
-// #define RE_CPF "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$"
 #define RE_NAME "[A-Z a-z A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð'*]$"
 #define RE_MIX "[A-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð' a-z 0-9*]$"
+// #define RE_CPF "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$"
 
 char maius(char r); // Essa função é responsável por converter letras minúsculas em maiúsculas para casos de validação de entradas.
 int validaEmail(char email[30]); // Essa função é responsável por validar o campo email no cadastro do usuário.
