@@ -169,7 +169,13 @@ void gerenciarEmprestimos (void) {
             emprestimo();
             break;
         case 'B':
-            devolve_livro();
+            break;
+        case 'C':
+            break;
+        case 'D':
+            break;
+        case 'E':
+            break;
 
         }
 
@@ -353,6 +359,7 @@ void menuEditaLivro(void) {
 
 }
 
+/*
 void alteraLogin(void) {
 
     FILE* fp;
@@ -387,7 +394,9 @@ void alteraLogin(void) {
     fclose(fp);
 
 }
+*/
 
+/*
 void alteraSenha(void) {
 
     FILE* fp;
@@ -422,6 +431,7 @@ void alteraSenha(void) {
     fclose(fp);
 
 }
+*/
 
 void editaPessoa(void) {
 
@@ -1759,7 +1769,7 @@ void menuAdmin() {
         printf("\n\n []A - Gerenciar Pessoas\n");
         printf(" []B - Gerenciar Livros\n");
         printf(" []C - Gerenciar Emprestimos\n");
-        printf(" []D - Logs e Relatórios\n");
+        printf(" []D - Logs\n");
         printf(" []S - Sair\n");
 
         printf("\n Escolha uma opção: ");
@@ -1788,10 +1798,16 @@ void menuAdmin() {
                     break;
 
                 case 'D':
-                    excluiPessoa();
                     break;
 
                 case 'E':
+                    break;
+
+                case 'F':
+                    excluiPessoa();
+                    break;
+
+                case 'G':
                     editaPessoa();
                     break;
 
@@ -1819,11 +1835,17 @@ void menuAdmin() {
                     listaLivros();
                     break;
 
-                case 'D':
-                    excluiLivro();
+                case 'D':  
                     break;
 
                 case 'E':
+                    break;
+
+                case 'F':
+                    excluiLivro();
+                    break;
+
+                case 'G':
                     editaLivro();
                     break;
 
@@ -1864,9 +1886,11 @@ void gerenciarPessoas(void) {
     printf("\n =================================");
     printf("\n\n []A - Cadastrar Pessoa\n");
     printf(" []B - Buscar Pessoa\n");
-    printf(" []C - Listar pessoas cadastradas\n");
-    printf(" []D - Excluir pessoas\n");
-    printf(" []E - Editar informações\n");
+    printf(" []C - Listar pessoas cadastradas na ordem normal de cadastro\n");
+    printf(" []D - Listar pessoas cadastradas na ordem inversa de cadastro\n");
+    printf(" []E - Listar pessoas cadastradas na ordem alfabética\n");
+    printf(" []F - Excluir pessoas\n");
+    printf(" []G - Editar informações\n");
     printf(" []S - Sair\n");
 
 }
@@ -1882,9 +1906,11 @@ void gerenciarLivros(void) {
     printf("\n =================================");
     printf("\n\n []A - Cadastrar Livro\n");
     printf(" []B - Buscar Livro\n");
-    printf(" []C - Listar livros cadastrados\n");
-    printf(" []D - Excluir livros\n");
-    printf(" []E - Editar livro\n");
+    printf(" []C - Listar livros cadastrados na ordem normal de cadastro\n");
+    printf(" []D - Listar livros cadastrados na ordem inversa de cadastro\n");
+    printf(" []E - Listar livros cadastrados na ordem alfabética\n");
+    printf(" []F - Excluir livros\n");
+    printf(" []G - Editar livro\n");
     printf(" []S - Sair\n");
 
 }
@@ -1923,11 +1949,9 @@ void menuUser() {
             break;
 
         case 'C':
-            printf("Ainda não implementado.\n");
             break;
 
         case 'D':
-            printf("Ainda não implementado.\n");
             break;
 
         case 'S':
@@ -1953,8 +1977,11 @@ void menuGerenciarEmprestimos(void) {
     printf("\n =================================");
     printf("\n >>>   GERENCIAR EMPRÉSTIMOS   <<<");
     printf("\n =================================");
-    printf("\n []A - Emprestar Livro");
-    printf("\n []B - Devolução de Livro");
+    printf("\n []A - Emprestar livro para um determinado usuário");
+    printf("\n []B - Histórico de todos os empréstimos de livros na ordem normal");
+    printf("\n []C - Histórico de todos os empréstimos de livros na ordem inversa");
+    printf("\n []D - Histórico de todos os empréstimos de livros agrupados por uma determinada data");
+    printf("\n []E - Histórico de todos os empréstimos de livros feitos para um determinado usuário");
     printf("\n []S - Voltar ao Menu do Administrador");
 
 }
@@ -1972,9 +1999,10 @@ void menuLog(){
     printf("\n =================================");
     printf("\n >>>>>>>> MENU RELATÓRIOS <<<<<<<<");
     printf("\n ================================="); 
-    printf("\n []A - Histórico de todos os logins no sistema");
-    printf("\n []B - Histórico de todos os empréstimos");
-    printf("\n []C - Histórico de todos os empréstimos de um usuário");
+    printf("\n []A - Histórico de todos os logins realizados no sistema na ordem normal");
+    printf("\n []B - Histórico de todos os logins realizados no sistema na ordem inversa");
+    printf("\n []C - Histórico de todos os logins realizados no sistema agrupados por uma determinada data");
+    printf("\n []D - Histórico de todos os logins realizados no sistema por um determinado usuário");
     printf("\n []S - Voltar ao Menu do Administrador");
     
     printf("\n Escolha uma opção: ");
@@ -1983,18 +2011,20 @@ void menuLog(){
 
     switch(resp) {
       
-      case 'A':
-      break;
+        case 'A':
+            break;
       
-      case 'B':
-        listaEmprestimos();
-      break;
+        case 'B':
+            break;
         
-      case 'C':
-        break;
+        case 'C':
+            break;
+
+        case 'D':
+            break;
       
-      case 'S':
-        break;
+        case 'S':
+            break;
         
     }
     
