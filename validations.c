@@ -6,7 +6,7 @@
 #include "validations.h"
 #include "telas.h"
 
-int validaMatr(char matricula[13]) {
+int validaMatr(char matricula[12]) {
 
     regex_t reg;
 
@@ -16,7 +16,7 @@ int validaMatr(char matricula[13]) {
 
     }
 
-    if((strlen(matricula)) > 12) {
+    if((strlen(matricula)) > 12 && strlen(matricula) < 12) {
 
         return 0;
 
@@ -86,11 +86,11 @@ int validaEmail(char email[30]) {
 
 }
 
-int validaTelefone(char tel[12]) { //(xx) xxxxx-xxxx
+int validaTelefone(char tel[12]) { 
 
     regex_t reg;
 
-    if((strlen(tel)) > 12) {
+    if((strlen(tel)) > 12 && strlen(tel) < 12) {
 
         return 0;
 
@@ -118,9 +118,9 @@ int validaTelefone(char tel[12]) { //(xx) xxxxx-xxxx
 
 }
 
-int validaCPF(char cpf[12]) { 
+int validaCPF(char cpf[11]) { 
 
-    int cpfTrans[12], soma = 0, dig1, res1, res2, dig2, restante;
+    int cpfTrans[11], soma = 0, dig1, res1, res2, dig2, restante;
 
     if(strlen(cpf) > 11) {
 
@@ -287,7 +287,7 @@ int validaISBN(char isbn[17]) {
 
     regex_t reg;
 
-    if((strlen(isbn)) > 17) {
+    if((strlen(isbn)) > 17 && strlen(isbn) < 17) {
 
         return 0;
 
@@ -407,11 +407,11 @@ int validaData(int dia, int mes, int ano) {
 
 }
 
-int validaPreco(char preco[4]) {
+int validaPreco(char preco[3]) {
 
     regex_t reg;
 
-    if(strlen(preco) > 4) {
+    if(strlen(preco) > 3) {
 
         return 0;
 

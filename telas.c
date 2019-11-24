@@ -21,7 +21,7 @@ struct pes {
     char enderCid[101];
     char enderBair[101];
     char numCasa[51];
-    char cpf[12];
+    char cpf[12]; 
     char tel[13];
     char email[31];
     char login[51];
@@ -40,7 +40,7 @@ struct livro {
     char autor[201];
     char genero[101];
     char editora[101];
-    char edicao[101];
+    char edicao[3];
     char status;
     char matricula[13];
     char preco[4];
@@ -74,8 +74,8 @@ struct emprestimo {
 
 };
 
-int verificaCPF(char procurado[12]);
-int verifica_matricula(char procurado[13]);
+int verificaCPF(char procurado[11]);
+int verifica_matricula(char procurado[12]);
 void gravaEmprestimo(Emprestimo* emprestimo);
 void listaEmprestimos(void);
 void exibeEmprestimo(Emprestimo* emprestimo);
@@ -853,10 +853,10 @@ void editaLivro(void) {
 
                 case 'F':
                     printf(" Informe a nova edição: ");
-                    scanf(" %100[^\n]", livro->edicao);
+                    scanf(" %2[^\n]", livro->edicao);
                     while(validaNome(livro->edicao)==0) {
                         printf(" Insira uma edição válida: ");
-                        scanf(" %100[^\n]", livro->edicao);
+                        scanf(" %2[^\n]", livro->edicao);
                         setbuf(stdin, NULL);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
@@ -1342,10 +1342,10 @@ void cadastroLivro() {
     }
 
     printf("\n Insira a edição: ");
-    scanf(" %99[^\n]", livro->edicao);
+    scanf(" %2[^\n]", livro->edicao);
     while(validaEdicao(livro->edicao) == 0) {
         printf(" Insira um nome válido para a edição: ");
-        scanf(" %99[^\n]", livro->edicao);
+        scanf(" %2[^\n]", livro->edicao);
     }
 
     printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
@@ -2119,7 +2119,7 @@ int starter() {
 
 }
 
-int verificaCPF(char procurado[12]) {
+int verificaCPF(char procurado[11]) {
 
     FILE* fp;
     Pes* cadastro_pess;
@@ -2255,7 +2255,7 @@ void mostraPessoa(Emprestimo* emprestimo) {
 
 }
 
-int verifica_matricula_emprestimo(char procurado[13]) {
+int verifica_matricula_emprestimo(char procurado[12]) {
 
     FILE* fp;
     Livro* livro;
@@ -2421,7 +2421,7 @@ void devolve_livro(void) {
     printf("\n");
 
     printf(" Informe a matricula do livro a ser devolvido: ");
-    scanf(" %100[^\n]", matricula);
+    scanf(" %12[^\n]", matricula);
 
     devolve = (Emprestimo*) malloc(sizeof(Emprestimo));
 
