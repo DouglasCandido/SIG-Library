@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -6,7 +6,7 @@
 #include <errno.h>
 #include "telas.h"
 #include "validations.h"
-#include "esqueleto.h"
+#include "main.h"
 
 typedef struct pes Pes;
 
@@ -17,15 +17,15 @@ struct pes {
     int ano;
     int numero_uf;
     int uf;
-    char* nome;
-    char* enderCid;
-    char* enderBair;
-    char* numCasa;
+    char nome[101];
+    char enderCid[101];
+    char enderBair[101];
+    char numCasa[51];
     char cpf[12];
     char tel[13];
-    char* email;
-    char* login;
-    char* senha;
+    char email[31];
+    char login[51];
+    char senha[51];
     char c;
     char status;
 
@@ -35,12 +35,12 @@ typedef struct livro Livro;
 
 struct livro {
 
-    char* nome;
+    char nome[101];
     char isbn[18];
-    char* autor;
-    char* genero;
-    char* editora;
-    char edicao[3];
+    char autor[201];
+    char genero[101];
+    char editora[101];
+    char edicao[101];
     char status;
     char matricula[13];
     char preco[4];
@@ -51,9 +51,9 @@ typedef struct emprestimo Emprestimo;
 
 struct emprestimo {
 
-    char nome[256];
+    char nome[101];
     char cpf[12];
-    char nomeLiv[256];
+    char nomeLiv[101];
     char isbn[18];
     char matricula[13];
     time_t segundos;
@@ -83,21 +83,6 @@ void mostraPessoa(Emprestimo* emprestimo);
 void mostraLivro(Emprestimo* emprestimo);
 void exibePessoa(Pes* cadastro_pess);
 void exibeLivro(Livro* livro);
-
-// Funções responsáveis por alocar dinamicamente a memória de acordo com o tamanho da string, no processo de entrada de dados.
-static char* duplica(char* s) {
-  int n;
-  n = strlen(s) + 1;
-  char* d = (char*) malloc(n * sizeof(char));
-  strcpy(d, s);
-  return d;
-}
-
-static char* lelinha(void) {
-  char linha[256];
-  scanf(" %255[^\n]", linha);
-  return duplica(linha);
-}
 
 void listaEmprestimos(void) {
 
@@ -368,7 +353,6 @@ void menuEditaLivro(void) {
 
 }
 
-/*
 void alteraLogin(void) {
 
     FILE* fp;
@@ -403,9 +387,7 @@ void alteraLogin(void) {
     fclose(fp);
 
 }
-*/
 
-/*
 void alteraSenha(void) {
 
     FILE* fp;
@@ -440,7 +422,6 @@ void alteraSenha(void) {
     fclose(fp);
 
 }
-*/
 
 void editaPessoa(void) {
 
@@ -451,7 +432,7 @@ void editaPessoa(void) {
     char op2;
     char op;
     char resp;
-    char* procurado;
+    char procurado[101];
 
     fp = fopen("pessoas.dat", "r+b");
 
@@ -474,7 +455,7 @@ void editaPessoa(void) {
     printf("\n >>> EDITAR INFORMAÇÕES PESSOAIS <<<");
     printf("\n ===================================");
     printf("\n\n Informe o nome da pessoa a ser alterada: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -516,10 +497,10 @@ void editaPessoa(void) {
 
                 case 'A':
                     printf("\n Informe o novo nome: ");
-                    cadastro_pess->nome = lelinha();
+                    scanf(" %100[^\n]", cadastro_pess->nome);
                     while(validaNome(cadastro_pess->nome) == 0) {
                         printf(" Insira um nome válido: ");
-                        cadastro_pess->nome = lelinha();
+                        scanf(" %100[^\n]", cadastro_pess->nome);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -530,7 +511,7 @@ void editaPessoa(void) {
                     break;
 
                 case 'B':
-                    printf(" Informe o novo número de telefone: ");
+                    printf(" Informe o novo númerode telefone telefone: ");
                     scanf(" %12[^\n]", cadastro_pess->tel);
                     while(validaTelefone(cadastro_pess->tel)==0) {
                         printf(" Insira um número de telefone válido no formato xx-xxxxxxxxx: ");
@@ -546,11 +527,11 @@ void editaPessoa(void) {
 
                 case 'C':
                     printf(" Informe o novo email: ");
-                    cadastro_pess->email = lelinha();
+                    scanf(" %100[^\n]", cadastro_pess->email);
 
                     while(validaEmail(cadastro_pess->email)==0) {
                         printf(" Insira um email válido: ");
-                        cadastro_pess->email = lelinha();
+                        scanf(" %100[^\n]", cadastro_pess->email);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -562,11 +543,11 @@ void editaPessoa(void) {
 
                 case 'D':
                     printf(" Informe o novo login: ");
-                    cadastro_pess->login = lelinha();
+                    scanf(" %50[^\n]", cadastro_pess->login);
 
                     while(validaNome(cadastro_pess->login)==0) {
                         printf(" Insira um login válido: ");
-                        cadastro_pess->login = lelinha();
+                        scanf(" %50[^\n]", cadastro_pess->login);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -578,11 +559,11 @@ void editaPessoa(void) {
 
                 case 'E':
                     printf(" Informe a nova senha: ");
-                    cadastro_pess->senha = lelinha();
+                    scanf(" %50[^\n]", cadastro_pess->senha);
 
                     while(validaNome(cadastro_pess->senha)==0) {
                         printf(" Insira uma senha válida: ");
-                        cadastro_pess->senha = lelinha();
+                        scanf(" %50[^\n]", cadastro_pess->senha);
                     }
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -602,10 +583,10 @@ void editaPessoa(void) {
                         switch(op2) {
                         case 'A':
                             printf("\n Insira sua cidade: ");
-                            cadastro_pess->enderCid = lelinha();
+                            scanf(" %100[^\n]", cadastro_pess->enderCid);
                             while(validaNome(cadastro_pess->enderCid) == 0) {
                                 printf(" Insira um nome válido para a cidade: ");
-                                cadastro_pess->enderCid = lelinha();
+                                scanf(" %100[^\n]", cadastro_pess->enderCid);
                             }
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -616,10 +597,10 @@ void editaPessoa(void) {
 
                         case 'B':
                             printf("\n Insira seu bairro: ");
-                            cadastro_pess->enderBair = lelinha();
+                            scanf(" %100[^\n]", cadastro_pess->enderBair);
                             while(validaNome(cadastro_pess->enderBair) == 0) {
                                 printf(" Insira um nome válido para o bairro: ");
-                                cadastro_pess->enderBair = lelinha();
+                                scanf(" %100[^\n]", cadastro_pess->enderBair);
                             }
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -645,10 +626,10 @@ void editaPessoa(void) {
 
                         case 'D':
                             printf("\n Insira o número da sua casa: ");
-                            cadastro_pess->numCasa = lelinha();
+                            scanf(" %100[^\n]", cadastro_pess->numCasa);
                             while(validaLetrasNumeros(cadastro_pess->numCasa)==0) {
                                 printf(" Insira um número válido da sua casa: ");
-                                cadastro_pess->numCasa = lelinha();
+                                scanf(" %100[^\n]", cadastro_pess->numCasa);
                             }
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
@@ -723,7 +704,7 @@ void editaLivro(void) {
     char a;
     char op;
     char resp;
-    char* procurado;
+    char procurado[101];
 
     fp = fopen("livros.dat", "r+b");
 
@@ -746,7 +727,7 @@ void editaLivro(void) {
     printf("\n >>> EDITAR INFORMAÇÕES DOS LIVROS <<<");
     printf("\n =====================================");
     printf("\n\n Informe o nome do livro a ser alterado: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     livro = (Livro*) malloc(sizeof(Livro));
 
@@ -786,10 +767,10 @@ void editaLivro(void) {
 
                 case 'A':
                     printf("\n Informe o novo nome: ");
-                    livro->nome = lelinha();
+                    scanf(" %100[^\n]", livro->nome);
                     while(validaNome(livro->nome) == 0) {
                         printf(" Insira um nome válido: ");
-                        livro->nome = lelinha();
+                        scanf(" %100[^\n]", livro->nome);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
@@ -816,10 +797,10 @@ void editaLivro(void) {
 
                 case 'C':
                     printf(" Informe o novo autor: ");
-                    livro->autor = lelinha();
+                    scanf(" %200[^\n]", livro->autor);
                     while(validaNome(livro->autor)==0) {
                         printf(" Insira um autor válido: ");
-                        livro->autor = lelinha();
+                        scanf(" %200[^\n]", livro->autor);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
@@ -831,11 +812,11 @@ void editaLivro(void) {
 
                 case 'D':
                     printf(" Informe o novo gênero: ");
-                    livro->genero = lelinha();
+                    scanf(" %100[^\n]", livro->genero);
 
                     while(validaNome(livro->genero)==0) {
                         printf(" Insira um gênero válido: ");
-                        livro->genero = lelinha();
+                        scanf(" %100[^\n]", livro->genero);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
@@ -847,10 +828,10 @@ void editaLivro(void) {
 
                 case 'E':
                     printf(" Informe a nova editora: ");
-                    livro->editora = lelinha();
+                    scanf(" %100[^\n]", livro->editora);
                     while(validaNome(livro->editora)==0) {
                         printf(" Insira uma editora válida: ");
-                        livro->editora = lelinha();
+                        scanf(" %100[^\n]", livro->editora);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
@@ -862,10 +843,10 @@ void editaLivro(void) {
 
                 case 'F':
                     printf(" Informe a nova edição: ");
-                    scanf(" %2[^\n]", livro->edicao);
+                    scanf(" %100[^\n]", livro->edicao);
                     while(validaNome(livro->edicao)==0) {
                         printf(" Insira uma edição válida: ");
-                        scanf(" %2[^\n]", livro->edicao);
+                        scanf(" %100[^\n]", livro->edicao);
                         setbuf(stdin, NULL);
                     }
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
@@ -1184,10 +1165,10 @@ void cadastroPessoa() {
         }
 
         printf("\n Insira o nome: ");
-        cadastro_pess->nome = lelinha();
+        scanf(" %100[^\n]", cadastro_pess->nome);
         while(validaNome(cadastro_pess->nome) == 0) {
             printf(" Insira um nome válido: ");
-            cadastro_pess->nome = lelinha();
+            scanf(" %100[^\n]", cadastro_pess->nome);
         }
 
         do {
@@ -1215,24 +1196,24 @@ void cadastroPessoa() {
         cadastro_pess->numero_uf = cadastro_pess->numero_uf - 1; // Para acessar o índice correto da matriz é necessário diminuir 1 do número correspondente a letra escolhida pelo usuário.
 
         printf("\n Insira a cidade: ");
-        cadastro_pess->enderCid = lelinha();
+        scanf(" %100[^\n]", cadastro_pess->enderCid);
         while(validaNome(cadastro_pess->enderCid) == 0) {
             printf(" Insira um nome válido para a cidade: ");
-            cadastro_pess->enderCid = lelinha();
+            scanf(" %100[^\n]", cadastro_pess->enderCid);
         }
 
         printf("\n Insira o bairro: ");
-        cadastro_pess->enderBair = lelinha();
+        scanf(" %100[^\n]", cadastro_pess->enderBair);
         while(validaNome(cadastro_pess->enderBair) == 0) {
             printf(" Insira um nome válido para o bairro: ");
-            cadastro_pess->enderBair = lelinha();
+            scanf(" %100[^\n]", cadastro_pess->enderBair);
         }
 
         printf("\n Insira o número da casa: ");
-        cadastro_pess->numCasa = lelinha();
+        scanf(" %100[^\n]", cadastro_pess->numCasa);
         while(validaLetrasNumeros(cadastro_pess->numCasa)==0) {
             printf(" Insira o número válido da casa: ");
-            cadastro_pess->numCasa = lelinha();
+            scanf(" %100[^\n]", cadastro_pess->numCasa);
         }
 
         printf("\n Insira o número de telefone para contato no formato xx-xxxxxxxxx: "); 
@@ -1243,24 +1224,24 @@ void cadastroPessoa() {
         }
 
         printf("\n Insira o email: ");
-        cadastro_pess->email = lelinha();
+        scanf(" %100[^\n]", cadastro_pess->email);
         while(validaEmail(cadastro_pess->email)==0) {
             printf(" Insira um email válido: ");
-            cadastro_pess->email = lelinha();
+            scanf(" %100[^\n]", cadastro_pess->email);
         }
 
         printf("\n Insira o login: ");
-        cadastro_pess->login = lelinha();
+        scanf(" %50[^\n]", cadastro_pess->login);
         while(validaLetrasNumeros(cadastro_pess->login)==0) {
             printf(" Insira um login válido: ");
-            cadastro_pess->login = lelinha();
+            scanf(" %50[^\n]", cadastro_pess->login);
         }
 
         printf("\n Insira a senha: ");
-        cadastro_pess->senha = lelinha();
+        scanf(" %50[^\n]", cadastro_pess->senha);
         while(validaLetrasNumeros(cadastro_pess->senha)==0) {
             printf(" Insira uma senha válida: ");
-            cadastro_pess->senha = lelinha();
+            scanf(" %50[^\n]", cadastro_pess->senha);
         }
 
         gravaPessoa(cadastro_pess);
@@ -1316,10 +1297,10 @@ void cadastroLivro() {
     }
 
     printf("\n Insira o nome: ");
-    livro->nome = lelinha();
+    scanf(" %100[^\n]", livro->nome);
     while(validaNome(livro->nome) == 0) {
         printf(" Insira um nome válido: ");
-        livro->nome = lelinha();
+        scanf(" %100[^\n]", livro->nome);
     }
 
     printf("\n Insira o ISBN [xxx-xx-xxx-xxxx-x]: ");
@@ -1330,31 +1311,31 @@ void cadastroLivro() {
     }
 
     printf("\n Insira o autor: ");
-    livro->autor = lelinha();
+    scanf(" %199[^\n]", livro->autor);
     while(validaNome(livro->autor) == 0) {
         printf(" Insira um nome válido para o autor: ");
-        livro->autor = lelinha();
+        scanf(" %199[^\n]", livro->autor);
     }
 
     printf("\n Insira o gênero: ");
-    livro->genero = lelinha();
+    scanf(" %99[^\n]", livro->genero);
     while(validaNome(livro->genero) == 0) {
         printf(" Insira um nome válido para o gênero: ");
-        livro->genero = lelinha();
+        scanf(" %99[^\n]", livro->genero);
     }
 
     printf("\n Insira a editora: ");
-    livro->editora = lelinha();
+    scanf(" %99[^\n]", livro->editora);
     while(validaNome(livro->editora) == 0) {
         printf(" Insira um nome válido para a editora: ");
-        livro->editora = lelinha();
+        scanf(" %99[^\n]", livro->editora);
     }
 
     printf("\n Insira a edição: ");
-    scanf(" %2[^\n]", livro->edicao);
+    scanf(" %99[^\n]", livro->edicao);
     while(validaEdicao(livro->edicao) == 0) {
         printf(" Insira um nome válido para a edição: ");
-        scanf(" %2[^\n]", livro->edicao);
+        scanf(" %99[^\n]", livro->edicao);
     }
 
     printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
@@ -1395,7 +1376,7 @@ void buscaPessoa(void) {
     FILE* fp;
     Pes* cadastro_pess;
     int achou;
-    char* procurado;
+    char procurado[100];
     char resp;
 
     fp = fopen("pessoas.dat", "rb");
@@ -1419,7 +1400,7 @@ void buscaPessoa(void) {
     printf("\n");
 
     printf(" Informe o nome da pessoa a ser buscada: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -1459,7 +1440,7 @@ void buscaLivro(void) {
     FILE* fp;
     Livro* livro;
     int achou;
-    char* procurado;
+    char procurado[100];
     char resp;
 
     fp = fopen("livros.dat", "rb");
@@ -1483,7 +1464,7 @@ void buscaLivro(void) {
     printf("\n");
 
     printf(" Informe o nome do livro a ser buscado: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     livro = (Livro*) malloc(sizeof(Livro));
 
@@ -1524,7 +1505,7 @@ void excluiPessoa(void) {
     Pes* cadastro_pess;
     int achou;
     char resp;
-    char* procurado;
+    char procurado[100];
 
     fp = fopen("pessoas.dat", "r+b");
 
@@ -1547,7 +1528,7 @@ void excluiPessoa(void) {
     printf("\n");
 
     printf(" Informe o nome da pessoa a ser removida: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
 
@@ -1603,7 +1584,7 @@ void excluiLivro(void) {
     Livro* livro;
     int achou;
     char resp;
-    char* procurado;
+    char procurado[100];
 
     fp = fopen("livros.dat", "r+b");
 
@@ -1626,7 +1607,7 @@ void excluiLivro(void) {
     printf("\n");
 
     printf(" Informe o nome do livro a ser removido: ");
-    procurado = lelinha();
+    scanf(" %100[^\n]", procurado);
 
     livro = (Livro*) malloc(sizeof(Livro));
 
