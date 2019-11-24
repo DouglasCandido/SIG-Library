@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -20,7 +20,7 @@ struct pes {
     char nome[101];
     char enderCid[101];
     char enderBair[101];
-    char numCasa[51];
+    char numCasa[16];
     char cpf[12];
     char tel[13];
     char email[31];
@@ -28,6 +28,30 @@ struct pes {
     char senha[51];
     char c;
     char status;
+
+};
+
+typedef struct noPes NoPes;
+
+struct noPes {
+
+    int dia;
+    int mes;
+    int ano;
+    int numero_uf;
+    int uf;
+    char nome[101];
+    char enderCid[101];
+    char enderBair[101];
+    char numCasa[16];
+    char cpf[12];
+    char tel[13];
+    char email[31];
+    char login[51];
+    char senha[51];
+    char c;
+    char status;
+    NoPes* prox;
 
 };
 
@@ -73,7 +97,10 @@ struct emprestimo {
     int segundo_entrega;
 
 };
-
+void exibeLista(NoPes* lista);
+NoPes* listaOrdenadaPessoas(void);
+NoPes* listaDiretaPessoas(void);
+NoPes* listaInvertidaPessoas(void);
 int verificaCPF(char procurado[12]);
 int verifica_matricula(char procurado[13]);
 void gravaEmprestimo(Emprestimo* emprestimo);
@@ -83,6 +110,290 @@ void mostraPessoa(Emprestimo* emprestimo);
 void mostraLivro(Emprestimo* emprestimo);
 void exibePessoa(Pes* cadastro_pess);
 void exibeLivro(Livro* livro);
+
+
+NoPes* listaOrdenadaPessoas(void) {
+  FILE* fp;
+  Pes* pessoa;
+  NoPes* noPes;
+  NoPes* lista;
+
+  lista = NULL;
+  fp = fopen("pessoas.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  pessoa = (Pes*) malloc(sizeof(Pes));
+  while(fread(pessoa, sizeof(Pes), 1, fp)) {
+    if (pessoa->status == '1') {
+      noPes = (NoPes*) malloc(sizeof(NoPes));
+      strcpy(noPes->cpf, pessoa->cpf);
+      strcpy(noPes->nome, pessoa->nome);
+      strcpy(noPes->enderCid, pessoa->enderCid);
+      strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->numCasa, pessoa->numCasa);
+      strcpy(noPes->tel, pessoa->tel);
+      strcpy(noPes->email, pessoa->email);
+      strcpy(noPes->login, pessoa->login);
+      strcpy(noPes->senha, pessoa->senha);
+      noPes->dia = pessoa->dia;
+      noPes->mes = pessoa->mes;
+      noPes->ano = pessoa->ano;
+      noPes->numero_uf = pessoa->numero_uf;
+      noPes->uf = pessoa->uf;
+      noPes->c = pessoa->c;
+      noPes->status = pessoa->status;
+
+      if (lista == NULL) {
+        lista = noPes;
+        noPes->prox = NULL;
+      } else if (strcmp(noPes->nome,lista->nome) < 0) {
+        noPes->prox = lista;
+        lista = noPes;
+      } else {
+        NoPes* anter = lista;
+        NoPes* atual = lista->prox;
+        while ((atual != NULL) && strcmp(atual->nome,noPes->nome) < 0) {
+          anter = atual;
+          atual = atual->prox;
+        }
+        anter->prox = noPes;
+        noPes->prox = atual;
+      }
+    }
+  }
+  fclose(fp);
+  free(pessoa);
+  return lista;
+}
+
+
+
+
+NoPes* listaInvertidaPessoas(void) {
+  FILE* fp;
+  Pes* pessoa;
+  NoPes* noPes;
+  NoPes* lista;
+
+  lista = NULL;
+  fp = fopen("pessoas.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  pessoa = (Pes*) malloc(sizeof(Pes));
+  while(fread(pessoa, sizeof(Pes), 1, fp)) {
+    if (pessoa->status == '1') {
+
+      noPes = (NoPes*) malloc(sizeof(NoPes));
+   
+      strcpy(noPes->cpf, pessoa->cpf);
+      strcpy(noPes->nome, pessoa->nome);
+      strcpy(noPes->enderCid, pessoa->enderCid);
+      strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->numCasa, pessoa->numCasa);
+      strcpy(noPes->tel, pessoa->tel);
+      strcpy(noPes->email, pessoa->email);
+      strcpy(noPes->login, pessoa->login);
+      strcpy(noPes->senha, pessoa->senha);
+      noPes->dia = pessoa->dia;
+      noPes->mes = pessoa->mes;
+      noPes->ano = pessoa->ano;
+      noPes->numero_uf = pessoa->numero_uf;
+      noPes->uf = pessoa->uf;
+      noPes->c = pessoa->c;
+      noPes->status = pessoa->status;
+
+      noPes->prox = lista;
+      lista = noPes;
+    }
+  }
+  fclose(fp);
+  free(pessoa);
+  return lista;
+}
+
+NoPes* listaDiretaPessoas(void) {
+  FILE* fp;
+  Pes* pessoa;
+  NoPes* noPes;
+  NoPes* lista;
+  NoPes* ultimo;
+
+  lista = NULL;
+
+  fp = fopen("pessoas.dat", "rb");
+  
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  pessoa = (Pes*) malloc(sizeof(Pes));
+  while(fread(pessoa, sizeof(Pes), 1, fp)) {
+    if (pessoa->status == '1') {
+
+      noPes = (NoPes*) malloc(sizeof(NoPes));
+
+      strcpy(noPes->cpf, pessoa->cpf);
+      strcpy(noPes->nome, pessoa->nome);
+      strcpy(noPes->enderCid, pessoa->enderCid);
+      strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->numCasa, pessoa->numCasa);
+      strcpy(noPes->tel, pessoa->tel);
+      strcpy(noPes->email, pessoa->email);
+      strcpy(noPes->login, pessoa->login);
+      strcpy(noPes->senha, pessoa->senha);
+      noPes->dia = pessoa->dia;
+      noPes->mes = pessoa->mes;
+      noPes->ano = pessoa->ano;
+      noPes->numero_uf = pessoa->numero_uf;
+      noPes->uf = pessoa->uf;
+      noPes->c = pessoa->c;
+      noPes->status = pessoa->status;
+
+      noPes->prox = NULL;
+
+      if (lista == NULL) {
+        lista = noPes;
+      } else {
+        ultimo->prox = noPes;
+      }
+      ultimo = noPes;
+    }
+  }
+  fclose(fp);
+  free(pessoa);
+  return lista;
+}
+
+void exibeLista(NoPes* lista) {
+    int dia = lista->dia;
+    int mes = lista->mes;
+    int ano = lista->ano;
+    int numero_uf = lista->uf;
+  printf("\n\n");
+
+
+    printf("\n");
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>        LISTA PESSOAS      <<<");
+    printf("\n =================================\n");
+
+  while (lista != NULL) {
+
+    printf("\n\n Nome: %s \n", lista->nome);
+    printf(" CPF: %c%c%c.%c%c%c.%c%c%c-%c%c \n", lista->cpf[0], lista->cpf[1], lista->cpf[2], lista->cpf[3], lista->cpf[4], lista->cpf[5], lista->cpf[6], lista->cpf[7], lista->cpf[8], lista->cpf[9], lista->cpf[10]);
+
+    printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
+
+    printf(" Email: %s \n", lista->email);
+    printf(" Login: %s \n", lista->login);
+    printf(" Senha: %s \n", lista->senha);
+    printf(" Telefone: %s \n", lista->tel);
+
+    if(numero_uf == 1) {
+        char nome_uf[] = "Acre";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 2) {
+        char nome_uf[] = "Alagoas";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 3) {
+        char nome_uf[] = "Amapá";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 4) {
+        char nome_uf[] = "Amazonas";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 5) {
+        char nome_uf[] = "Bahia";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 6) {
+        char nome_uf[] = "Ceará";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 7) {
+        char nome_uf[] = "Distrito Federal";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 8) {
+        char nome_uf[] = "Espírito Santo";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 9) {
+        char nome_uf[] = "Goiás";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 10) {
+        char nome_uf[] = "Maranhão";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 11) {
+        char nome_uf[] = "Mato Grosso";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 12) {
+        char nome_uf[] = "Mato Grosso do Sul";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 13) {
+        char nome_uf[] = "Minas Gerais";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 14) {
+        char nome_uf[] = "Pará";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 15) {
+        char nome_uf[] = "Paraíba";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 16) {
+        char nome_uf[] = "Paraná";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 17) {
+        char nome_uf[] = "Pernambuco";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 18) {
+        char nome_uf[] = "Piauí";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 19) {
+        char nome_uf[] = "Rio de Janeiro";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 20) {
+        char nome_uf[] = "Rio Grande do Norte";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 21) {
+        char nome_uf[] = "Rio Grande do Sul";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 22) {
+        char nome_uf[] = "Rondônia";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 23) {
+        char nome_uf[] = "Roraima";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 24) {
+        char nome_uf[] = "Santa Catarina";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 25) {
+        char nome_uf[] = "São Paulo";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 26) {
+        char nome_uf[] = "Sergipe";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 27) {
+        char nome_uf[] = "Tocantins";
+        printf(" Estado: %s \n", nome_uf);
+    }
+
+    printf(" Cidade: %s \n", lista->enderCid);
+    printf(" Bairro: %s \n", lista->enderBair);
+    printf(" Numero da casa: %s \n", lista->numCasa);
+    printf("\n");
+
+    lista = lista->prox;
+  }
+}
+
+
 
 void listaEmprestimos(void) {
 
@@ -1757,6 +2068,7 @@ void menuAdmin() {
     char resp;
     char op;
     char op2;
+    NoPes* lista;
 
     do {
         system("clear");
@@ -1794,13 +2106,25 @@ void menuAdmin() {
                     break;
 
                 case 'C':
-                    listaPessoas();
+                    lista = listaDiretaPessoas();
+                    exibeLista(lista);
+                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                    scanf(" %c", &op);
                     break;
 
                 case 'D':
+                    lista = listaInvertidaPessoas();
+                    exibeLista(lista);
+                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                    scanf(" %c", &op);
+
                     break;
 
                 case 'E':
+                    lista = listaOrdenadaPessoas();
+                    exibeLista(lista);
+                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                    scanf(" %c", &op);
                     break;
 
                 case 'F':
