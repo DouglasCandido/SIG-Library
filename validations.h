@@ -11,17 +11,17 @@
 
 char maius(char r); // Essa função é responsável por converter letras minúsculas em maiúsculas para casos de validação de entradas.
 int validaEmail(char email[30]); // Essa função é responsável por validar o campo email no cadastro do usuário.
-int validaTelefone(char tel[15]); // Essa função é responsável por validar o campo telefone no cadastro do usuário.
-int verificaCPF(char procurado[12]); // Essa função é responsável por verificar se o CPF já está cadastrado no arquivo.
-int validaCPF(char cpf[12]); // Essa função é responsável por validar o campo CPF no cadastro do usuário.
+int validaTelefone(char tel[12]); // Essa função é responsável por validar o campo telefone no cadastro do usuário.
+int verificaCPF(char procurado[11]); // Essa função é responsável por verificar se o CPF já está cadastrado no arquivo.
+int validaCPF(char cpf[11]); // Essa função é responsável por validar o campo CPF no cadastro do usuário.
 int validaNome(char nome[100]); // Essa função é responsável por validar o campo nome em ambos os cadastros.
 int validaISBN(char isbn[17]); // Essa função é responsável por validar o campo ISBN no cadastro do livro.
 int validaLetrasNumeros(char string[100]); // Essa função é responsável por validar o campo editora no cadastro do livro.
-int validaPreco(char preco[4]); // Essa função é responsável por validar o campo preço no cadastro do livro.
+int validaPreco(char preco[3]); // Essa função é responsável por validar o campo preço no cadastro do livro.
 int validaEdicao(char edicao[2]); // Essa função é responsável por validar o campo edição no cadastro do livro.
 int bissexto(int ano); // Essa função é responsável por validar se o ano é ou não é bissexto.
 int validaData(int dia, int mes, int ano); // Essa função é responsável por validar a data inserida no cadastro.
-int validaMatr(char matricula[13]); // Essa função é responsável por validar a matrícula no cadastro do livro.
+int validaMatr(char matricula[12]); // Essa função é responsável por validar a matrícula no cadastro do livro.
 int clean_stdin(void); // Essa função é utilizada para fins de controle do buffer de entrada de dados do teclado.
 
 
