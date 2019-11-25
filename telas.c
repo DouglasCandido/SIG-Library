@@ -110,6 +110,34 @@ struct emprestimo {
 
 };
 
+typedef struct noEmprestimo NoEmprestimo;
+
+struct noEmprestimo {
+
+    char nome[101];
+    char cpf[12];
+    char nomeLiv[101];
+    char isbn[18];
+    char matricula[13];
+    time_t segundos;
+    time_t segundos2;
+    char status;
+    int dia;
+    int mes;
+    int ano;
+    int hora;
+    int minuto;
+    int segundo;
+    int dia_entrega;
+    int mes_entrega;
+    int ano_entrega;
+    int hora_entrega;
+    int minuto_entrega;
+    int segundo_entrega;
+    NoEmprestimo* prox;
+
+};
+
 NoPes* listaOrdenadaPessoas(void);
 NoPes* listaDiretaPessoas(void);
 NoPes* listaInvertidaPessoas(void);
@@ -118,6 +146,10 @@ NoLivro* listaDiretaLivros(void);
 NoLivro* listaInvertidaLivros(void);
 NoLivro* listaOrdenadaLivros(void);
 void exibeListaLivros(NoLivro*);
+NoEmprestimo* listaDiretaEmprestimo(void);
+NoEmprestimo* listaInvertidaEmprestimo(void);
+NoEmprestimo* listaOrdenadaEmprestimo(void);
+void exibeListaEmprestimo(NoEmprestimo*);
 int verificaCPF(char procurado[11]);
 int verifica_matricula(char procurado[12]);
 void gravaEmprestimo(Emprestimo* emprestimo);
@@ -209,6 +241,9 @@ void gerenciarEmprestimos (void) {
 
     char op;
     char op2;
+    char op3;
+
+    NoEmprestimo* lista;
 
     do {
 
@@ -242,12 +277,25 @@ void gerenciarEmprestimos (void) {
 
                     switch(op2){
                         case 'A':
+                            lista = listaDiretaEmprestimo();
+                            exibeListaEmprestimo(lista);
+                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                            scanf(" %c", &op3);
                             break;
 
                         case 'B':
+                            lista = listaInvertidaEmprestimo();
+                            exibeListaEmprestimo(lista);
+                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                            scanf(" %c", &op3);
+
                             break;
 
                         case 'C':
+                            lista = listaOrdenadaEmprestimo();
+                            exibeListaEmprestimo(lista);
+                            getchar();
+                            getchar();
                             break;
 
                         case 'D':
@@ -1929,9 +1977,10 @@ void menuListaEmprestimos(void) {
     printf("\n =================================");
     printf("\n\n []A - Histórico de todos os empréstimos de livros");
     printf("\n []B - Histórico de empréstimos de livros na ordem inversa");
-    printf("\n []C - Histórico de empréstimos de livros agrupados por data");
-    printf("\n []D - Histórico de empréstimos de livros feitos por um usuário");
-    printf("\n []E - Histórico de empréstimos de livros em ordem alfabética");
+    printf("\n []C - Histórico de empréstimos de livros em ordem alfabética");
+    printf("\n []D - Histórico de empréstimos de livros agrupados por data");
+    printf("\n []E - Histórico de empréstimos de livros feitos por um usuário");
+    
     printf("\n []S - Voltar ao Menu do Administrador");
 
 }
@@ -3656,4 +3705,211 @@ void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade) {
 
   free(livros_encontrados);
 
+}
+
+NoEmprestimo* listaDiretaEmprestimo(void) {
+  
+  FILE* fp;
+  Emprestimo* emprestimo;
+  NoEmprestimo* noEmprestimo;
+  NoEmprestimo* lista;
+  NoEmprestimo* ultimo;
+
+  lista = NULL;
+
+  fp = fopen("emprestimos.dat", "rb");
+  
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  emprestimo = (Emprestimo*) malloc(sizeof(Emprestimo));
+  while(fread(emprestimo, sizeof(Emprestimo), 1, fp)) {
+    if (emprestimo->status == '1') {
+
+      noEmprestimo = (NoEmprestimo*) malloc(sizeof(NoEmprestimo));
+
+      strcpy(noEmprestimo->nome, emprestimo->nome);
+      strcpy(noEmprestimo->cpf, emprestimo->cpf);
+      strcpy(noEmprestimo->nomeLiv, emprestimo->nomeLiv);
+      strcpy(noEmprestimo->isbn, emprestimo->isbn);
+      strcpy(noEmprestimo->matricula, emprestimo->matricula);
+      noEmprestimo->segundos = emprestimo->segundos;
+      noEmprestimo->segundos2 = emprestimo->segundos2;
+      noEmprestimo->status = emprestimo->status;
+      noEmprestimo->dia = emprestimo->dia;
+      noEmprestimo->mes = emprestimo->mes;
+      noEmprestimo->ano = emprestimo->ano;
+      noEmprestimo->hora = emprestimo->hora;
+      noEmprestimo->minuto = emprestimo->minuto;
+      noEmprestimo->segundo = emprestimo->segundo;
+      noEmprestimo->dia_entrega = emprestimo->dia_entrega;
+      noEmprestimo->mes_entrega = emprestimo->mes_entrega;
+      noEmprestimo->ano_entrega = emprestimo->ano_entrega;
+      noEmprestimo->hora_entrega = emprestimo->hora_entrega;
+      noEmprestimo->minuto_entrega = emprestimo->minuto_entrega;
+      noEmprestimo->segundo_entrega = emprestimo->segundo_entrega;
+     
+
+      noEmprestimo->prox = NULL;
+
+      if (lista == NULL) {
+        lista = noEmprestimo;
+      } else {
+        ultimo->prox = noEmprestimo;
+      }
+      ultimo = noEmprestimo;
+    }
+  }
+  fclose(fp);
+  free(emprestimo);
+  return lista;
+}
+
+NoEmprestimo* listaInvertidaEmprestimo(void) {
+
+  FILE* fp;
+  Emprestimo* emprestimo;
+  NoEmprestimo* noEmprestimo;
+  NoEmprestimo* lista;
+
+  lista = NULL;
+  fp = fopen("emprestimos.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  emprestimo = (Emprestimo*) malloc(sizeof(Emprestimo));
+  while(fread(emprestimo, sizeof(Emprestimo), 1, fp)) {
+    if (emprestimo->status == '1') {
+
+      noEmprestimo = (NoEmprestimo*) malloc(sizeof(NoEmprestimo));
+
+       strcpy(noEmprestimo->nome, emprestimo->nome);
+      strcpy(noEmprestimo->cpf, emprestimo->cpf);
+      strcpy(noEmprestimo->nomeLiv, emprestimo->nomeLiv);
+      strcpy(noEmprestimo->isbn, emprestimo->isbn);
+      strcpy(noEmprestimo->matricula, emprestimo->matricula);
+      noEmprestimo->segundos = emprestimo->segundos;
+      noEmprestimo->segundos2 = emprestimo->segundos2;
+      noEmprestimo->status = emprestimo->status;
+      noEmprestimo->dia = emprestimo->dia;
+      noEmprestimo->mes = emprestimo->mes;
+      noEmprestimo->ano = emprestimo->ano;
+      noEmprestimo->hora = emprestimo->hora;
+      noEmprestimo->minuto = emprestimo->minuto;
+      noEmprestimo->segundo = emprestimo->segundo;
+      noEmprestimo->dia_entrega = emprestimo->dia_entrega;
+      noEmprestimo->mes_entrega = emprestimo->mes_entrega;
+      noEmprestimo->ano_entrega = emprestimo->ano_entrega;
+      noEmprestimo->hora_entrega = emprestimo->hora_entrega;
+      noEmprestimo->minuto_entrega = emprestimo->minuto_entrega;
+      noEmprestimo->segundo_entrega = emprestimo->segundo_entrega;
+
+      noEmprestimo->prox = lista;
+      lista = noEmprestimo;
+    }
+  }
+  fclose(fp);
+  free(emprestimo);
+  return lista;
+}
+
+NoEmprestimo* listaOrdenadaEmprestimo(void) {
+
+  FILE* fp;
+  Emprestimo* emprestimo;
+  NoEmprestimo* noEmprestimo;
+  NoEmprestimo* lista;
+
+  lista = NULL;
+  fp = fopen("emprestimos.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+
+  emprestimo = (Emprestimo*) malloc(sizeof(Emprestimo));
+  while(fread(emprestimo, sizeof(Emprestimo), 1, fp)) {
+    if (emprestimo->status == '1') {
+      noEmprestimo = (NoEmprestimo*) malloc(sizeof(NoEmprestimo));
+      
+      strcpy(noEmprestimo->nome, emprestimo->nome);
+      strcpy(noEmprestimo->cpf, emprestimo->cpf);
+      strcpy(noEmprestimo->nomeLiv, emprestimo->nomeLiv);
+      strcpy(noEmprestimo->isbn, emprestimo->isbn);
+      strcpy(noEmprestimo->matricula, emprestimo->matricula);
+      noEmprestimo->segundos = emprestimo->segundos;
+      noEmprestimo->segundos2 = emprestimo->segundos2;
+      noEmprestimo->status = emprestimo->status;
+      noEmprestimo->dia = emprestimo->dia;
+      noEmprestimo->mes = emprestimo->mes;
+      noEmprestimo->ano = emprestimo->ano;
+      noEmprestimo->hora = emprestimo->hora;
+      noEmprestimo->minuto = emprestimo->minuto;
+      noEmprestimo->segundo = emprestimo->segundo;
+      noEmprestimo->dia_entrega = emprestimo->dia_entrega;
+      noEmprestimo->mes_entrega = emprestimo->mes_entrega;
+      noEmprestimo->ano_entrega = emprestimo->ano_entrega;
+      noEmprestimo->hora_entrega = emprestimo->hora_entrega;
+      noEmprestimo->minuto_entrega = emprestimo->minuto_entrega;
+      noEmprestimo->segundo_entrega = emprestimo->segundo_entrega;
+
+      if (lista == NULL) {
+        lista = noEmprestimo;
+        noEmprestimo->prox = NULL;
+      } else if (strcmp(noEmprestimo->nome,lista->nome) < 0) {
+        noEmprestimo->prox = lista;
+        lista = noEmprestimo;
+      } else {
+        NoEmprestimo* anter = lista;
+        NoEmprestimo* atual = lista->prox;
+        while ((atual != NULL) && strcmp(atual->nome,noEmprestimo->nome) < 0) {
+          anter = atual;
+          atual = atual->prox;
+        }
+        anter->prox = noEmprestimo;
+        noEmprestimo->prox = atual;
+      }
+    }
+  }
+  fclose(fp);
+  free(emprestimo);
+  return lista;
+}
+
+void exibeListaEmprestimo(NoEmprestimo* lista) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>  EMPRÉSTIMOS REALIZADOS   <<<");
+    printf("\n ================================= \n");
+
+  while (lista != NULL) {
+
+    printf("\n Nome do leitor: %s \n", lista->nome);
+    printf(" CPF do leitor: %s \n", lista->cpf);
+    printf(" Nome do livro: %s \n", lista->nomeLiv);
+    printf(" ISBN do livro: %s \n", lista->isbn);
+    printf(" Matrícula do livro: %s \n", lista->matricula);
+    printf(" Data de realização do empréstimo do livro: %d/", lista->dia);
+    printf("%d/", lista->mes);
+    printf("%d", lista->ano);
+    printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora, lista->minuto, lista->segundo);
+    printf(" Data estimada de devolução do livro: %d/", lista->dia_entrega);
+    printf("%d/", lista->mes_entrega);
+    printf("%d", lista->ano_entrega);
+    printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_entrega, lista->minuto_entrega, lista->segundo_entrega);
+    printf("\n");
+
+    lista = lista->prox;
+  }
 }
