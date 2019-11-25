@@ -129,6 +129,14 @@ void exibePessoa(Pes* cadastro_pess);
 void exibeLivro(Livro* livro);
 void busca_especifica_livro(void);
 void busca_especifica_pessoa(void);
+void pesquisaNomePessoa(void);
+void pesquisaCPFPessoa(void);
+void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade);
+void pesquisaTituloLivro(void);
+void pesquisaAutorLivro(void);
+void pesquisaISBNLivro(void);
+void pesquisaGeneroLivro(void);
+void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade);
 
 void listaEmprestimos(void) {
 
@@ -1320,7 +1328,7 @@ void excluiPessoa(void) {
     printf("\n =================================");
     printf("\n");
 
-    printf(" Informe o nome da pessoa a ser removida: ");
+    printf(" Informe o CPF da pessoa a ser removida: ");
     scanf(" %100[^\n]", procurado);
 
     cadastro_pess = (Pes*) malloc(sizeof(Pes));
@@ -1329,7 +1337,7 @@ void excluiPessoa(void) {
 
     while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
 
-        if ((strcmp(cadastro_pess->nome, procurado) == 0) && (cadastro_pess->status == '1')) {
+        if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
 
             achou = 1;
 
@@ -1399,7 +1407,7 @@ void excluiLivro(void) {
     printf("\n =================================");
     printf("\n");
 
-    printf(" Informe o nome do livro a ser removido: ");
+    printf(" Informe a matrícula do livro a ser removido: ");
     scanf(" %100[^\n]", procurado);
 
     livro = (Livro*) malloc(sizeof(Livro));
@@ -1408,7 +1416,7 @@ void excluiLivro(void) {
 
     while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
 
-        if ((strcmp(livro->nome, procurado) == 0) && (livro->status == '1')) {
+        if ((strcmp(livro->matricula, procurado) == 0) && (livro->status == '1')) {
 
             achou = 1;
 
@@ -1580,9 +1588,11 @@ void menuAdmin() {
 
                         switch(op5){
                             case 'A':
+                            pesquisaCPFPessoa();
                             break;
 
                             case 'B':
+                            pesquisaNomePessoa();
                             break;
                         }
                     }while(op5 != 'S');
@@ -1605,7 +1615,7 @@ void menuAdmin() {
 
                             case 'B':
 
-                            listaP = listaOrdenadaPessoas();
+                            listaP = listaInvertidaPessoas();
                             exibeListaPessoas(listaP);
                             printf("\n Digite algo e tecle ENTER para continuar.\n\n");
                             scanf(" %c", &op);
@@ -1613,7 +1623,7 @@ void menuAdmin() {
 
                             case 'C':
 
-                                listaP = listaInvertidaPessoas();
+                                listaP = listaOrdenadaPessoas();
                                 exibeListaPessoas(listaP);
                                 printf("\n Digite algo e tecle ENTER para continuar.\n\n");
                                 scanf(" %c", &op);
@@ -1657,12 +1667,19 @@ void menuAdmin() {
                         switch(op4){
 
                             case 'A':
+                            pesquisaTituloLivro();
                             break;
 
                             case 'B':
+                            pesquisaAutorLivro();
                             break;
 
                             case 'C':
+                            pesquisaISBNLivro();
+                            break;
+
+                            case 'D':
+                            pesquisaGeneroLivro();
                             break;
 
                         }
@@ -1788,8 +1805,8 @@ void gerenciarPessoas(void) {
     printf("\n\n []A - Cadastrar Pessoa\n");
     printf(" []B - Buscar Pessoa\n");
     printf(" []C - Listar pessoas \n");
-    printf(" []F - Excluir pessoas\n");
-    printf(" []G - Editar informações\n");
+    printf(" []D - Excluir pessoas\n");
+    printf(" []E - Editar informações\n");
     printf(" []S - Sair\n");
 
 }
@@ -1806,8 +1823,8 @@ void gerenciarLivros(void) {
     printf("\n\n []A - Cadastrar Livro\n");
     printf(" []B - Buscar Livro\n");
     printf(" []C - Listar Livros\n");
-    printf(" []E - Excluir livros\n");
-    printf(" []F - Editar livro\n");
+    printf(" []D - Excluir livros\n");
+    printf(" []E - Editar livro\n");
     printf(" []S - Sair\n");
 
 }
@@ -1825,6 +1842,7 @@ void busca_especifica_livro(void) {
     printf("\n\n []A - Busca por Título\n");
     printf(" []B - Busca por Autor\n");
     printf(" []C - Busca por ISBN\n");
+    printf(" []D - Busca por Gênero\n");
     printf(" []S - Sair\n");
 }
 
@@ -2731,4 +2749,933 @@ void exibeListaLivros(NoLivro* lista) {
     printf("\n");
     lista = lista->prox;
   }
+}
+
+void pesquisaNomePessoa(void) {
+
+    FILE* fp;
+
+    Pes* cadastro_pess;
+    Pes** usuarios_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("pessoas.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA PESSOA        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o nome da pessoa a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    while(fread(cadastro_pess, sizeof(Pes), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(cadastro_pess);
+
+    Pes* cadastro_pess2;
+    Pes* auxiliar;
+    cadastro_pess2 = (Pes*) malloc(sizeof(Pes));
+
+    FILE* fp2;
+    fp2 = fopen("pessoas.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    usuarios_encontrados = (Pes**) malloc(tam * sizeof(Pes*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(cadastro_pess2, sizeof(Pes), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, cadastro_pess2->nome);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (cadastro_pess2->status == '1')) {
+
+              usuarios_encontrados[aux] = cadastro_pess2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Pes*) malloc(sizeof(Pes));
+
+              cadastro_pess2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (cadastro_pess2->status == '1')) {
+
+              usuarios_encontrados[aux] = cadastro_pess2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Pes*) malloc(sizeof(Pes));
+
+              cadastro_pess2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibePessoasEncontradas(usuarios_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(cadastro_pess2);
+
+}
+
+void pesquisaCPFPessoa(void) {
+
+    FILE* fp;
+
+    Pes* cadastro_pess;
+    Pes** usuarios_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("pessoas.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA PESSOA        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o CPF da pessoa a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    while(fread(cadastro_pess, sizeof(Pes), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(cadastro_pess);
+
+    Pes* cadastro_pess2;
+    Pes* auxiliar;
+    cadastro_pess2 = (Pes*) malloc(sizeof(Pes));
+
+    FILE* fp2;
+    fp2 = fopen("pessoas.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    usuarios_encontrados = (Pes**) malloc(tam * sizeof(Pes*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(cadastro_pess2, sizeof(Pes), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, cadastro_pess2->cpf);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (cadastro_pess2->status == '1')) {
+
+              usuarios_encontrados[aux] = cadastro_pess2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Pes*) malloc(sizeof(Pes));
+
+              cadastro_pess2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (cadastro_pess2->status == '1')) {
+
+              usuarios_encontrados[aux] = cadastro_pess2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Pes*) malloc(sizeof(Pes));
+
+              cadastro_pess2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibePessoasEncontradas(usuarios_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(cadastro_pess2);
+
+}
+
+void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
+
+  for(int k = 0; k < quantidade; k++) {
+    
+    int dia = usuarios_encontrados[k]->dia;
+    int mes = usuarios_encontrados[k]->mes;
+    int ano = usuarios_encontrados[k]->ano;
+    int numero_uf = usuarios_encontrados[k]->uf;
+
+    printf("\n\n Nome: %s \n", usuarios_encontrados[k]->nome);
+    printf(" CPF: %c%c%c.%c%c%c.%c%c%c-%c%c \n", usuarios_encontrados[k]->cpf[0], usuarios_encontrados[k]->cpf[1], usuarios_encontrados[k]->cpf[2], usuarios_encontrados[k]->cpf[3], usuarios_encontrados[k]->cpf[4], usuarios_encontrados[k]->cpf[5], usuarios_encontrados[k]->cpf[6], usuarios_encontrados[k]->cpf[7], usuarios_encontrados[k]->cpf[8], usuarios_encontrados[k]->cpf[9], usuarios_encontrados[k]->cpf[10]);
+
+    printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
+
+    printf(" Email: %s \n", usuarios_encontrados[k]->email);
+    printf(" Telefone: %s \n", usuarios_encontrados[k]->tel);
+
+    if(numero_uf == 1) {
+        char nome_uf[] = "Acre";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 2) {
+        char nome_uf[] = "Alagoas";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 3) {
+        char nome_uf[] = "Amapá";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 4) {
+        char nome_uf[] = "Amazonas";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 5) {
+        char nome_uf[] = "Bahia";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 6) {
+        char nome_uf[] = "Ceará";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 7) {
+        char nome_uf[] = "Distrito Federal";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 8) {
+        char nome_uf[] = "Espírito Santo";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 9) {
+        char nome_uf[] = "Goiás";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 10) {
+        char nome_uf[] = "Maranhão";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 11) {
+        char nome_uf[] = "Mato Grosso";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 12) {
+        char nome_uf[] = "Mato Grosso do Sul";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 13) {
+        char nome_uf[] = "Minas Gerais";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 14) {
+        char nome_uf[] = "Pará";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 15) {
+        char nome_uf[] = "Paraíba";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 16) {
+        char nome_uf[] = "Paraná";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 17) {
+        char nome_uf[] = "Pernambuco";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 18) {
+        char nome_uf[] = "Piauí";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 19) {
+        char nome_uf[] = "Rio de Janeiro";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 20) {
+        char nome_uf[] = "Rio Grande do Norte";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 21) {
+        char nome_uf[] = "Rio Grande do Sul";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 22) {
+        char nome_uf[] = "Rondônia";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 23) {
+        char nome_uf[] = "Roraima";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 24) {
+        char nome_uf[] = "Santa Catarina";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 25) {
+        char nome_uf[] = "São Paulo";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 26) {
+        char nome_uf[] = "Sergipe";
+        printf(" Estado: %s \n", nome_uf);
+    } else if(numero_uf == 27) {
+        char nome_uf[] = "Tocantins";
+        printf(" Estado: %s \n", nome_uf);
+    }
+
+    printf(" Cidade: %s \n", usuarios_encontrados[k]->enderCid);
+    printf(" Bairro: %s \n", usuarios_encontrados[k]->enderBair);
+    printf(" Numero da casa: %s \n", usuarios_encontrados[k]->numCasa);
+    printf("\n");
+
+  }
+
+  free(usuarios_encontrados);
+
+}
+
+void pesquisaTituloLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o nome do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->nome);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(livro2);
+
+}
+
+void pesquisaAutorLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o nome do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->autor);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(livro2);
+
+}
+
+void pesquisaISBNLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o nome do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->isbn);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(livro2);
+
+}
+
+void pesquisaGeneroLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o gênero do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->genero);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(auxiliar);
+    free(livro2);
+
+}
+
+void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade) {
+
+  for(int k = 0; k < quantidade; k++) {
+    
+    printf("\n\n Nome do livro: %s \n", livros_encontrados[k]->nome);
+    printf(" Matricula: %s \n", livros_encontrados[k]->matricula);
+    printf(" ISBN: %s \n", livros_encontrados[k]->isbn);
+    printf(" Autor: %s \n", livros_encontrados[k]->autor);
+    printf(" Gênero: %s \n", livros_encontrados[k]->genero);
+    printf(" Editora: %s \n", livros_encontrados[k]->editora);
+    printf(" Edição: %sª \n", livros_encontrados[k]->edicao);
+    printf(" Preço: %s R$ \n", livros_encontrados[k]->preco);
+    printf("\n");
+
+  }
+
+  free(livros_encontrados);
+
 }
