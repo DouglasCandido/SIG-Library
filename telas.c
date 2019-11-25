@@ -127,6 +127,8 @@ void mostraPessoa(Emprestimo* emprestimo);
 void mostraLivro(Emprestimo* emprestimo);
 void exibePessoa(Pes* cadastro_pess);
 void exibeLivro(Livro* livro);
+void busca_especifica_livro(void);
+void busca_especifica_pessoa(void);
 
 void listaEmprestimos(void) {
 
@@ -1288,133 +1290,7 @@ void exibeLivro(Livro* livro) {
 
 }
 
-void buscaPessoa(void) {
 
-    FILE* fp;
-    Pes* cadastro_pess;
-    int achou;
-    char procurado[100];
-    char resp;
-
-    fp = fopen("pessoas.dat", "rb");
-
-    if (fp == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
-
-    system("clear");
-
-    printf("\n =================================");
-    printf("\n | | |  Programa Biblioteca  | | |");
-    printf("\n =================================");
-    printf("\n >>>       BUSCA PESSOA        <<<");
-    printf("\n =================================");
-    printf("\n");
-
-    printf(" Informe o nome da pessoa a ser buscada: ");
-    scanf(" %100[^\n]", procurado);
-
-    cadastro_pess = (Pes*) malloc(sizeof(Pes));
-
-    achou = 0;
-
-    while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
-
-        if ((strcmp(cadastro_pess->nome, procurado) == 0) && (cadastro_pess->status == '1')) {
-
-            achou = 1;
-
-        }
-
-    }
-
-    fclose(fp);
-
-    if (achou) {
-
-        exibePessoa(cadastro_pess);
-
-    } else {
-
-        printf("\n %s não foi encontrado(a)...\n", procurado);
-
-    }
-
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
-    free(cadastro_pess);
-
-}
-
-void buscaLivro(void) {
-
-    FILE* fp;
-    Livro* livro;
-    int achou;
-    char procurado[100];
-    char resp;
-
-    fp = fopen("livros.dat", "rb");
-
-    if (fp == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
-
-    system("clear");
-
-    printf("\n =================================");
-    printf("\n | | |  Programa Biblioteca  | | |");
-    printf("\n =================================");
-    printf("\n >>>        BUSCA LIVRO        <<<");
-    printf("\n =================================");
-    printf("\n");
-
-    printf(" Informe o nome do livro a ser buscado: ");
-    scanf(" %100[^\n]", procurado);
-
-    livro = (Livro*) malloc(sizeof(Livro));
-
-    achou = 0;
-
-    while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
-
-        if ((strcmp(livro->nome, procurado) == 0) && (livro->status == '1')) {
-
-            achou = 1;
-
-        }
-
-    }
-
-    fclose(fp);
-
-    if (achou) {
-
-        exibeLivro(livro);
-
-    } else {
-
-        printf("\n %s não foi encontrado(a)...\n", procurado);
-
-    }
-
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
-    free(livro);
-
-}
 
 void excluiPessoa(void) {
 
@@ -1659,6 +1535,9 @@ void menuAdmin() {
     char op;
     char op2;
     char op3;
+    char op4;
+    char op5;
+    char op6;
     NoPes* listaP;
     NoLivro* listaL;
 
@@ -1693,35 +1572,62 @@ void menuAdmin() {
                     break;
 
                 case 'B':
-                    buscaPessoa();
+                    do{
+                        busca_especifica_pessoa();
+                        printf("\n Escolha uma opção: ");
+                        scanf(" %c", &op5);
+                        op5 = maius(op5);
+
+                        switch(op5){
+                            case 'A':
+                            break;
+
+                            case 'B':
+                            break;
+                        }
+                    }while(op5 != 'S');
                     break;
 
                 case 'C':
-                    listaP = listaDiretaPessoas();
-                    exibeListaPessoas(listaP);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
+                    do{
+                        ListaDePessoas();
+                        printf("\n Escolha uma opção: ");
+                        scanf(" %c", &op6);
+                        op6 = maius(op6);
+
+                        switch(op6){
+                            case 'A':
+                                listaP = listaDiretaPessoas();
+                                exibeListaPessoas(listaP);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+                                break;
+
+                            case 'B':
+
+                            listaP = listaOrdenadaPessoas();
+                            exibeListaPessoas(listaP);
+                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                            scanf(" %c", &op);
+                            break;
+
+                            case 'C':
+
+                                listaP = listaInvertidaPessoas();
+                                exibeListaPessoas(listaP);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+                                break;
+
+                        }                        
+                    }while(op6 != 'S');
                     break;
 
                 case 'D':
-                    listaP = listaInvertidaPessoas();
-                    exibeListaPessoas(listaP);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
-                    break;
-
-                case 'E':
-                    listaP = listaOrdenadaPessoas();
-                    exibeListaPessoas(listaP);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
-                    break;
-
-                case 'F':
                     excluiPessoa();
                     break;
 
-                case 'G':
+                case 'E':
                     editaPessoa();
                     break;
 
@@ -1742,7 +1648,30 @@ void menuAdmin() {
                         break;
 
                     case 'B':
-                        buscaLivro();
+                    do{
+                        busca_especifica_livro();
+                        printf("\n Escolha uma opção: ");
+                        scanf(" %c", &op4);
+                        op4 = maius(op4);
+
+                        switch(op4){
+
+                            case 'A':
+                            break;
+
+                            case 'B':
+                            break;
+
+                            case 'C':
+                            break;
+
+                        }
+
+
+                    }while(op4 != 'S');
+
+                        
+
                         break;
 
                     case 'C':
@@ -1821,13 +1750,29 @@ void ListaDeLivros(void) {
     printf("\n =================================");
     printf("\n >>>        LISTA LIVROS       <<<");
     printf("\n =================================");
-    printf("\n\n []A - Listar livros cadastrados na ordem normal de cadastro\n");
-    printf(" []B - Listar livros cadastrados na ordem inversa de cadastro\n");
-    printf(" []C - Listar livros cadastrados na ordem alfabética\n");
+    printf("\n\n []A - Listar livros cadastrados\n");
+    printf(" []B - Listar livros na ordem inversa de cadastro\n");
+    printf(" []C - Listar livros na ordem alfabética\n");
     printf(" []S - Sair\n");
 
 }
 
+
+void ListaDePessoas(void) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>        LISTA PESSOAS      <<<");
+    printf("\n =================================");
+    printf("\n\n []A - Listar pessoas cadastrados \n");
+    printf(" []B - Listar pessoas na ordem inversa de cadastro\n");
+    printf(" []C - Listar pessoas na ordem alfabética\n");
+    printf(" []S - Sair\n");
+
+}
 
 
 
@@ -1842,9 +1787,7 @@ void gerenciarPessoas(void) {
     printf("\n =================================");
     printf("\n\n []A - Cadastrar Pessoa\n");
     printf(" []B - Buscar Pessoa\n");
-    printf(" []C - Listar pessoas cadastradas na ordem normal de cadastro\n");
-    printf(" []D - Listar pessoas cadastradas na ordem inversa de cadastro\n");
-    printf(" []E - Listar pessoas cadastradas na ordem alfabética\n");
+    printf(" []C - Listar pessoas \n");
     printf(" []F - Excluir pessoas\n");
     printf(" []G - Editar informações\n");
     printf(" []S - Sair\n");
@@ -1862,12 +1805,43 @@ void gerenciarLivros(void) {
     printf("\n =================================");
     printf("\n\n []A - Cadastrar Livro\n");
     printf(" []B - Buscar Livro\n");
-    printf(" []C - Lista Livro\n");
+    printf(" []C - Listar Livros\n");
     printf(" []E - Excluir livros\n");
     printf(" []F - Editar livro\n");
     printf(" []S - Sair\n");
 
 }
+
+
+void busca_especifica_livro(void) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>        BUSCAR LIVROS      <<<");
+    printf("\n =================================");
+    printf("\n\n []A - Busca por Título\n");
+    printf(" []B - Busca por Autor\n");
+    printf(" []C - Busca por ISBN\n");
+    printf(" []S - Sair\n");
+}
+
+void busca_especifica_pessoa(void) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>        BUSCAR PESSOA      <<<");
+    printf("\n =================================");
+    printf("\n\n []A - Busca por CPF\n");
+    printf(" []B - Busca por Nome\n");
+    printf(" []S - Sair\n");
+}
+
 
 
 void menuGerenciarEmprestimos(void) {

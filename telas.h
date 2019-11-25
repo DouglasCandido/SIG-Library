@@ -22,3 +22,6 @@ int verifica_cpf_emprestimo(char cpf[12]); // Essa função verifica se o CPF re
 int verifica_matricula_emprestimo(char procurado[13]); // Essa função verifica se a matrícula referente ao livro já existe no processo de empréstimo de livros.
 int verifica_matricula(char procurado[13]); // Essa função verifica se a matrícula referente ao livro já existe, no processo de empréstimo de livros.
 void devolve_livro(void);  // Essa função é responsável por tratar da devolução de um livro em posse de um leitor.
+void busca_especifica_livro(void);
+void busca_especifica_pessoa(void);
+void ListaDePessoas(void);
