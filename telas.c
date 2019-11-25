@@ -2372,6 +2372,7 @@ int verifica_matricula(char procurado[13]) {
 
 }
 
+/*
 void devolve_livro(void) {
 
     FILE* fp;
@@ -2453,6 +2454,7 @@ void devolve_livro(void) {
     free(devolve);
 
 }
+*/
 
 NoPes* listaOrdenadaPessoas(void) {
   FILE* fp;
