@@ -25,3 +25,4 @@ void devolve_livro(void);  // Essa função é responsável por tratar da devolu
 void busca_especifica_livro(void);
 void busca_especifica_pessoa(void);
 void ListaDePessoas(void);
+void menuListaEmprestimos(void);
