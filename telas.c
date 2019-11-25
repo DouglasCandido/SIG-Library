@@ -1658,6 +1658,7 @@ void menuAdmin() {
     char resp;
     char op;
     char op2;
+    char op3;
     NoPes* listaP;
     NoLivro* listaL;
 
@@ -1736,42 +1737,57 @@ void menuAdmin() {
                 scanf(" %c", &op2);
                 op2 = maius(op2);
                 switch(op2) {
-                case 'A':
-                    cadastroLivro();
-                    break;
+                    case 'A':
+                        cadastroLivro();
+                        break;
 
-                case 'B':
-                    buscaLivro();
-                    break;
+                    case 'B':
+                        buscaLivro();
+                        break;
 
-                case 'C':
-                    listaL = listaDiretaLivros();
-                    exibeListaLivros(listaL);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
-                    break;
+                    case 'C':
+                        do{
+                        ListaDeLivros();
+                        printf("\n Escolha uma opção: ");
+                        scanf(" %c", &op3);
+                        op3 = maius(op3);
 
-                case 'D':  
-                    listaL = listaInvertidaLivros();
-                    exibeListaLivros(listaL);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
-                    break;
+                        switch(op3){
 
-                case 'E':
-                    listaL = listaOrdenadaLivros();
-                    exibeListaLivros(listaL);
-                    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                    scanf(" %c", &op);
-                    break;
+                            case 'A':
+                                listaL = listaDiretaLivros();
+                                exibeListaLivros(listaL);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+                                break;
 
-                case 'F':
-                    excluiLivro();
-                    break;
+                            case 'B':
+                                listaL = listaInvertidaLivros();
+                                exibeListaLivros(listaL);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+                                break;
 
-                case 'G':
-                    editaLivro();
-                    break;
+                            case 'C':
+                                listaL = listaOrdenadaLivros();
+                                exibeListaLivros(listaL);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+
+                                break;      
+                            }
+                        }while(op3 != 'S');
+
+                        break;
+
+                    case 'D':
+                        excluiLivro();  
+                        
+                        break;
+
+                    case 'E':
+                        editaLivro();
+                        break;
 
                 }
             } while(op2 != 'S');
@@ -1794,6 +1810,26 @@ void menuAdmin() {
     } while(resp != 'S');
 
 }
+
+
+void ListaDeLivros(void) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>        LISTA LIVROS       <<<");
+    printf("\n =================================");
+    printf("\n\n []A - Listar livros cadastrados na ordem normal de cadastro\n");
+    printf(" []B - Listar livros cadastrados na ordem inversa de cadastro\n");
+    printf(" []C - Listar livros cadastrados na ordem alfabética\n");
+    printf(" []S - Sair\n");
+
+}
+
+
+
 
 void gerenciarPessoas(void) {
 
@@ -1826,11 +1862,9 @@ void gerenciarLivros(void) {
     printf("\n =================================");
     printf("\n\n []A - Cadastrar Livro\n");
     printf(" []B - Buscar Livro\n");
-    printf(" []C - Listar livros cadastrados na ordem normal de cadastro\n");
-    printf(" []D - Listar livros cadastrados na ordem inversa de cadastro\n");
-    printf(" []E - Listar livros cadastrados na ordem alfabética\n");
-    printf(" []F - Excluir livros\n");
-    printf(" []G - Editar livro\n");
+    printf(" []C - Lista Livro\n");
+    printf(" []E - Excluir livros\n");
+    printf(" []F - Editar livro\n");
     printf(" []S - Sair\n");
 
 }
@@ -1845,7 +1879,7 @@ void menuGerenciarEmprestimos(void) {
     printf("\n =================================");
     printf("\n >>>   GERENCIAR EMPRÉSTIMOS   <<<");
     printf("\n =================================");
-    printf("\n []A - Emprestar livro para um determinado usuário");
+    printf("\n []A - Emprestar livro");
     printf("\n []B - Histórico de todos os empréstimos de livros na ordem normal");
     printf("\n []C - Histórico de todos os empréstimos de livros na ordem inversa");
     printf("\n []D - Histórico de todos os empréstimos de livros agrupados por uma determinada data");

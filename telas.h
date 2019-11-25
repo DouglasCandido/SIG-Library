@@ -1,3 +1,4 @@
+void ListaDeLivros(void);
 char menuPrincipal(void); // Essa função é chamada para apresentar o Menu Principal.
 int login(void); // Essa função é chamada para validar o login.
 void menuAdmin(void); // Essa função é chamada para apresentar o Menu exclusivo do administrador.
