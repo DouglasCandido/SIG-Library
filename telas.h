@@ -2,7 +2,6 @@ char menuPrincipal(void); // Essa função é chamada para apresentar o Menu Pri
 int login(void); // Essa função é chamada para validar o login.
 void menuAdmin(void); // Essa função é chamada para apresentar o Menu exclusivo do administrador.
 void menuGerenciarEmprestimos(void); // Essa função é chamada para apresentar o Menu Gerenciar Empréstimos.
-void menuLog(void); // Essa função é chamada para apresentar o Menu Log (Relatórios).
 void sobre(void); // Essa função é chamada para apresentar o Menu Sobre.
 char sair(void); // Essa função é chamada toda vez que o usuário deseja sair do sistema.
 void cadastroLivro(void); // Essa função é responsável por cadastrar um novo livro no acervo da nossa biblioteca.

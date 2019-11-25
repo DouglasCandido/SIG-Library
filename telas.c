@@ -1692,7 +1692,6 @@ void menuAdmin() {
         printf("\n\n []A - Gerenciar Pessoas\n");
         printf(" []B - Gerenciar Livros\n");
         printf(" []C - Gerenciar Emprestimos\n");
-        printf(" []D - Logs\n");
         printf(" []S - Sair\n");
 
         printf("\n Escolha uma opção: ");
@@ -1802,10 +1801,6 @@ void menuAdmin() {
             gerenciarEmprestimos();
             break;
 
-        case 'D':
-            menuLog();
-            break;
-
         case 'S':
             if((sair()) == 'S') {
                 starter();
@@ -1879,51 +1874,6 @@ void menuGerenciarEmprestimos(void) {
 
 }
 
-void menuLog(){
-	
-  char resp;
-
-  do {
-    
-    system("clear");
-
-    printf("\n =================================");
-    printf("\n | | | Programa Biblioteca | | | ");              
-    printf("\n =================================");
-    printf("\n >>>>>>>> MENU RELATÓRIOS <<<<<<<<");
-    printf("\n ================================="); 
-    printf("\n []A - Histórico de todos os logins realizados no sistema na ordem normal");
-    printf("\n []B - Histórico de todos os logins realizados no sistema na ordem inversa");
-    printf("\n []C - Histórico de todos os logins realizados no sistema agrupados por uma determinada data");
-    printf("\n []D - Histórico de todos os logins realizados no sistema por um determinado usuário");
-    printf("\n []S - Voltar ao Menu do Administrador");
-    
-    printf("\n Escolha uma opção: ");
-    scanf(" %c", &resp);
-    resp = maius(resp);
-
-    switch(resp) {
-      
-        case 'A':
-            break;
-      
-        case 'B':
-            break;
-        
-        case 'C':
-            break;
-
-        case 'D':
-            break;
-      
-        case 'S':
-            break;
-        
-    }
-    
-  }while(resp != 'S');
-
-}
 
 void sobre() {
 
