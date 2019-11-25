@@ -284,27 +284,23 @@ void emprestimo(void) {
 
     if (resp == 'S') {
 
-        do {
+        do{
 
-            printf("\nInsira o CPF previamente cadastrado - (Somente números): ");
-            scanf(" %15[^\n]", emprestar->cpf);
+        printf("\nInsira o CPF previamente cadastrado - (Somente números): ");
+        scanf(" %15[^\n]", emprestar->cpf);
 
-            if((verifica_cpf_emprestimo(emprestar->cpf) == 1)) {
+        }while((verifica_cpf_emprestimo(emprestar->cpf) == 0));
+        mostraPessoa(emprestar);
 
-                mostraPessoa(emprestar);
+        do{
+        printf("\nInsira a matrícula previamente cadastrada - (Somente numeros): ");
+        scanf(" %12[^\n]", emprestar->matricula);
 
-            }
+        }while((verifica_matricula_emprestimo(emprestar->matricula) == 0));
+        mostraLivro(emprestar);
 
-            printf("\nInsira a matrícula previamente cadastrada - (Somente numeros): ");
-            scanf(" %12[^\n]", emprestar->matricula);
 
-            if((verifica_matricula_emprestimo(emprestar->matricula) == 1)) {
 
-                mostraLivro(emprestar);
-
-            }
-
-        } while((verifica_cpf_emprestimo(emprestar->cpf) == 0 && verifica_matricula_emprestimo(emprestar->matricula) == 0));
 
         struct tm  *data_atual, *data_entrega;
 
@@ -1682,6 +1678,9 @@ void menuAdmin() {
                             pesquisaGeneroLivro();
                             break;
 
+                            case 'E':
+                            break;
+
                         }
 
 
@@ -1843,6 +1842,7 @@ void busca_especifica_livro(void) {
     printf(" []B - Busca por Autor\n");
     printf(" []C - Busca por ISBN\n");
     printf(" []D - Busca por Gênero\n");
+    printf(" []E - Busca por Matricula\n");
     printf(" []S - Sair\n");
 }
 
@@ -2879,8 +2879,8 @@ void pesquisaNomePessoa(void) {
     printf("\n Digite algo e tecle ENTER para continuar.\n\n");
     scanf(" %c", &resp);
 
-    free(auxiliar);
-    free(cadastro_pess2);
+
+
 
 }
 
@@ -3129,9 +3129,6 @@ void pesquisaTituloLivro(void) {
     printf("\n Digite algo e tecle ENTER para continuar.\n\n");
     scanf(" %c", &resp);
 
-    free(auxiliar);
-    free(livro2);
-
 }
 
 void pesquisaAutorLivro(void) {
@@ -3262,8 +3259,7 @@ void pesquisaAutorLivro(void) {
     printf("\n Digite algo e tecle ENTER para continuar.\n\n");
     scanf(" %c", &resp);
 
-    free(auxiliar);
-    free(livro2);
+
 
 }
 
@@ -3400,9 +3396,6 @@ void pesquisaGeneroLivro(void) {
 
     printf("\n Digite algo e tecle ENTER para continuar.\n\n");
     scanf(" %c", &resp);
-
-    free(auxiliar);
-    free(livro2);
 
 }
 
