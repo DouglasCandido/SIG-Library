@@ -135,6 +135,7 @@ void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade);
 void pesquisaTituloLivro(void);
 void pesquisaAutorLivro(void);
 void pesquisaISBNLivro(void);
+void pesquisaMatriculaLivro(void);
 void pesquisaGeneroLivro(void);
 void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade);
 
@@ -1679,6 +1680,7 @@ void menuAdmin() {
                             break;
 
                             case 'E':
+                            pesquisaMatriculaLivro();
                             break;
 
                         }
@@ -2886,7 +2888,66 @@ void pesquisaNomePessoa(void) {
 
 void pesquisaCPFPessoa(void) {
 
-    
+    FILE* fp;
+    Pes* cadastro_pess;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("pessoas.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA PESSOA        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o CPF da pessoa a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    achou = 0;
+
+    while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+        if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibePessoa(cadastro_pess);
+
+    } else {
+
+        printf("%d", achou);
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(cadastro_pess);
 
 }
 
@@ -3265,7 +3326,131 @@ void pesquisaAutorLivro(void) {
 
 void pesquisaISBNLivro(void) {
 
-   
+    FILE* fp;
+    Livro* livro;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a ISBN do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    achou = 0;
+
+    while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+        if ((strcmp(livro->isbn, procurado) == 0) && (livro->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeLivro(livro);
+
+    } else {
+
+        printf("%d", achou);
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(livro);
+
+}
+
+void pesquisaMatriculaLivro(void) {
+
+    FILE* fp;
+    Livro* livro;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("livros.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a matrícula do livro a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    achou = 0;
+
+    while((!achou) && (fread(livro, sizeof(Livro), 1, fp))) {
+
+        if ((strcmp(livro->matricula, procurado) == 0) && (livro->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeLivro(livro);
+
+    } else {
+
+        printf("%d", achou);
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(livro);
 
 }
 
