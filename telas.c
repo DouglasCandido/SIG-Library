@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#include <errno.h>
 #include "telas.h"
 #include "validations.h"
 #include "main.h"
@@ -379,11 +378,9 @@ void menuEditaPessoa(void) {
     printf("\n\n []A - Alterar nome");
     printf("\n []B - Alterar telefone");
     printf("\n []C - Alterar email");
-    printf("\n []D - Alterar login");
-    printf("\n []E - Alterar senha");
-    printf("\n []F - Alterar endereço");
-    printf("\n []G - Alterar CPF");
-    printf("\n []H - Alterar Data de nascimento");
+    printf("\n []D - Alterar endereço");
+    printf("\n []E - Alterar CPF");
+    printf("\n []F - Alterar Data de nascimento");
     printf("\n []S - Voltar");
 
 }
@@ -601,38 +598,7 @@ void editaPessoa(void) {
                     break;
 
                 case 'D':
-                    printf(" Informe o novo login: ");
-                    scanf(" %50[^\n]", cadastro_pess->login);
 
-                    while(validaNome(cadastro_pess->login)==0) {
-                        printf(" Insira um login válido: ");
-                        scanf(" %50[^\n]", cadastro_pess->login);
-                    }
-                    fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
-                    fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-
-                    printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
-                    break;
-
-                case 'E':
-                    printf(" Informe a nova senha: ");
-                    scanf(" %50[^\n]", cadastro_pess->senha);
-
-                    while(validaNome(cadastro_pess->senha)==0) {
-                        printf(" Insira uma senha válida: ");
-                        scanf(" %50[^\n]", cadastro_pess->senha);
-                    }
-                    fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
-                    fwrite(cadastro_pess, sizeof(Pes), 1, fp);
-
-                    printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
-                    break;
-
-                case 'F':
                     do {
                         menuEditaEndereco();
                         exibePessoa(cadastro_pess);
@@ -701,9 +667,11 @@ void editaPessoa(void) {
 
                     } while (resp != 'S');
 
-                    break;
 
-                case 'G':
+                    
+                break;
+
+                case 'E':
                     printf("\n Insira o novo CPF - (SOMENTE NÚMEROS): ");
                     scanf(" %15[^\n]", cadastro_pess->cpf);
                     setbuf(stdin, NULL);
@@ -716,9 +684,10 @@ void editaPessoa(void) {
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                     printf("\n Informação editada com sucesso!\n");
-                    break;
+                
+                break;
 
-                case 'H':
+                case 'F':
                     do {
                         printf("\n Insira seu dia de nascimento: ");
                     } while(((scanf("%d%c", &cadastro_pess->dia, &cadastro_pess->c) != 2 || cadastro_pess->c != '\n') && clean_stdin()) || cadastro_pess->dia < 1 || cadastro_pess->dia > 31);
@@ -742,10 +711,11 @@ void editaPessoa(void) {
                     printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
                     scanf(" %c",&a);
 
-                }
+                    }
+                    break;
 
-            } while(op != 'S');
 
+            }while(op != 'S');   
         }
 
         free(cadastro_pess);
@@ -1660,8 +1630,6 @@ int login() {
 
     char loginA[50] = "admin";
     char senhaA[50] = "admin";
-    char loginU[50] = "teste";
-    char senhaU[50] = "teste";
     char login1[50];
     char senha1[50];
 
@@ -1678,7 +1646,7 @@ int login() {
     printf(" Informe a senha: ");
     scanf("%s", senha1);
 
-    while(!(strcmp(loginA, login1) == 0 && strcmp(senhaA, senha1) == 0) && !(strcmp(loginU, login1) == 0 && strcmp(senhaU, senha1) == 0)) {
+    while(!(strcmp(loginA, login1) == 0 && strcmp(senhaA, senha1) == 0)) {
 
         system("clear");
 
@@ -1700,11 +1668,7 @@ int login() {
         // printf("\n Login realizado com sucesso.\n");
         return 1;
 
-    } else if(strcmp(loginU, login1) == 0 && strcmp(senhaU, senha1) == 0) {
-        // printf("\n Login realizado com sucesso.\n");
-        return 2;
-    }
-
+    } 
     return 0;
 
 }
@@ -1896,58 +1860,6 @@ void gerenciarLivros(void) {
 
 }
 
-void menuUser() {
-
-    char resp;
-
-    do {
-        system("clear");
-
-        printf("\n =================================");
-        printf("\n | | |  Programa Biblioteca  | | |");
-        printf("\n =================================");
-        printf("\n >>>        MENU USUÁRIO       <<<\n");
-        printf("\n =================================\n");
-        printf("\n\n []A - Exibir todos os livros do acervo\n");
-        printf(" []B - Pesquisar livro no acervo\n");
-        printf(" []C - Gerenciar empréstimos\n");
-        printf(" []D - Redefinir dados pessoais\n");
-        printf(" []S - Deslogar\n");
-
-        printf("\n\n Escolha uma opção: ");
-        scanf(" %c", &resp);
-
-        resp = maius(resp);
-
-        switch(resp) {
-
-        case 'A':
-            listaEmprestimos();
-            break;
-
-        case 'B':
-            buscaLivro();
-            break;
-
-        case 'C':
-            break;
-
-        case 'D':
-            break;
-
-        case 'S':
-            if((sair()) == 'S') {
-                starter();
-            } else {
-                menuUser();
-            }
-            break;
-
-        }
-
-    } while(resp != 'S');
-
-}
 
 void menuGerenciarEmprestimos(void) {
 
@@ -2059,8 +1971,6 @@ int starter() {
     case 'A':
         if(login() == 1) {
             menuAdmin();
-        } else {
-            menuUser();
         }
         break;
 
