@@ -23,8 +23,6 @@ struct pes {
     char cpf[12]; 
     char tel[13];
     char email[31];
-    char login[51];
-    char senha[51];
     char c;
     char status;
 
@@ -46,8 +44,6 @@ struct noPes {
     char cpf[12];
     char tel[13];
     char email[31];
-    char login[51];
-    char senha[51];
     char c;
     char status;
     NoPes* prox;
@@ -926,8 +922,6 @@ void exibePessoa(Pes* cadastro_pess) {
     printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
 
     printf(" Email: %s \n", cadastro_pess->email);
-    printf(" Login: %s \n", cadastro_pess->login);
-    printf(" Senha: %s \n", cadastro_pess->senha);
     printf(" Telefone: %s \n", cadastro_pess->tel);
 
     if(numero_uf == 1) {
@@ -1165,20 +1159,6 @@ void cadastroPessoa() {
         while(validaEmail(cadastro_pess->email)==0) {
             printf(" Insira um email válido: ");
             scanf(" %100[^\n]", cadastro_pess->email);
-        }
-
-        printf("\n Insira o login: ");
-        scanf(" %50[^\n]", cadastro_pess->login);
-        while(validaLetrasNumeros(cadastro_pess->login)==0) {
-            printf(" Insira um login válido: ");
-            scanf(" %50[^\n]", cadastro_pess->login);
-        }
-
-        printf("\n Insira a senha: ");
-        scanf(" %50[^\n]", cadastro_pess->senha);
-        while(validaLetrasNumeros(cadastro_pess->senha)==0) {
-            printf(" Insira uma senha válida: ");
-            scanf(" %50[^\n]", cadastro_pess->senha);
         }
 
         gravaPessoa(cadastro_pess);
@@ -2341,8 +2321,6 @@ NoPes* listaOrdenadaPessoas(void) {
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
-      strcpy(noPes->login, pessoa->login);
-      strcpy(noPes->senha, pessoa->senha);
       noPes->dia = pessoa->dia;
       noPes->mes = pessoa->mes;
       noPes->ano = pessoa->ano;
@@ -2401,8 +2379,6 @@ NoPes* listaInvertidaPessoas(void) {
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
-      strcpy(noPes->login, pessoa->login);
-      strcpy(noPes->senha, pessoa->senha);
       noPes->dia = pessoa->dia;
       noPes->mes = pessoa->mes;
       noPes->ano = pessoa->ano;
@@ -2450,8 +2426,6 @@ NoPes* listaDiretaPessoas(void) {
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
-      strcpy(noPes->login, pessoa->login);
-      strcpy(noPes->senha, pessoa->senha);
       noPes->dia = pessoa->dia;
       noPes->mes = pessoa->mes;
       noPes->ano = pessoa->ano;
@@ -2498,8 +2472,6 @@ void exibeListaPessoas(NoPes* lista) {
     printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
 
     printf(" Email: %s \n", lista->email);
-    printf(" Login: %s \n", lista->login);
-    printf(" Senha: %s \n", lista->senha);
     printf(" Telefone: %s \n", lista->tel);
 
     if(numero_uf == 1) {
