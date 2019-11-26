@@ -386,11 +386,11 @@ void gerenciarEmprestimos(void) {
                         break;
 
                         case 'B':
-                        // pesquisaPorCPFEmprestimo();
+                        pesquisaPorCPFEmprestimo();
                         break;
 
                         case 'C':
-                        // pesquisaPorMatriculaEmprestimo();
+                        pesquisaPorMatriculaEmprestimo();
                         break;
 
                         case 'D':
@@ -3508,11 +3508,211 @@ void pesquisaCPFPessoa(void) {
 
 }
 
+
+
+void pesquisaPorMatriculaEmprestimo(void) {
+
+    FILE* fp;
+    Emprestimo* pesquisa;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("emprestimos.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>     BUSCAR EMPRÉSTIMO     <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a matrícula do livro: ");
+    scanf(" %100[^\n]", procurado);
+
+    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    achou = 0;
+
+    while((!achou) && (fread(pesquisa, sizeof(Emprestimo), 1, fp))) {
+
+        if ((strcmp(pesquisa->matricula, procurado) == 0) && (pesquisa->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeEmprestimo(pesquisa);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(pesquisa);
+
+}
+
+
+
+
+void pesquisaPorCPFEmprestimo(void) {
+
+    FILE* fp;
+    Emprestimo* cadastro_pess;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("emprestimos.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>     BUSCAR EMPRÉSTIMO     <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o CPF cadastro no empréstimo: ");
+    scanf(" %100[^\n]", procurado);
+
+    cadastro_pess = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    achou = 0;
+
+    while((!achou) && (fread(cadastro_pess, sizeof(Emprestimo), 1, fp))) {
+
+        if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeEmprestimo(cadastro_pess);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(cadastro_pess);
+
+}
+
+
+
+
+
+
 void pesquisaPorCodigoEmprestimo(void) {
+
+    FILE* fp;
+    Emprestimo* pesquisa;
+    int achou;
+    char procurado[100];
+    char resp;
+
+    fp = fopen("emprestimos.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>     BUSCAR EMPRÉSTIMO     <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o Código do empréstimo: ");
+    scanf(" %100[^\n]", procurado);
+
+    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    achou = 0;
+
+    while((!achou) && (fread(pesquisa, sizeof(Emprestimo), 1, fp))) {
+
+        if ((strcmp(pesquisa->cod, procurado) == 0) && (pesquisa->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeEmprestimo(pesquisa);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+    scanf(" %c", &resp);
+
+    free(pesquisa);
+
+}
 
 
     
-}
+
 
 void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
 
