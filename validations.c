@@ -122,7 +122,7 @@ int validaCPF(char cpf[11]) {
 
     int cpfTrans[11], soma = 0, dig1, res1, res2, dig2, restante;
 
-    if(strlen(cpf) > 11) {
+    if(strlen(cpf) > 11 && strlen(cpf) < 11) {
 
         return 0;
 
@@ -246,6 +246,42 @@ int validaCPF(char cpf[11]) {
         }
 
         return 0;
+
+    }
+
+}
+
+int validaCodigoEmprestimo(char cod[10]) { 
+
+    regex_t reg;
+
+    if(strlen(cod) > 10 && strlen(cod) < 10) {
+
+        return 0;
+
+    } else if(verificaCodigoEmprestimo(cod) == 0) {
+
+        return 0;
+
+    } else {
+
+        if(regcomp(&reg, RE_COD_EMP, REG_EXTENDED|REG_NOSUB) != 0) {
+
+            return 0;
+
+        } else {
+
+            if((regexec(&reg, cod, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+                return 1;
+
+            } else {
+
+                return 0;
+
+            }
+
+        }
 
     }
 

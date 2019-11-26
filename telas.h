@@ -18,11 +18,13 @@ void menuEditaPessoa(void); // Essa função é usada para exibir uma tela de me
 void menuEditaEndereco(void); // Essa função é usada para alterar o endereço de um usuário.
 int starter(); // Essa função responsável por controlar a inicialização de todos os menus.
 void emprestimo(void); // Essa função é responsável por tratar do empréstimo de um livro para um leitor.
-int verifica_cpf_emprestimo(char cpf[12]); // Essa função verifica se o CPF referente ao usuário já existe, no processo de empréstimo de livros.
-int verifica_matricula_emprestimo(char procurado[13]); // Essa função verifica se a matrícula referente ao livro já existe no processo de empréstimo de livros.
-int verifica_matricula(char procurado[13]); // Essa função verifica se a matrícula referente ao livro já existe, no processo de empréstimo de livros.
+int verifica_cpf_emprestimo(char cpf[11]); // Essa função verifica se o CPF referente ao usuário já existe, no processo de empréstimo de livros.
+int verifica_matricula_emprestimo(char procurado[12]); // Essa função verifica se a matrícula referente ao livro já existe no processo de empréstimo de livros.
+int verifica_matricula(char procurado[12]); // Essa função verifica se a matrícula referente ao livro já existe, no processo de empréstimo de livros.
 void devolve_livro(void);  // Essa função é responsável por tratar da devolução de um livro em posse de um leitor.
 void busca_especifica_livro(void);
 void busca_especifica_pessoa(void);
 void ListaDePessoas(void);
 void menuListaEmprestimos(void);
+int verificaCPF(char procurado[11]); // Essa função é responsável por verificar se o CPF já está cadastrado no arquivo.
+int verificaCodigoEmprestimo(char procurado[10]); // Essa função é responsável por verificar se o código do empréstimo já está cadastrado no arquivo.
