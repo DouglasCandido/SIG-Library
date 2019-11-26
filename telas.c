@@ -469,41 +469,8 @@ void emprestimo(void) {
     char resp;
     char op2;
 
-    Pes* pessoa;
-    pessoa = (Pes*) malloc(sizeof(Pes));
-
-    Livro* livro;
-    livro = (Livro*) malloc(sizeof(Livro));
-
     Emprestimo* emprestar;
     emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
-
-    FILE* fp1;
-    fp1 = fopen("pessoas.dat", "r+b");
-
-    FILE* fp2;
-    fp2 = fopen("livros.dat", "r+b");
-
-
-    if(fp1 == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
-
-    if(fp2 == NULL) {
-
-        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-
-        printf("Não é possível continuar o programa...\n");
-
-        exit(1);
-
-    }
 
     system("clear");
 
@@ -606,10 +573,6 @@ void emprestimo(void) {
     printf("\n\n Digite qualquer coisa e tecle ENTER para continuar.\n");
     scanf(" %c",&op2);
     
-    fclose(fp1);
-    fclose(fp2);
-    free(pessoa);
-    free(livro);
     free(emprestar);
 
 }
@@ -2399,7 +2362,7 @@ void mostraPessoa(Emprestimo* emprestimo) {
     Pes* cadastro_pess;
     int achou = 0;
 
-    fp = fopen("pessoas.dat", "rb");
+    fp = fopen("pessoas.dat", "r+b");
 
     if (fp == NULL) {
 
@@ -2607,7 +2570,7 @@ void mostraLivro(Emprestimo* emprestimo) {
     Livro* livro;
     int achou = 0;
 
-    fp = fopen("livros.dat", "rb");
+    fp = fopen("livros.dat", "r+b");
 
     if (fp == NULL) {
 
