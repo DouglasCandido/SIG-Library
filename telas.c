@@ -2619,7 +2619,7 @@ void mostraLivro(Emprestimo* emprestimo) {
 	    }
 	    printf("\n");
 
-        livro->emprestado = 1;
+        livro->emprestado = '1';
         livro->quantidade_de_vezes_emprestado += 1;
         fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
         fwrite(livro, sizeof(Livro), 1, fp);
@@ -2684,12 +2684,18 @@ int verifica_matricula(char procurado[12]) {
 void devolve_livro(void) {
 
     FILE* fp;
+    FILE* fp2;
+
     Emprestimo* devolve;
+    Livro* livro;
+
+    int achou2;
     int achou;
     char resp;
     char matricula[13];
 
     fp = fopen("emprestimos.dat", "r+b");
+    fp2 = fopen("livros.dat", "r+b");
 
     if (fp == NULL) {
 
@@ -2714,7 +2720,11 @@ void devolve_livro(void) {
 
     devolve = (Emprestimo*) malloc(sizeof(Emprestimo));
 
+    livro = (Livro*) malloc(sizeof(Livro));
+
     achou = 0;
+
+    achou2 = 0;
 
     while((!achou) && (fread(devolve, sizeof(Emprestimo), 1, fp))) {
 
@@ -2726,6 +2736,7 @@ void devolve_livro(void) {
 
     }
 
+
     if (achou) {
 
         exibeEmprestimo(devolve);
@@ -2735,6 +2746,22 @@ void devolve_livro(void) {
         scanf(" %c", &resp);
 
         if (resp == 's' || resp == 'S') {
+
+                while((!achou2) && (fread(livro, sizeof(Livro), 1, fp2))) {
+
+                    if ((strcmp(livro->matricula, devolve->matricula) == 0) && (livro->status == '1')) {
+
+                        achou2 = 1;
+
+                        }
+                    }
+
+                    if (achou2){
+                        livro->emprestado = '0';
+                        fseek(fp2, -1 * sizeof(Livro), SEEK_CUR);
+                        fwrite(livro, sizeof(Livro), 1, fp2);
+                    }
+
 
             devolve->status = '0';
 
