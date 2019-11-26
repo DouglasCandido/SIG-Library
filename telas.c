@@ -2603,9 +2603,10 @@ void mostraLivro(Emprestimo* emprestimo) {
 	    printf(" Editora: %s \n", livro->editora);
 	    printf(" Edição: %sª \n", livro->edicao);
 	    printf(" Preço: %s R$ \n", livro->preco);
+
 	    if(livro->emprestado == '0') {
 	    	printf(" Esse livro não está emprestado.\n");
-	    } else {
+	    }else{
 	    	printf(" Esse livro está emprestado.\n");
 	    	printf(" Data de início do empréstimo: %d/", emprestimo->dia);
 		    printf("%d/", emprestimo->mes);
@@ -2757,16 +2758,18 @@ void devolve_livro(void) {
                     }
 
                     if (achou2){
+
                         livro->emprestado = '0';
+
                         fseek(fp2, -1 * sizeof(Livro), SEEK_CUR);
                         fwrite(livro, sizeof(Livro), 1, fp2);
                     }
 
 
-            devolve->status = '0';
+            /*devolve->status = '0';
 
             fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
-            fwrite(devolve, sizeof(Emprestimo), 1, fp);
+            fwrite(devolve, sizeof(Emprestimo), 1, fp);*/
 
             printf("\nLivro devolvido com sucesso!\n");
 
@@ -2786,6 +2789,8 @@ void devolve_livro(void) {
     scanf(" %c", &resp);
 
     fclose(fp);
+    fclose(fp2);
+    free(livro);
     free(devolve);
 
 }
