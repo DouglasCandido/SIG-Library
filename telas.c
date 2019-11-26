@@ -579,7 +579,9 @@ void emprestimo(void) {
 
         time(&emprestar->segundos);
         emprestar->segundos = emprestar->segundos + 259200;
+
         data_entrega = localtime(&emprestar->segundos);
+
         emprestar->dia_entrega = data_entrega->tm_mday;
         emprestar->mes_entrega = data_entrega->tm_mon+1;
         emprestar->ano_entrega = data_entrega->tm_year+1900;
@@ -598,14 +600,6 @@ void emprestimo(void) {
 
         gravaEmprestimo(emprestar);
 
-        pessoa->quantidade_de_livros_emprestados += 1;
-        fseek(fp1, (-1)*sizeof(Pes), SEEK_CUR);
-        fwrite(pessoa, sizeof(Pes), 1, fp1);
-
-        livro->emprestado = 1;
-        livro->quantidade_de_vezes_emprestado += 1;
-        fseek(fp2, (-1)*sizeof(Livro), SEEK_CUR);
-    	fwrite(livro, sizeof(Livro), 1, fp2);
 
     }
 
@@ -1495,12 +1489,13 @@ void cadastroLivro() {
 
     char resp;
 
+    gravaLivro(livro);
     exibeLivro(livro);
 
     printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
     scanf(" %c", &resp);
 
-    gravaLivro(livro);
+    
 
 }
 
@@ -1872,11 +1867,11 @@ void menuAdmin() {
 
                             case 'B':
 
-                            listaP = listaInvertidaPessoas();
-                            exibeListaPessoas(listaP);
-                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                            scanf(" %c", &op);
-                            break;
+                                listaP = listaInvertidaPessoas();
+                                exibeListaPessoas(listaP);
+                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
+                                scanf(" %c", &op);
+                                break;
 
                             case 'C':
 
@@ -2546,8 +2541,13 @@ void mostraPessoa(Emprestimo* emprestimo) {
 	    printf(" Numero da casa: %s \n", cadastro_pess->numCasa);
 	    printf("\n");
 
-        strcpy(emprestimo->nome, cadastro_pess->nome);
+        cadastro_pess->quantidade_de_livros_emprestados += 1;
+        fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+        fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
+
+        strcpy(emprestimo->nome, cadastro_pess->nome);
+        strcpy(emprestimo->cpf, cadastro_pess->cpf);
     }
 
     fclose(fp);
@@ -2655,6 +2655,12 @@ void mostraLivro(Emprestimo* emprestimo) {
 		    printf("\n");
 	    }
 	    printf("\n");
+
+        livro->emprestado = 1;
+        livro->quantidade_de_vezes_emprestado += 1;
+        fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+        fwrite(livro, sizeof(Livro), 1, fp);
+
 
         strcpy(emprestimo->nomeLiv, livro->nome);
         strcpy(emprestimo->isbn, livro->isbn);
@@ -2801,6 +2807,7 @@ NoPes* listaOrdenadaPessoas(void) {
   NoPes* lista;
 
   lista = NULL;
+
   fp = fopen("pessoas.dat", "rb");
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
@@ -2809,6 +2816,7 @@ NoPes* listaOrdenadaPessoas(void) {
   }
 
   pessoa = (Pes*) malloc(sizeof(Pes));
+
   while(fread(pessoa, sizeof(Pes), 1, fp)) {
     if (pessoa->status == '1') {
       noPes = (NoPes*) malloc(sizeof(NoPes));
@@ -2872,7 +2880,7 @@ NoPes* listaInvertidaPessoas(void) {
   Pes* pessoa;
   NoPes* noPes;
   NoPes* lista;
-
+  
   lista = NULL;
   fp = fopen("pessoas.dat", "rb");
   if (fp == NULL) {
@@ -2882,7 +2890,9 @@ NoPes* listaInvertidaPessoas(void) {
   }
 
   pessoa = (Pes*) malloc(sizeof(Pes));
-  while(fread(pessoa, sizeof(Pes), 1, fp)) {
+  while(fread(pessoa, sizeof(Pes), 1, fp)){
+
+    printf("nome: %s \n", pessoa->nome);
     if (pessoa->status == '1') {
 
       noPes = (NoPes*) malloc(sizeof(NoPes));
