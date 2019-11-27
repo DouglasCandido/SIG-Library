@@ -224,8 +224,6 @@ void exibeEmprestimosEncontrados(Emprestimo** emprestimos_encontrados, int quant
 
 void listaEmprestimos(void) {
 
-    char a;
-
     system("clear");
 
     FILE* fp;
@@ -264,8 +262,9 @@ void listaEmprestimos(void) {
     fclose(fp);
     free(emprestimo);
 
-    printf(" Digite algo e tecle ENTER para continuar.\n");
-    scanf(" %c",&a);
+    printf(" Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 }
 
@@ -293,7 +292,7 @@ void gerenciarEmprestimos(void) {
 
     char op;
     char op2;
-    char op3;
+
 
     NoEmprestimo* lista;
 
@@ -356,23 +355,26 @@ void gerenciarEmprestimos(void) {
                         case 'A':
                             lista = listaDiretaEmprestimo();
                             exibeListaEmprestimo(lista);
-                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                            scanf(" %c", &op3);
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         case 'B':
                             lista = listaInvertidaEmprestimo();
                             exibeListaEmprestimo(lista);
-                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                            scanf(" %c", &op3);
-
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         case 'C':
                             lista = listaOrdenadaEmprestimo();
                             exibeListaEmprestimo(lista);
-                            printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                            scanf(" %c", &op3);
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
+                            
                             break;
 
                     }
@@ -410,7 +412,6 @@ void gravaEmprestimo(Emprestimo* emprestimo) {
 void emprestimo(void) {
 
     char resp;
-    char op2;
 
     Emprestimo* emprestar;
     emprestar = (Emprestimo*) malloc(sizeof(Emprestimo));
@@ -514,9 +515,10 @@ void emprestimo(void) {
 
     }
 
-    printf("\n\n Digite qualquer coisa e tecle ENTER para continuar.\n");
-    scanf(" %c",&op2);
-    
+        printf("\n Tecle ENTER para continuar.\n");
+        getchar();
+        getchar();
+
     free(emprestar);
 
 }
@@ -582,7 +584,6 @@ void editaPessoa(void) {
     FILE* fp;
     Pes* cadastro_pess;
     int achou;
-    char a;
     char op2;
     char op;
     char resp;
@@ -660,8 +661,10 @@ void editaPessoa(void) {
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
                     printf("\nInformação editada com sucesso!\n");
-                    printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'B':
@@ -675,8 +678,10 @@ void editaPessoa(void) {
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'C':
@@ -691,8 +696,10 @@ void editaPessoa(void) {
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+            
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'D':
@@ -714,8 +721,10 @@ void editaPessoa(void) {
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                             printf("\n Informação editada com sucesso!\n");
-                            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                            scanf(" %c",&a);
+                            
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         case 'B':
@@ -728,8 +737,10 @@ void editaPessoa(void) {
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                             printf("\n Informação editada com sucesso!\n");
-                            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                            scanf(" %c",&a);
+                            
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         case 'C':
@@ -743,8 +754,10 @@ void editaPessoa(void) {
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                             printf("\n Informação editada com sucesso!\n");
-                            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                            scanf(" %c",&a);
+                            
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         case 'D':
@@ -757,8 +770,10 @@ void editaPessoa(void) {
                             fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                             fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                             printf("\n Informação editada com sucesso!\n");
-                            printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                            scanf(" %c",&a);
+                            
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
                             break;
 
                         }
@@ -782,6 +797,10 @@ void editaPessoa(void) {
                     fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
                     printf("\n Informação editada com sucesso!\n");
+
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                 
                 break;
 
@@ -806,9 +825,10 @@ void editaPessoa(void) {
                     fwrite(cadastro_pess, sizeof(Pes), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
-
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     }
                     break;
 
@@ -828,7 +848,6 @@ void editaLivro(void) {
     FILE* fp;
     Livro* livro;
     int achou;
-    char a;
     char op;
     char resp;
     char procurado[101];
@@ -903,8 +922,10 @@ void editaLivro(void) {
                     fwrite(livro, sizeof(Livro), 1, fp);
 
                     printf("\nInformação editada com sucesso!\n");
-                    printf("Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'B':
@@ -918,8 +939,10 @@ void editaLivro(void) {
                     fwrite(livro, sizeof(Livro), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'C':
@@ -933,8 +956,10 @@ void editaLivro(void) {
                     fwrite(livro, sizeof(Livro), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'D':
@@ -949,8 +974,10 @@ void editaLivro(void) {
                     fwrite(livro, sizeof(Livro), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'E':
@@ -964,8 +991,10 @@ void editaLivro(void) {
                     fwrite(livro, sizeof(Livro), 1, fp);
 
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'F':
@@ -979,8 +1008,10 @@ void editaLivro(void) {
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 case 'G':
@@ -994,8 +1025,10 @@ void editaLivro(void) {
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
                     printf("\n Informação editada com sucesso!\n");
-                    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-                    scanf(" %c",&a);
+                    
+                    printf("\n Tecle ENTER para continuar.\n");
+                    getchar();
+                    getchar();
                     break;
 
                 }
@@ -1394,13 +1427,12 @@ void cadastroLivro() {
         scanf(" %3[^\n]", livro->preco);
     }
 
-    char resp;
-
     gravaLivro(livro);
     exibeLivro(livro);
 
-    printf(" Digite qualquer coisa e tecle ENTER para continuar.\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
     
 
@@ -1503,8 +1535,13 @@ void excluiPessoa(void) {
 
     }
 
+
     fclose(fp);
     free(cadastro_pess);
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 }
 
@@ -1586,6 +1623,9 @@ void excluiLivro(void) {
     fclose(fp);
     free(livro);
 
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 }
 
 char menuPrincipal() {
@@ -1738,24 +1778,30 @@ void menuAdmin() {
                             case 'A':
                                 listaP = listaDiretaPessoas();
                                 exibeListaPessoas(listaP);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
+                                
+                                printf("\n Tecle ENTER para continuar.\n");
+                                getchar();
+                                getchar();
                                 break;
 
                             case 'B':
 
                                 listaP = listaInvertidaPessoas();
                                 exibeListaPessoas(listaP);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
+                                
+                                printf("\n Tecle ENTER para continuar.\n");
+                                getchar();
+                                getchar();
                                 break;
 
                             case 'C':
 
                                 listaP = listaOrdenadaPessoas();
                                 exibeListaPessoas(listaP);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
+
+                                printf("\n Tecle ENTER para continuar.\n");
+                                getchar();
+                                getchar();
                                 break;
 
                         }                        
@@ -1777,10 +1823,12 @@ void menuAdmin() {
 
         case 'B':
             do {
+
                 gerenciarLivros();
                 printf("\n Escolha uma opção: ");
                 scanf(" %c", &op2);
                 op2 = maius(op2);
+
                 switch(op2) {
                     case 'A':
                         cadastroLivro();
@@ -1836,23 +1884,28 @@ void menuAdmin() {
                             case 'A':
                                 listaL = listaDiretaLivros();
                                 exibeListaLivros(listaL);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
+                                
+                                printf("\n Tecle ENTER para continuar.\n");
+                                getchar();
+                                getchar();
                                 break;
 
                             case 'B':
                                 listaL = listaInvertidaLivros();
                                 exibeListaLivros(listaL);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
+                                
+                                printf("\n Tecle ENTER para continuar. \n");
+                                getchar();
+                                getchar();
                                 break;
 
                             case 'C':
                                 listaL = listaOrdenadaLivros();
                                 exibeListaLivros(listaL);
-                                printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-                                scanf(" %c", &op);
-
+                                
+                                printf("\n Tecle ENTER para continuar.\n");
+                                getchar();
+                                getchar();
                                 break;      
                             }
                         }while(op3 != 'S');
@@ -2604,7 +2657,6 @@ void devolve_livro(void) {
     Emprestimo* devolve;
     Livro* livro;
 
-
     int achou2;
     int achou;
     char resp;
@@ -2706,9 +2758,10 @@ void devolve_livro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar...\n");
-    scanf(" %c", &resp);
-
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
     fclose(fp);
     fclose(fp2);
     free(livro);
@@ -3244,7 +3297,7 @@ void pesquisaNomePessoa(void) {
     int achou;
 
     char procurado[100];
-    char resp;
+
 
     fp = fopen("pessoas.dat", "rb");
     if (fp == NULL) {
@@ -3356,9 +3409,9 @@ void pesquisaNomePessoa(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 
 
@@ -3370,7 +3423,7 @@ void pesquisaCPFPessoa(void) {
     Pes* cadastro_pess;
     int achou;
     char procurado[100];
-    char resp;
+
 
     fp = fopen("pessoas.dat", "rb");
 
@@ -3421,9 +3474,10 @@ void pesquisaCPFPessoa(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
     free(cadastro_pess);
 
 }
@@ -3436,7 +3490,7 @@ void pesquisaPorMatriculaEmprestimo(void) {
     Emprestimo* pesquisa;
     int achou;
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -3487,9 +3541,9 @@ void pesquisaPorMatriculaEmprestimo(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
     free(pesquisa);
 
 }
@@ -3503,7 +3557,7 @@ void pesquisaPorCPFEmprestimo(void) {
     Emprestimo* cadastro_pess;
     int achou;
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -3554,8 +3608,9 @@ void pesquisaPorCPFEmprestimo(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
     free(cadastro_pess);
 
@@ -3572,7 +3627,7 @@ void pesquisaPorCodigoEmprestimo(void) {
     Emprestimo* pesquisa;
     int achou;
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -3623,8 +3678,9 @@ void pesquisaPorCodigoEmprestimo(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
     free(pesquisa);
 
@@ -3775,7 +3831,7 @@ void pesquisaTituloLivro(void) {
     int achou;
 
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("livros.dat", "rb");
     if (fp == NULL) {
@@ -3887,8 +3943,9 @@ void pesquisaTituloLivro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 }
 
@@ -3905,7 +3962,7 @@ void pesquisaAutorLivro(void) {
     int achou;
 
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("livros.dat", "rb");
     if (fp == NULL) {
@@ -4017,10 +4074,9 @@ void pesquisaAutorLivro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
-
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 }
 
@@ -4030,7 +4086,7 @@ void pesquisaISBNLivro(void) {
     Livro* livro;
     int achou;
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("livros.dat", "rb");
 
@@ -4081,9 +4137,11 @@ void pesquisaISBNLivro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
-
+ 
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
     free(livro);
 
 }
@@ -4094,7 +4152,7 @@ void pesquisaMatriculaLivro(void) {
     Livro* livro;
     int achou;
     char procurado[100];
-    char resp;
+    
 
     fp = fopen("livros.dat", "rb");
 
@@ -4146,8 +4204,9 @@ void pesquisaMatriculaLivro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
     free(livro);
 
@@ -4166,8 +4225,7 @@ void pesquisaGeneroLivro(void) {
     int achou;
 
     char procurado[100];
-    char resp;
-
+    
     fp = fopen("livros.dat", "rb");
     if (fp == NULL) {
         printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
@@ -4278,8 +4336,9 @@ void pesquisaGeneroLivro(void) {
 
     }
 
-    printf("\n Digite algo e tecle ENTER para continuar.\n\n");
-    scanf(" %c", &resp);
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
 
 }
 
