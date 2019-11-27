@@ -2588,6 +2588,9 @@ void mostraLivro(Emprestimo* emprestimo) {
         printf("\n");
 
         livro->emprestado = '1';
+        fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
+        fwrite(livro, sizeof(Livro), 1, fp);
+
         livro->quantidade_de_vezes_emprestado += 1;
         fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
         fwrite(livro, sizeof(Livro), 1, fp);
@@ -4609,9 +4612,11 @@ void exibeListaEmprestimo(NoEmprestimo* lista) {
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_entrega, lista->minuto_entrega, lista->segundo_entrega);
         printf("\n");
 
+        /*
         if(lista->emprestado == '0'){
             printf(" Este livro esta disponível para ser emprestado novamente\n");
         }
+        */
 
         if (((segundos2 - lista->segundos) >= 0) && (lista->emprestado == '1')){
             printf(" Este Livro emprestado está Atrasado.\n");
