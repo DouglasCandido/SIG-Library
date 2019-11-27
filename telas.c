@@ -2699,7 +2699,7 @@ void devolve_livro(void) {
 
     while((!achou) && (fread(devolve, sizeof(Emprestimo), 1, fp))) {
 
-        if ((strcmp(devolve->matricula, matricula) == 0) && (devolve->status == '1')) {
+        if ((strcmp(devolve->matricula, matricula) == 0) && (devolve->status == '1') && (devolve->emprestado == '1')) {
 
             achou = 1;
 
