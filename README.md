@@ -1,9 +1,9 @@
 # SIG-Library
-A library system made with C. <br />
-Universidade Federal do Rio Gande do Norte (UFRN). <br />
+A library system made with C. <br /> <br />
+Universidade Federal do Rio Gande do Norte (UFRN). <br /> <br />
 Students: <br />
 Douglas Mateus Soares Cândido da Silva / Email: douglasmateus1@hotmail.com / Cellphone: (84)99996-4793  <br />       
-Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 <br />
+Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 <br /> <br />
 Professor: Flavius Gorgônio. <br />
 
 * Instruções: 
