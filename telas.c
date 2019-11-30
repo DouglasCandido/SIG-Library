@@ -19,6 +19,7 @@ struct pes {
     char nome[101];
     char enderCid[101];
     char enderBair[101];
+    char enderRua[101];
     char numCasa[51];
     char cpf[12]; 
     char tel[13];
@@ -57,6 +58,7 @@ struct noPes {
     char nome[101];
     char enderCid[101];
     char enderBair[101];
+    char enderRua[101];
     char numCasa[51];
     char cpf[12]; 
     char tel[13];
@@ -197,6 +199,7 @@ void exibeListaEmprestimo(NoEmprestimo*);
 int verificaCPF(char procurado[11]);
 int verificaCodigoEmprestimo(char procurado[10]);
 int verifica_matricula(char procurado[12]);
+int verifica_telefone(char procurado[12]);
 void gravaEmprestimo(Emprestimo* emprestimo);
 void listaEmprestimos(void);
 void exibeEmprestimo(Emprestimo* emprestimo);
@@ -534,8 +537,9 @@ void menuEditaEndereco(void) {
     printf("\n =================================");
     printf("\n\n []A - Alterar Cidade");
     printf("\n []B - Alterar Bairro");
-    printf("\n []C - Alterar Estado");
-    printf("\n []D - Alterar Número casa");
+    printf("\n []C - Alterar Rua");
+    printf("\n []D - Alterar Estado");
+    printf("\n []E - Alterar Número casa");
     printf("\n []S - Voltar");
 
 }
@@ -744,6 +748,22 @@ void editaPessoa(void) {
                             break;
 
                         case 'C':
+                            printf("\n Insira sua rua: ");
+                            scanf(" %100[^\n]", cadastro_pess->enderRua);
+                            while(validaNome(cadastro_pess->enderRua) == 0) {
+                                printf(" Insira um nome válido para a rua: ");
+                                scanf(" %100[^\n]", cadastro_pess->enderRua);
+                            }
+                            fseek(fp, (-1)*sizeof(Pes), SEEK_CUR);
+                            fwrite(cadastro_pess, sizeof(Pes), 1, fp);
+                            printf("\n Informação editada com sucesso!\n");
+                            
+                            printf("\n Tecle ENTER para continuar.\n");
+                            getchar();
+                            getchar();
+                            break;
+
+                        case 'D':
                             exibeEstados();
                             do {
                                 printf("\n Digite o número correspondente ao seu estado: ");
@@ -760,7 +780,7 @@ void editaPessoa(void) {
                             getchar();
                             break;
 
-                        case 'D':
+                        case 'E':
                             printf("\n Insira o número da sua casa: ");
                             scanf(" %100[^\n]", cadastro_pess->numCasa);
                             while(validaLetrasNumeros(cadastro_pess->numCasa)==0) {
@@ -1160,6 +1180,7 @@ void exibePessoa(Pes* cadastro_pess) {
 
     printf(" Cidade: %s \n", cadastro_pess->enderCid);
     printf(" Bairro: %s \n", cadastro_pess->enderBair);
+    printf(" Rua: %s \n", cadastro_pess->enderRua);
     printf(" Numero da casa: %s \n", cadastro_pess->numCasa);
     printf(" Quantidade de livros emprestados a esse leitor: %d \n", cadastro_pess->quantidade_de_livros_emprestados);
     printf("\n");
@@ -1298,6 +1319,13 @@ void cadastroPessoa() {
             while(validaNome(cadastro_pess->enderBair) == 0) {
                 printf(" Insira um nome válido para o bairro: ");
                 scanf(" %100[^\n]", cadastro_pess->enderBair);
+            }
+
+            printf("\n Insira a rua: ");
+            scanf(" %100[^\n]", cadastro_pess->enderRua);
+            while(validaNome(cadastro_pess->enderRua) == 0) {
+                printf(" Insira um nome válido para a rua: ");
+                scanf(" %100[^\n]", cadastro_pess->enderRua);
             }
 
             printf("\n Insira o número da casa: ");
@@ -2468,6 +2496,7 @@ void mostraPessoa(Emprestimo* emprestimo) {
 
         printf(" Cidade: %s \n", cadastro_pess->enderCid);
         printf(" Bairro: %s \n", cadastro_pess->enderBair);
+        printf(" Rua: %s \n", cadastro_pess->enderRua);
         printf(" Numero da casa: %s \n", cadastro_pess->numCasa);
         printf("\n");
 
@@ -2652,6 +2681,52 @@ int verifica_matricula(char procurado[12]) {
 
 }
 
+int verifica_telefone(char procurado[12]) { 
+
+    FILE* fp;
+    Pes* pessoa;
+    int achou;
+
+    fp = fopen("pessoas.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    pessoa = (Pes*) malloc(sizeof(Pes));
+
+    achou = 0;
+
+    while((!achou) && (fread(pessoa, sizeof(Pes), 1, fp))) {
+
+        if ((strcmp(pessoa->tel, procurado) == 0) && (pessoa->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    if (achou) {
+
+        return 0;
+
+    } else {
+
+        return 1;
+
+    }
+
+    fclose(fp);
+    free(pessoa);
+
+}
+
 void devolve_livro(void) {
 
     FILE* fp;
@@ -2796,6 +2871,7 @@ NoPes* listaOrdenadaPessoas(void) {
       strcpy(noPes->nome, pessoa->nome);
       strcpy(noPes->enderCid, pessoa->enderCid);
       strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->enderRua, pessoa->enderRua);
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
@@ -2873,6 +2949,7 @@ NoPes* listaInvertidaPessoas(void) {
       strcpy(noPes->nome, pessoa->nome);
       strcpy(noPes->enderCid, pessoa->enderCid);
       strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->enderRua, pessoa->enderRua);
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
@@ -2937,6 +3014,7 @@ NoPes* listaDiretaPessoas(void) {
       strcpy(noPes->nome, pessoa->nome);
       strcpy(noPes->enderCid, pessoa->enderCid);
       strcpy(noPes->enderBair, pessoa->enderBair);
+      strcpy(noPes->enderRua, pessoa->enderRua);
       strcpy(noPes->numCasa, pessoa->numCasa);
       strcpy(noPes->tel, pessoa->tel);
       strcpy(noPes->email, pessoa->email);
@@ -3106,6 +3184,7 @@ void exibeListaPessoas(NoPes* lista) {
 
     printf(" Cidade: %s \n", lista->enderCid);
     printf(" Bairro: %s \n", lista->enderBair);
+    printf(" Rua: %s \n", lista->enderRua);
     printf(" Numero da casa: %s \n", lista->numCasa);
     printf(" Quantidade de livros emprestados a esse leitor: %d \n", lista->quantidade_de_livros_emprestados);
     printf("\n");
@@ -3811,6 +3890,7 @@ void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
 
     printf(" Cidade: %s \n", usuarios_encontrados[k]->enderCid);
     printf(" Bairro: %s \n", usuarios_encontrados[k]->enderBair);
+    printf(" Rua: %s \n", usuarios_encontrados[k]->enderRua);
     printf(" Numero da casa: %s \n", usuarios_encontrados[k]->numCasa);
     printf(" Quantidade de livros emprestados a esse leitor: %d \n", usuarios_encontrados[k]->quantidade_de_livros_emprestados);
     printf("\n");

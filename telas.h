@@ -21,6 +21,7 @@ void emprestimo(void); // Essa função é responsável por tratar do empréstim
 int verifica_cpf_emprestimo(char cpf[11]); // Essa função verifica se o CPF referente ao usuário já existe, no processo de empréstimo de livros.
 int verifica_matricula_emprestimo(char procurado[12]); // Essa função verifica se a matrícula referente ao livro já existe no processo de empréstimo de livros.
 int verifica_matricula(char procurado[12]); // Essa função verifica se a matrícula referente ao livro já existe, no processo de empréstimo de livros.
+int verifica_telefone(char procurado[12]); // Essa função verifica se o telefone informado já existe, no processo de cadastro de um novo leitor.
 void devolve_livro(void);  // Essa função é responsável por tratar da devolução de um livro em posse de um leitor.
 void busca_especifica_livro(void);
 void busca_especifica_pessoa(void);

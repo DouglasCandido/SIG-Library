@@ -16,7 +16,7 @@ int validaMatr(char matricula[12]) {
 
     }
 
-    if((strlen(matricula)) > 12 && strlen(matricula) < 12) {
+    if((strlen(matricula)) > 12 || strlen(matricula) < 12) {
 
         return 0;
 
@@ -90,7 +90,13 @@ int validaTelefone(char tel[12]) {
 
     regex_t reg;
 
-    if((strlen(tel)) > 12 && strlen(tel) < 12) {
+    if (verifica_telefone(tel) == 0) {
+
+        return 0;
+
+    }
+
+    if((strlen(tel)) > 12 || strlen(tel) < 12) {
 
         return 0;
 
@@ -122,7 +128,7 @@ int validaCPF(char cpf[11]) {
 
     int cpfTrans[11], soma = 0, dig1, res1, res2, dig2, restante;
 
-    if(strlen(cpf) > 11 && strlen(cpf) < 11) {
+    if(strlen(cpf) > 11 || strlen(cpf) < 11) {
 
         return 0;
 
@@ -255,7 +261,7 @@ int validaCodigoEmprestimo(char cod[10]) {
 
     regex_t reg;
 
-    if(strlen(cod) > 10 && strlen(cod) < 10) {
+    if(strlen(cod) > 10 || strlen(cod) < 10) {
 
         return 0;
 
@@ -323,7 +329,7 @@ int validaISBN(char isbn[17]) {
 
     regex_t reg;
 
-    if((strlen(isbn)) > 17 && strlen(isbn) < 17) {
+    if((strlen(isbn)) > 17 || strlen(isbn) < 17) {
 
         return 0;
 
