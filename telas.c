@@ -261,7 +261,6 @@ void pessoas_mais(void){
 
 void bonus (void){
     char op;
-    NoLivro* lista;
     do{
 
         tela_bonus();
