@@ -1533,10 +1533,10 @@ void exibePessoa(Pes* cadastro_pess) {
         printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", cadastro_pess->motivo);
         printf(" Valor da multa: %.2f R$ \n", cadastro_pess->valor_a_pagar);
-        printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
+        /*printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
         printf("%d/", cadastro_pess->mes_inicio);
         printf("%d", cadastro_pess->ano_inicio);
-        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);
+        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);*/
         /*
         printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
         printf("%d/", cadastro_pess->mes_termino);
@@ -1840,6 +1840,8 @@ void cadastroLivro() {
 
     Livro* livro;
 
+    char op;
+
     livro = (Livro*) malloc(sizeof(Livro));
 
     system("clear");
@@ -1850,58 +1852,77 @@ void cadastroLivro() {
     printf("\n >>>     CADASTRO DE LIVRO     <<<");
     printf("\n =================================");
 
-    printf("\n Insira a matrícula: ");
-    scanf(" %12[^\n]", livro->matricula);
-    while(validaMatr(livro->matricula) == 0) {
-        printf(" Insira uma matrícula válida para o livro: ");
-        scanf(" %12[^\n]", livro->matricula);
-    }
+    printf(" \n\n Deseja realizar cadastro? (S/N)\n");
+    printf(" >>>>>: ");
+    scanf(" %c",&op);
+    op = maius(op);
 
-    printf("\n Insira o nome: ");
-    scanf(" %100[^\n]", livro->nome);
-    while(validaNome(livro->nome) == 0) {
-        printf(" Insira um nome válido: ");
-        scanf(" %100[^\n]", livro->nome);
-    }
+    if (op == 'S'){
+        do{
+            printf("\n Insira a matrícula: ");
+            scanf(" %12[^\n]", livro->matricula);
+            while(validaMatr(livro->matricula) == 0) {
+                printf(" Insira uma matrícula válida para o livro: ");
+                scanf(" %12[^\n]", livro->matricula);
+            }
 
-    printf("\n Insira o ISBN [xxx-xx-xxx-xxxx-x]: ");
-    scanf(" %17[^\n]", livro->isbn);
-    while(validaISBN(livro->isbn) == 0) {
-        printf(" Insira um ISBN válido [xxx-xx-xxx-xxxx-x]: ");
-        scanf(" %17[^\n]", livro->isbn);
-    }
+            printf("\n Insira o nome: ");
+            scanf(" %100[^\n]", livro->nome);
+            while(validaNome(livro->nome) == 0) {
+                printf(" Insira um nome válido: ");
+                scanf(" %100[^\n]", livro->nome);
+            }
 
-    printf("\n Insira o autor: ");
-    scanf(" %199[^\n]", livro->autor);
-    while(validaNome(livro->autor) == 0) {
-        printf(" Insira um nome válido para o autor: ");
-        scanf(" %199[^\n]", livro->autor);
-    }
+            printf("\n Insira o ISBN [xxx-xx-xxx-xxxx-x]: ");
+            scanf(" %17[^\n]", livro->isbn);
+            while(validaISBN(livro->isbn) == 0) {
+                printf(" Insira um ISBN válido [xxx-xx-xxx-xxxx-x]: ");
+                scanf(" %17[^\n]", livro->isbn);
+            }
 
-    printf("\n Insira o gênero: ");
-    scanf(" %99[^\n]", livro->genero);
-    while(validaNome(livro->genero) == 0) {
-        printf(" Insira um nome válido para o gênero: ");
-        scanf(" %99[^\n]", livro->genero);
-    }
+            printf("\n Insira o autor: ");
+            scanf(" %199[^\n]", livro->autor);
+            while(validaNome(livro->autor) == 0) {
+                printf(" Insira um nome válido para o autor: ");
+                scanf(" %199[^\n]", livro->autor);
+            }
 
-    printf("\n Insira a editora: ");
-    scanf(" %99[^\n]", livro->editora);
-    while(validaNome(livro->editora) == 0) {
-        printf(" Insira um nome válido para a editora: ");
-        scanf(" %99[^\n]", livro->editora);
-    }
+            printf("\n Insira o gênero: ");
+            scanf(" %99[^\n]", livro->genero);
+            while(validaNome(livro->genero) == 0) {
+                printf(" Insira um nome válido para o gênero: ");
+                scanf(" %99[^\n]", livro->genero);
+            }
 
-    printf("\n Insira a edição: ");
-    scanf(" %2[^\n]", livro->edicao);
-    while(validaEdicao(livro->edicao) == 0) {
-        printf(" Insira um nome válido para a edição: ");
-        scanf(" %2[^\n]", livro->edicao);
-    }
+            printf("\n Insira a editora: ");
+            scanf(" %99[^\n]", livro->editora);
+            while(validaNome(livro->editora) == 0) {
+                printf(" Insira um nome válido para a editora: ");
+                scanf(" %99[^\n]", livro->editora);
+            }
 
-    printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
-    scanf("%f", &livro->preco);
-    /*
+            printf("\n Insira a edição: ");
+            scanf(" %2[^\n]", livro->edicao);
+            while(validaEdicao(livro->edicao) == 0) {
+                printf(" Insira um nome válido para a edição: ");
+                scanf(" %2[^\n]", livro->edicao);
+            }
+
+            printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
+            scanf("%f", &livro->preco);
+
+            gravaLivro(livro);
+            exibeLivro(livro);
+
+            printf(" \nDeseja realizar outro cadastro? (S/N)\n");
+            printf(" >>>>>: ");
+            scanf(" %c",&op);
+            op = maius(op);
+
+
+        }while(op == 'S');
+    }
+/*
   	while(validaPreco(livro->preco)==0) {
     printf(" Insira um preço válido: ");
     scanf("%f", &livro->preco);
@@ -1909,8 +1930,7 @@ void cadastroLivro() {
   	}
     */
 
-    gravaLivro(livro);
-    exibeLivro(livro);
+
 
     printf("\n Tecle ENTER para continuar.\n");
     getchar();
@@ -2882,10 +2902,10 @@ void mostraPessoa(Emprestimo* emprestimo) {
             printf("\n Esse leitor está multado.\n");
             printf(" Motivo: %s \n", cadastro_pess->motivo);
             printf(" Valor da multa: %.2f R$ \n", cadastro_pess->valor_a_pagar);
-            printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
+            /*printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
             printf("%d/", cadastro_pess->mes_inicio);
             printf("%d", cadastro_pess->ano_inicio);
-            printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);
+            printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);*/
             /*
 	        printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
 	        printf("%d/", cadastro_pess->mes_termino);
@@ -3761,10 +3781,10 @@ void exibeListaPessoas(NoPes* lista) {
         printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", lista->motivo);
         printf(" Valor da multa: %.2f R$ \n", lista->valor_a_pagar);
-        printf(" Data de início do banimento: %d/", lista->dia_inicio);
+        /*printf(" Data de início do banimento: %d/", lista->dia_inicio);
         printf("%d/", lista->mes_inicio);
         printf("%d", lista->ano_inicio);
-        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_inicio, lista->minuto_inicio, lista->segundo_inicio);
+        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_inicio, lista->minuto_inicio, lista->segundo_inicio);*/
         /*
         printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
         printf("%d/", cadastro_pess->mes_termino);
@@ -4859,14 +4879,14 @@ void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
         printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", usuarios_encontrados[k]->motivo);
         printf(" Valor da multa: %.2f R$ \n", usuarios_encontrados[k]->valor_a_pagar);
-        printf(" Data de início do banimento: %d/", usuarios_encontrados[k]->dia_inicio);
+        /*printf(" Data de início do banimento: %d/", usuarios_encontrados[k]->dia_inicio);
         printf("%d/", usuarios_encontrados[k]->mes_inicio);
         printf("%d", usuarios_encontrados[k]->ano_inicio);
-        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", usuarios_encontrados[k]->hora_inicio, usuarios_encontrados[k]->minuto_inicio, usuarios_encontrados[k]->segundo_inicio);
+        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", usuarios_encontrados[k]->hora_inicio, usuarios_encontrados[k]->minuto_inicio, usuarios_encontrados[k]->segundo_inicio);*/
         /*
         printf(" Data do término do banimento: %d/", usuarios_encontrados[k]->dia_termino);
         printf("%d/", usuarios_encontrados[k]->mes_termino);
-        printf("%d", usuarios_encontrados[k]->ano_termino);
+        printf("%d", usuarios_encsontrados[k]->ano_termino);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", usuarios_encontrados[k]->hora_termino, usuarios_encontrados[k]->minuto_termino, usuarios_encontrados[k]->segundo_termino);
         */
         printf("\n");
