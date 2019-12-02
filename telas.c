@@ -185,7 +185,6 @@ struct noEmprestimo {
 
 };
 
-
 NoPes* listaOrdenadaPessoas(void);
 NoPes* listaDiretaPessoas(void);
 NoPes* listaInvertidaPessoas(void);
@@ -214,23 +213,28 @@ void busca_especifica_livro(void);
 void busca_especifica_emprestimo(void);
 void pesquisaNomePessoa(void);
 void pesquisaCPFPessoa(void);
+void pesquisaEmailPessoa(void);
+void pesquisaTelefonePessoa(void);
 void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade);
 void pesquisaTituloLivro(void);
 void pesquisaAutorLivro(void);
 void pesquisaISBNLivro(void);
 void pesquisaMatriculaLivro(void);
 void pesquisaGeneroLivro(void);
+void pesquisaEditoraLivro(void);
+void pesquisaEdicaoLivro(void);
 void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade);
 void pesquisaPorCodigoEmprestimo(void);
+void pesquisaPorDataEmprestimo(void);
 void pesquisaPorCPFEmprestimo(void);
 void pesquisaPorMatriculaEmprestimo(void);
-void pesquisaPorDataEmprestimo(void);
 void exibeEmprestimosEncontrados(Emprestimo** emprestimos_encontrados, int quantidade);
 void tira_multa(void);
 void bonus(void);
 void tela_bonus(void);
 void livros_mais(void); 
 void pessoas_mais(void);
+
 void tela_bonus(void) {
 
     system("clear");
@@ -238,7 +242,7 @@ void tela_bonus(void) {
     printf("\n =================================");
     printf("\n | | |  Programa Biblioteca  | | |");
     printf("\n =================================");
-    printf("\n >>>           BÔNUS           <<<");
+    printf("\n >>>        Estatísticas       <<<");
     printf("\n =================================");
     printf("\n\n []A - Livros mais solicitados\n");
     printf(" []B - Pessoas mais ativas\n");
@@ -246,38 +250,42 @@ void tela_bonus(void) {
 
 }
 
-
-
 void livros_mais(void){
  
+
 
 }
 
 void pessoas_mais(void){
  
 
+
 }
 
-
 void bonus (void){
+
     char op;
+
     do{
 
-        tela_bonus();
-        printf(" Escolha sua opção: \n");
-        scanf(" %c",&op);
-        op = maius(op);
+    tela_bonus();
 
-        switch(op){
+    printf("\n Escolha sua opção: \n");
+    scanf(" %c", &op);
 
-            case 'A':
-            break;
+    op = maius(op);
 
-            case 'B':
-            break;
-        }
+    switch(op){
+
+        case 'A':
+        break;
+
+        case 'B':
+        break;
+    }
 
     }while(op != 'S');
+
 }
 
 void listaEmprestimos(void) {
@@ -571,8 +579,14 @@ void gerenciarEmprestimos(void) {
                         pesquisaPorMatriculaEmprestimo();
                         break;
 
+                        case 'D':
+                        pesquisaPorDataEmprestimo();
+                        break;
+
                     }
+
                 }while(op2 != 'S');
+
                 break;
 
             case 'D':
@@ -2002,7 +2016,7 @@ void menuAdmin() {
         printf("\n\n []A - Gerenciar Pessoas\n");
         printf(" []B - Gerenciar Livros\n");
         printf(" []C - Gerenciar Emprestimos\n");
-        printf(" []D - BÔNUS\n");
+        printf(" []D - Estatísticas\n");
         printf(" []S - Sair\n");
 
         printf("\n Escolha uma opção: ");
@@ -2037,6 +2051,15 @@ void menuAdmin() {
                             case 'B':
                             pesquisaNomePessoa();
                             break;
+
+                            case 'C':
+                            pesquisaEmailPessoa();
+                            break;
+
+                            case 'D':
+                            pesquisaTelefonePessoa();
+                            break;
+
                         }
                     }while(op5 != 'S');
                     break;
@@ -2135,6 +2158,14 @@ void menuAdmin() {
 
                             case 'E':
                             pesquisaMatriculaLivro();
+                            break;
+
+                            case 'F':
+                            pesquisaEditoraLivro();
+                            break;
+
+                            case 'G':
+                            pesquisaEdicaoLivro();
                             break;
 
                         }
@@ -2308,6 +2339,8 @@ void busca_especifica_livro(void) {
     printf(" []C - Busca por ISBN\n");
     printf(" []D - Busca por Gênero\n");
     printf(" []E - Busca por Matricula\n");
+    printf(" []F - Busca por Editora\n");
+    printf(" []G - Busca por Edição\n");
     printf(" []S - Sair\n");
 }
 
@@ -2322,6 +2355,8 @@ void busca_especifica_pessoa(void) {
     printf("\n =================================");
     printf("\n\n []A - Busca por CPF\n");
     printf(" []B - Busca por Nome\n");
+    printf(" []C - Busca por Email\n");
+    printf(" []D - Busca por Telefone\n");
     printf(" []S - Sair\n");
 }
 
@@ -2337,6 +2372,7 @@ void busca_especifica_emprestimo(void) {
     printf("\n\n []A - Busca por Código do empréstimo\n");
     printf(" []B - Busca por CPF do leitor\n");
     printf(" []C - Busca por Matrícula do livro\n");
+    printf(" []D - Busca por Data de realização do empréstimo\n");
     printf(" []S - Sair\n");
 }
 
@@ -2368,8 +2404,8 @@ void menuListaEmprestimos(void) {
     printf("\n >>>   HISTÓRICO EMPRÉSTIMOS   <<<");
     printf("\n =================================");
     printf("\n\n []A - Todos os empréstimos ativos");
-    printf("\n []B - Empréstimos de livros na ordem inversa");
-    printf("\n []C - Empréstimos de livros em ordem alfabética");
+    printf("\n []B - Empréstimos ativos na ordem inversa");
+    printf("\n []C - Empréstimos ativos em ordem alfabética");
     printf("\n []D - Histórico de todos emprestimos ativos e inativos");
     printf("\n []S - Voltar ao Menu do Administrador");
 
@@ -3234,24 +3270,33 @@ void devolve_livro(void) {
 }
 
 NoPes* listaOrdenadaPessoas(void) {
+
   FILE* fp;
+
   Pes* pessoa;
+
   NoPes* noPes;
   NoPes* lista;
 
   lista = NULL;
 
   fp = fopen("pessoas.dat", "rb");
+
   if (fp == NULL) {
+
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
+
     exit(1);
+
   }
 
   pessoa = (Pes*) malloc(sizeof(Pes));
 
   while(fread(pessoa, sizeof(Pes), 1, fp)) {
+
     if (pessoa->status == '1') {
+
       noPes = (NoPes*) malloc(sizeof(NoPes));
       strcpy(noPes->cpf, pessoa->cpf);
       strcpy(noPes->nome, pessoa->nome);
@@ -3288,46 +3333,70 @@ NoPes* listaOrdenadaPessoas(void) {
       noPes->valor_a_pagar = pessoa->valor_a_pagar;
 
       if (lista == NULL) {
+
         lista = noPes;
         noPes->prox = NULL;
+
       } else if (strcmp(noPes->nome,lista->nome) < 0) {
+
         noPes->prox = lista;
         lista = noPes;
+
       } else {
+
         NoPes* anter = lista;
         NoPes* atual = lista->prox;
+
         while ((atual != NULL) && strcmp(atual->nome,noPes->nome) < 0) {
+
           anter = atual;
           atual = atual->prox;
+
         }
+
         anter->prox = noPes;
         noPes->prox = atual;
+
       }
+
     }
+
   }
+
   fclose(fp);
   free(pessoa);
+
   return lista;
+
 }
 
 NoPes* listaInvertidaPessoas(void) {
+
   FILE* fp;
+
   Pes* pessoa;
+
   NoPes* noPes;
   NoPes* lista;
   
   lista = NULL;
+
   fp = fopen("pessoas.dat", "rb");
+
   if (fp == NULL) {
+
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
+
     exit(1);
   }
 
   pessoa = (Pes*) malloc(sizeof(Pes));
+
   while(fread(pessoa, sizeof(Pes), 1, fp)){
 
     printf("nome: %s \n", pessoa->nome);
+
     if (pessoa->status == '1') {
 
       noPes = (NoPes*) malloc(sizeof(NoPes));
@@ -3369,15 +3438,22 @@ NoPes* listaInvertidaPessoas(void) {
       noPes->prox = lista;
       lista = noPes;
     }
+
   }
+
   fclose(fp);
   free(pessoa);
+
   return lista;
+
 }
 
 NoPes* listaDiretaPessoas(void) {
+
   FILE* fp;
+
   Pes* pessoa;
+
   NoPes* noPes;
   NoPes* lista;
   NoPes* ultimo;
@@ -3387,13 +3463,18 @@ NoPes* listaDiretaPessoas(void) {
   fp = fopen("pessoas.dat", "rb");
   
   if (fp == NULL) {
+
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
+
     exit(1);
+
   }
 
   pessoa = (Pes*) malloc(sizeof(Pes));
+
   while(fread(pessoa, sizeof(Pes), 1, fp)) {
+
     if (pessoa->status == '1') {
 
       noPes = (NoPes*) malloc(sizeof(NoPes));
@@ -3435,23 +3516,30 @@ NoPes* listaDiretaPessoas(void) {
       noPes->prox = NULL;
 
       if (lista == NULL) {
+
         lista = noPes;
+
       } else {
+
         ultimo->prox = noPes;
+
       }
+
       ultimo = noPes;
+
     }
+
   }
+
   fclose(fp);
   free(pessoa);
+
   return lista;
+
 }
 
 void exibeListaPessoas(NoPes* lista) {
 
-    int dia = lista->dia;
-    int mes = lista->mes;
-    int ano = lista->ano;
     int numero_uf = lista->uf;
 
     system("clear");
@@ -3467,7 +3555,7 @@ void exibeListaPessoas(NoPes* lista) {
     printf("\n\n Nome: %s \n", lista->nome);
     printf(" CPF: %c%c%c.%c%c%c.%c%c%c-%c%c \n", lista->cpf[0], lista->cpf[1], lista->cpf[2], lista->cpf[3], lista->cpf[4], lista->cpf[5], lista->cpf[6], lista->cpf[7], lista->cpf[8], lista->cpf[9], lista->cpf[10]);
 
-    printf(" Data de nascimento: %d/%d/%d \n", dia, mes, ano);
+    printf(" Data de nascimento: %d/%d/%d \n", lista->dia, lista->mes, lista->ano);
 
     printf(" Email: %s \n", lista->email);
     printf(" Telefone: %s \n", lista->tel);
@@ -3887,8 +3975,6 @@ void pesquisaNomePessoa(void) {
     getchar();
     getchar();
 
-
-
 }
 
 void pesquisaCPFPessoa(void) {
@@ -3956,7 +4042,135 @@ void pesquisaCPFPessoa(void) {
 
 }
 
+void pesquisaEmailPessoa(void) {
 
+    FILE* fp;
+    Pes* cadastro_pess;
+    int achou;
+    char procurado[100];
+
+
+    fp = fopen("pessoas.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA PESSOA        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o email da pessoa a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    achou = 0;
+
+    while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+        if ((strcmp(cadastro_pess->email, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibePessoa(cadastro_pess);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
+    free(cadastro_pess);
+
+}
+
+void pesquisaTelefonePessoa(void) {
+
+    FILE* fp;
+    Pes* cadastro_pess;
+    int achou;
+    char procurado[100];
+
+
+    fp = fopen("pessoas.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA PESSOA        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o telefone da pessoa a ser buscada: ");
+    scanf(" %100[^\n]", procurado);
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    achou = 0;
+
+    while((!achou) && (fread(cadastro_pess, sizeof(Pes), 1, fp))) {
+
+        if ((strcmp(cadastro_pess->tel, procurado) == 0) && (cadastro_pess->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibePessoa(cadastro_pess);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
+    free(cadastro_pess);
+
+}
 
 void pesquisaPorMatriculaEmprestimo(void) {
 
@@ -4021,9 +4235,6 @@ void pesquisaPorMatriculaEmprestimo(void) {
     free(pesquisa);
 
 }
-
-
-
 
 void pesquisaPorCPFEmprestimo(void) {
 
@@ -4090,18 +4301,12 @@ void pesquisaPorCPFEmprestimo(void) {
 
 }
 
-
-
-
-
-
 void pesquisaPorCodigoEmprestimo(void) {
 
     FILE* fp;
     Emprestimo* pesquisa;
     int achou;
     char procurado[100];
-    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -4160,9 +4365,85 @@ void pesquisaPorCodigoEmprestimo(void) {
 
 }
 
+void pesquisaPorDataEmprestimo(void) {
 
-    
+    FILE* fp;
+    Emprestimo* pesquisa;
+    int achou;
+    char procurado[100];
 
+    fp = fopen("emprestimos.dat", "rb");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>     BUSCAR EMPRÉSTIMO     <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a data de realização do empréstimo (dd/mm/yyyy): ");
+    scanf(" %100[^\n]", procurado);
+
+    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    achou = 0;
+
+    char string_auxiliar[100];
+
+    while((!achou) && (fread(pesquisa, sizeof(Emprestimo), 1, fp))) {
+
+    	char dia[sizeof(int) * 4 + 1];
+    	char mes[sizeof(int) * 4 + 1];
+    	char ano[sizeof(int) * 4 + 1];
+
+    	sprintf(dia, "%d", pesquisa->dia);
+    	sprintf(mes, "%d", pesquisa->mes);
+    	sprintf(ano, "%d", pesquisa->ano);
+
+    	strcat(string_auxiliar, dia);
+    	strcat(string_auxiliar, "/");
+    	strcat(string_auxiliar, mes);
+    	strcat(string_auxiliar, "/");
+    	strcat(string_auxiliar, ano);
+
+        if ((strcmp(string_auxiliar, procurado) == 0) && (pesquisa->status == '1')) {
+
+            achou = 1;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    if (achou) {
+
+        exibeEmprestimo(pesquisa);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+
+    free(pesquisa);
+
+}
 
 void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
 
@@ -4820,6 +5101,268 @@ void pesquisaGeneroLivro(void) {
 
 }
 
+void pesquisaEditoraLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe a editora do livro a ser buscado: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->editora);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+
+}
+
+void pesquisaEdicaoLivro(void) {
+
+    FILE* fp;
+
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i;
+    int aux;
+    int tam;
+    int achou;
+
+    char procurado[100];
+    
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       BUSCA LIVRO        <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o número da edição do livro a ser buscado: ");
+    scanf(" %100[^\n]", procurado);
+
+    i = 0;
+    aux = 0;
+    achou = 0;
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    while(fread(livro2, sizeof(Livro), 1, fp2)) {
+
+        char string_auxiliar[100];
+
+        strcpy(string_auxiliar, livro2->edicao);
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;               
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (livro2->status == '1')) {
+
+              livros_encontrados[aux] = livro2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Livro*) malloc(sizeof(Livro));
+
+              livro2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+    }
+
+    fclose(fp2);
+
+    if (achou) {
+
+        exibeLivrosEncontrados(livros_encontrados, aux);
+
+    } else {
+
+        printf("\n %s não foi encontrado(a)...\n", procurado);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+
+}
+
 void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade) {
 
 	for(int k = 0; k < quantidade; k++) {
@@ -5106,6 +5649,4 @@ void exibeListaEmprestimo(NoEmprestimo* lista) {
 
     }
 
-
-    
-    }
+}
