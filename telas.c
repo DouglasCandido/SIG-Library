@@ -1864,6 +1864,7 @@ void cadastroLivro() {
             while(validaMatr(livro->matricula) == 0) {
                 printf(" Insira uma matrícula válida para o livro: ");
                 scanf(" %12[^\n]", livro->matricula);
+                setbuf(stdin, NULL);
             }
 
             printf("\n Insira o nome: ");
@@ -2633,7 +2634,7 @@ void sobre() {
 
     system("clear");
 
-    printf("\n A library system made with C. \n \n Universidade Federal do Rio Gande do Norte (UFRN). \n \n Students: \n          Douglas Mateus Soares Cândido da Silva / Email: douglasmateus1@hotmail.com / Cellphone: (84)99996-4793 \n          Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 \n \n Professor: Flavius Gorgônio. \n\n");
+    printf("\n A library system made with C. \n \n Universidade Federal do Rio Grande do Norte (UFRN). \n \n Students: \n          Douglas Mateus Soares Cândido da Silva / Email: douglasmateus1@hotmail.com / Cellphone: (84)99996-4793 \n          Lucas da Silva Santos / Email: santoslucas9956@gmail.com / Cellphone: (84)99803-4865 \n \n Professor: Flavius Gorgônio. \n\n");
 
     printf("       _.--._  _.--._\n");
     printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
