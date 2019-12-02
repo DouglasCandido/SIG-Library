@@ -43,6 +43,7 @@ struct pes {
     int minuto_termino;
     int segundo_termino;
     int quantidade_de_livros_emprestados;
+    float valor_a_pagar;
 
 };
 
@@ -82,6 +83,7 @@ struct noPes {
     int minuto_termino;
     int segundo_termino;
     int quantidade_de_livros_emprestados;
+    float valor_a_pagar;
     NoPes* prox;
 
 };
@@ -98,7 +100,7 @@ struct livro {
     char edicao[3];
     char status;
     char matricula[13];
-    char preco[4];
+    float preco;
     char emprestado;
     int quantidade_de_vezes_emprestado;
 
@@ -117,7 +119,7 @@ struct noLivro {
     char edicao[3];
     char status;
     char matricula[13];
-    char preco[4];
+    float preco;
     char emprestado;
     int quantidade_de_vezes_emprestado;
     NoLivro* prox;
@@ -273,6 +275,10 @@ void listaEmprestimos(void) {
 
 void exibeEmprestimo(Emprestimo* emprestimo) {
 
+	struct tm;
+    time_t segundos2;
+    time(&segundos2);
+
     printf("\n\n Código do empréstimo: %s \n", emprestimo->cod);
     printf("\n Nome do leitor: %s \n", emprestimo->nome);
     printf(" CPF do leitor: %s \n", emprestimo->cpf);
@@ -288,6 +294,12 @@ void exibeEmprestimo(Emprestimo* emprestimo) {
     printf("%d", emprestimo->ano_entrega);
     printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", emprestimo->hora_entrega, emprestimo->minuto_entrega, emprestimo->segundo_entrega);
     printf("\n");
+
+    if (((segundos2 - emprestimo->segundos) >= 0) && (emprestimo->emprestado == '1')){
+            printf(" O livro emprestado está atrasado.\n");
+	}else if (((segundos2 - emprestimo->segundos) <= 0) && (emprestimo->emprestado == '1')){
+	    printf(" O livro emprestado está em dia.\n");    
+	}
 
 }
 
@@ -471,6 +483,7 @@ void emprestimo(void) {
             scanf(" %10[^\n]", emprestar->cod);
 
         }
+
         emprestar->emprestado = '1';
 
         struct tm  *data_atual, *data_entrega;
@@ -1036,12 +1049,14 @@ void editaLivro(void) {
 
                 case 'G':
                     printf(" Informe o novo preço: ");
-                    scanf(" %3[^\n]", livro->preco);
+                    scanf("%f", &livro->preco);
+                    /*
                     while(validaPreco(livro->preco)==0) {
                         printf(" Insira um preço válido: ");
-                        scanf(" %3[^\n]", livro->preco);
+                        scanf("%f", &livro->preco);
                         setbuf(stdin, NULL);
                     }
+                    */
                     fseek(fp, (-1)*sizeof(Livro), SEEK_CUR);
                     fwrite(livro, sizeof(Livro), 1, fp);
                     printf("\n Informação editada com sucesso!\n");
@@ -1080,18 +1095,21 @@ void exibePessoa(Pes* cadastro_pess) {
     printf(" Telefone: %s \n", cadastro_pess->tel);
 
     if(cadastro_pess->multado == '0') {
-        printf(" Esse leitor não está multado.\n");
+        printf("\n Esse leitor não está multado.\n");
     } else {
-        printf(" Esse leitor está multado.\n");
+        printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", cadastro_pess->motivo);
+        printf(" Valor da multa: %.2f R$ \n", cadastro_pess->valor_a_pagar);
         printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
         printf("%d/", cadastro_pess->mes_inicio);
         printf("%d", cadastro_pess->ano_inicio);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);
+        /*
         printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
         printf("%d/", cadastro_pess->mes_termino);
         printf("%d", cadastro_pess->ano_termino);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_termino, cadastro_pess->minuto_termino, cadastro_pess->segundo_termino);
+        */
         printf("\n");
     }
 
@@ -1449,11 +1467,14 @@ void cadastroLivro() {
     }
 
     printf("\n Insira o preço do livro (Para fins de multa em caso da perda do livro por parte do usuário): ");
-    scanf(" %3[^\n]", livro->preco);
-    while(validaPreco(livro->preco) == 0) {
-        printf("\n Insira um preço válido para o livro: ");
-        scanf(" %3[^\n]", livro->preco);
-    }
+    scanf("%f", &livro->preco);
+    /*
+  	while(validaPreco(livro->preco)==0) {
+    printf(" Insira um preço válido: ");
+    scanf("%f", &livro->preco);
+    setbuf(stdin, NULL);
+  	}
+    */
 
     gravaLivro(livro);
     exibeLivro(livro);
@@ -1475,7 +1496,7 @@ void exibeLivro(Livro* livro) {
     printf(" Gênero: %s \n", livro->genero);
     printf(" Editora: %s \n", livro->editora);
     printf(" Edição: %sª \n", livro->edicao);
-    printf(" Preço: %s R$ \n", livro->preco);
+    printf(" Preço: %.2f R$ \n", livro->preco);
     if(livro->emprestado == '0') {
         printf(" O livro não está emprestado.\n");
     } else {
@@ -2396,18 +2417,21 @@ void mostraPessoa(Emprestimo* emprestimo) {
         printf(" Telefone: %s \n", cadastro_pess->tel);
 
         if(cadastro_pess->multado == '0') {
-            printf(" Esse leitor não está multado.\n");
+            printf("\n Esse leitor não está multado.\n");
         } else {
-            printf(" Esse leitor está multado.\n");
+            printf("\n Esse leitor está multado.\n");
             printf(" Motivo: %s \n", cadastro_pess->motivo);
+            printf(" Valor da multa: %.2f R$ \n", cadastro_pess->valor_a_pagar);
             printf(" Data de início do banimento: %d/", cadastro_pess->dia_inicio);
             printf("%d/", cadastro_pess->mes_inicio);
             printf("%d", cadastro_pess->ano_inicio);
             printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_inicio, cadastro_pess->minuto_inicio, cadastro_pess->segundo_inicio);
-            printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
-            printf("%d/", cadastro_pess->mes_termino);
-            printf("%d", cadastro_pess->ano_termino);
-            printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_termino, cadastro_pess->minuto_termino, cadastro_pess->segundo_termino);
+            /*
+	        printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
+	        printf("%d/", cadastro_pess->mes_termino);
+	        printf("%d", cadastro_pess->ano_termino);
+	        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_termino, cadastro_pess->minuto_termino, cadastro_pess->segundo_termino);
+	        */
             printf("\n");
         }
 
@@ -2598,7 +2622,7 @@ void mostraLivro(Emprestimo* emprestimo) {
         printf(" Gênero: %s \n", livro->genero);
         printf(" Editora: %s \n", livro->editora);
         printf(" Edição: %sª \n", livro->edicao);
-        printf(" Preço: %s R$ \n", livro->preco);
+        printf(" Preço: %.2f R$ \n", livro->preco);
 
         if(livro->emprestado == '0') {
             printf(" Esse livro não está emprestado.\n");
@@ -2731,19 +2755,40 @@ void devolve_livro(void) {
 
     FILE* fp;
     FILE* fp2;
+    FILE* fp3;
 
     Emprestimo* devolve;
     Livro* livro;
+    Pes* pessoa;
 
-    int achou2;
-    int achou;
-    char resp;
+    int achou, achou2, achou3;
+    
+    char resp, resp2;
     char matricula[13];
 
     fp = fopen("emprestimos.dat", "r+b");
     fp2 = fopen("livros.dat", "r+b");
+    fp3 = fopen("pessoas.dat", "r+b");
 
     if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    if (fp2 == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    if (fp3 == NULL) {
 
         printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
         printf("Não é possível continuar o programa...\n");
@@ -2765,12 +2810,10 @@ void devolve_livro(void) {
     scanf(" %12[^\n]", matricula);
 
     devolve = (Emprestimo*) malloc(sizeof(Emprestimo));
-
     livro = (Livro*) malloc(sizeof(Livro));
+    pessoa = (Pes*) malloc(sizeof(Pes));
 
-    achou = 0;
-
-    achou2 = 0;
+    achou = 0, achou2 = 0, achou3 = 0;
 
     while((!achou) && (fread(devolve, sizeof(Emprestimo), 1, fp))) {
 
@@ -2787,42 +2830,152 @@ void devolve_livro(void) {
 
         exibeEmprestimo(devolve);
 
-        printf(" Deseja devolver este livro (S/N)? ");
-
+        printf("\n Deseja devolver este livro (S/N)? ");
         scanf(" %c", &resp);
+
+        resp = maius(resp);
 
         if (resp == 's' || resp == 'S') {
             
 
-                while((!achou2) && (fread(livro, sizeof(Livro), 1, fp2))) {
+            while((!achou2) && (fread(livro, sizeof(Livro), 1, fp2))) {
 
-                    if ((strcmp(livro->matricula, devolve->matricula) == 0) && (livro->status == '1')) {
+                if ((strcmp(livro->matricula, devolve->matricula) == 0) && (livro->status == '1')) {
 
-                        achou2 = 1;
+                    achou2 = 1;
 
+                }
 
-                        }
+            }
+
+            if (achou2){
+
+            	while((!achou3) && (fread(pessoa, sizeof(Pes), 1, fp3))) {
+
+                    if ((strcmp(pessoa->cpf, devolve->cpf) == 0) && (pessoa->status == '1')) {
+
+                        achou3 = 1;
+
                     }
 
-                    if (achou2){
+            	}
+
+            	if(achou3) {
+
+                	int dia, mes, ano, hora, minuto, segundo, diferenca;
+
+		        	float horas, dias;
+
+        			time_t segundos2;
+
+        			struct tm  *data_atual;
+
+        			data_atual = localtime(&segundos2);
+
+        			time(&segundos2);
+
+    				dia = data_atual->tm_mday;
+			        mes = data_atual->tm_mon+1;
+			        ano = data_atual->tm_year+1900;
+			        hora = data_atual->tm_hour;
+			        minuto = data_atual->tm_min;
+			        segundo = data_atual->tm_sec;
+
+                	printf("\n O leitor já devolveu o livro (S/N)? ");
+			        scanf(" %c", &resp2);
+
+			        resp = maius(resp2);
+
+			        if(resp2 == 's' || resp2 == 'S') {
 
                         livro->emprestado = '0';
 
                         fseek(fp2, -1 * sizeof(Livro), SEEK_CUR);
                         fwrite(livro, sizeof(Livro), 1, fp2);
-                    }
-            devolve->emprestado = '0';
-            fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
-            fwrite(devolve, sizeof(Emprestimo), 1, fp);
 
+                        devolve->emprestado = '0';
+                        devolve->status = '0';
 
+            			fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
+            			fwrite(devolve, sizeof(Emprestimo), 1, fp);
 
-            /*devolve->status = '0';
+            			if(devolve->segundos >= segundos2) {
 
-            fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
-            fwrite(devolve, sizeof(Emprestimo), 1, fp);*/
+            				diferenca = devolve->segundos - segundos2;
 
-            printf("\nLivro devolvido com sucesso!\n");
+            				horas = diferenca / 3600;
+
+            				dias = horas / 24;
+
+            				printf("\n O leitor devolveu o livro dentro do prazo correto. Faltava %.1f horas para o prazo se esgotar. \n", horas);
+
+            			} 
+
+            			else {
+
+            				diferenca = devolve->segundos - segundos2;
+
+            				horas = diferenca / 3600;
+
+            				dias = horas / 24;         				
+					        
+					        pessoa->segundos2 = segundos2;
+					        pessoa->dia_inicio = dia;
+					        pessoa->mes_inicio = mes;
+					        pessoa->ano_inicio = ano;
+					        pessoa->hora_inicio = hora;
+					        pessoa->minuto_inicio = minuto;
+					        pessoa->segundo_inicio = segundo;
+					        pessoa->multado = '1';
+					        strcpy(pessoa->motivo, "Atraso na devolução do livro.");
+					        pessoa->valor_a_pagar = dias * 10.0; 
+
+					        fseek(fp3, -1 * sizeof(Pes), SEEK_CUR);
+            				fwrite(pessoa, sizeof(Pes), 1, fp3);
+
+            				printf("\n Data atual........ %d/", dia);
+					        printf("%d/", mes);
+					        printf("%d\n", ano);
+					        printf(" Hora ....................: %d:", hora);
+					        printf("%d:", minuto);
+					        printf("%d\n", segundo);
+					        printf("Data estimada para a devolução do livro ........ %d/", devolve->dia_entrega);
+					        printf("%d/", devolve->mes_entrega);
+					        printf("%d\n", devolve->ano_entrega);
+					        printf(" Hora ....................: %d:", devolve->hora_entrega);
+					        printf("%d:", devolve->minuto_entrega);
+					        printf("%d\n", devolve->segundo_entrega);
+            				printf("\n O leitor não devolveu o livro dentro do prazo correto. Extrapolou o prazo por %.1f dias. \n", dias);
+            				printf("\n O custo da multa será deduzido com base no valor do livro e da quantidade de dias atrasados na entrega do livro pelo leitor. \n"); 
+            				printf("Valor da multa: %.2f R$ \n", pessoa->valor_a_pagar);
+
+        				}
+
+        			} else {
+
+            			// Essa condição se trata do caso em que o leitor perde o livro.
+
+            			pessoa->segundos2 = segundos2;
+				        pessoa->dia_inicio = dia;
+				        pessoa->mes_inicio = mes;
+				        pessoa->ano_inicio = ano;
+				        pessoa->hora_inicio = hora;
+				        pessoa->minuto_inicio = minuto;
+				        pessoa->segundo_inicio = segundo;
+            			pessoa->multado = '2'; 
+            			strcpy(pessoa->motivo, "Perdeu o livro.");
+            			pessoa->valor_a_pagar = livro->preco;
+
+            			fseek(fp3, -1 * sizeof(Pes), SEEK_CUR);
+            			fwrite(pessoa, sizeof(Pes), 1, fp3);
+
+            			printf("\n O leitor perdeu o livro, portanto irá pagar uma multa com o valor de %.2f R$ (De acordo com o preço do livro). \n", pessoa->valor_a_pagar);
+
+        			}
+
+            	}
+
+        	}
 
         } else {
 
@@ -2842,8 +2995,10 @@ void devolve_livro(void) {
     
     fclose(fp);
     fclose(fp2);
+    fclose(fp3);
     free(livro);
     free(devolve);
+    free(pessoa);
 
 }
 
@@ -2899,6 +3054,7 @@ NoPes* listaOrdenadaPessoas(void) {
       noPes->minuto_termino = pessoa->minuto_termino;
       noPes->segundo_termino = pessoa->segundo_termino;
       noPes->quantidade_de_livros_emprestados = pessoa->quantidade_de_livros_emprestados;
+      noPes->valor_a_pagar = pessoa->valor_a_pagar;
 
       if (lista == NULL) {
         lista = noPes;
@@ -2977,6 +3133,7 @@ NoPes* listaInvertidaPessoas(void) {
       noPes->minuto_termino = pessoa->minuto_termino;
       noPes->segundo_termino = pessoa->segundo_termino;
       noPes->quantidade_de_livros_emprestados = pessoa->quantidade_de_livros_emprestados;
+      noPes->valor_a_pagar = pessoa->valor_a_pagar;
 
       noPes->prox = lista;
       lista = noPes;
@@ -3042,6 +3199,7 @@ NoPes* listaDiretaPessoas(void) {
       noPes->minuto_termino = pessoa->minuto_termino;
       noPes->segundo_termino = pessoa->segundo_termino;
       noPes->quantidade_de_livros_emprestados = pessoa->quantidade_de_livros_emprestados;
+      noPes->valor_a_pagar = pessoa->valor_a_pagar;
 
       noPes->prox = NULL;
 
@@ -3084,18 +3242,21 @@ void exibeListaPessoas(NoPes* lista) {
     printf(" Telefone: %s \n", lista->tel);
 
     if(lista->multado == '0') {
-        printf(" Esse leitor não está multado.\n");
+        printf("\n Esse leitor não está multado.\n");
     } else {
-        printf(" Esse leitor está multado.\n");
+        printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", lista->motivo);
+        printf(" Valor da multa: %.2f R$ \n", lista->valor_a_pagar);
         printf(" Data de início do banimento: %d/", lista->dia_inicio);
         printf("%d/", lista->mes_inicio);
         printf("%d", lista->ano_inicio);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_inicio, lista->minuto_inicio, lista->segundo_inicio);
-        printf(" Data do término do banimento: %d/", lista->dia_termino);
-        printf("%d/", lista->mes_termino);
-        printf("%d", lista->ano_termino);
-        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_termino, lista->minuto_termino, lista->segundo_termino);
+        /*
+        printf(" Data do término do banimento: %d/", cadastro_pess->dia_termino);
+        printf("%d/", cadastro_pess->mes_termino);
+        printf("%d", cadastro_pess->ano_termino);
+        printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", cadastro_pess->hora_termino, cadastro_pess->minuto_termino, cadastro_pess->segundo_termino);
+        */
         printf("\n");
     }
 
@@ -3224,7 +3385,7 @@ NoLivro* listaDiretaLivros(void) {
       strcpy(noLivro->editora, livro->editora);
       strcpy(noLivro->edicao, livro->edicao);
       strcpy(noLivro->matricula, livro->matricula);
-      strcpy(noLivro->preco, livro->preco);
+      noLivro->preco = livro->preco;
       noLivro->status = livro->status;
       noLivro->emprestado = livro->emprestado;
       noLivro->quantidade_de_vezes_emprestado = livro->quantidade_de_vezes_emprestado;
@@ -3269,7 +3430,7 @@ NoLivro* listaInvertidaLivros(void) {
       strcpy(noLivro->editora, livro->editora);
       strcpy(noLivro->edicao, livro->edicao);
       strcpy(noLivro->matricula, livro->matricula);
-      strcpy(noLivro->preco, livro->preco);
+      noLivro->preco = livro->preco;
       noLivro->status = livro->status;
       noLivro->emprestado = livro->emprestado;
       noLivro->quantidade_de_vezes_emprestado = livro->quantidade_de_vezes_emprestado;
@@ -3309,7 +3470,7 @@ NoLivro* listaOrdenadaLivros(void) {
       strcpy(noLivro->editora, livro->editora);
       strcpy(noLivro->edicao, livro->edicao);
       strcpy(noLivro->matricula, livro->matricula);
-      strcpy(noLivro->preco, livro->preco);
+      noLivro->preco = livro->preco;
       noLivro->status = livro->status;
       noLivro->emprestado = livro->emprestado;
       noLivro->quantidade_de_vezes_emprestado = livro->quantidade_de_vezes_emprestado;
@@ -3352,7 +3513,7 @@ void exibeListaLivros(NoLivro* lista) {
     printf(" Gênero: %s \n", lista->genero);
     printf(" Editora: %s \n", lista->editora);
     printf(" Edição: %sª \n", lista->edicao);
-    printf(" Preço: %s R$ \n", lista->preco);
+    printf(" Preço: %.2f R$ \n", lista->preco);
     if(lista->emprestado == '0') {
         printf(" O livro está disponível para ser emprestado.\n");
     } else {
@@ -3790,18 +3951,21 @@ void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
     printf(" Telefone: %s \n", usuarios_encontrados[k]->tel);
 
     if(usuarios_encontrados[k]->multado == '0') {
-        printf(" Esse leitor não está multado.\n");
+        printf("\n Esse leitor não está multado.\n");
     } else {
-        printf(" Esse leitor está multado.\n");
+        printf("\n Esse leitor está multado.\n");
         printf(" Motivo: %s \n", usuarios_encontrados[k]->motivo);
+        printf(" Valor da multa: %.2f R$ \n", usuarios_encontrados[k]->valor_a_pagar);
         printf(" Data de início do banimento: %d/", usuarios_encontrados[k]->dia_inicio);
         printf("%d/", usuarios_encontrados[k]->mes_inicio);
         printf("%d", usuarios_encontrados[k]->ano_inicio);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", usuarios_encontrados[k]->hora_inicio, usuarios_encontrados[k]->minuto_inicio, usuarios_encontrados[k]->segundo_inicio);
+        /*
         printf(" Data do término do banimento: %d/", usuarios_encontrados[k]->dia_termino);
         printf("%d/", usuarios_encontrados[k]->mes_termino);
         printf("%d", usuarios_encontrados[k]->ano_termino);
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", usuarios_encontrados[k]->hora_termino, usuarios_encontrados[k]->minuto_termino, usuarios_encontrados[k]->segundo_termino);
+        */
         printf("\n");
     }
 
@@ -4427,54 +4591,63 @@ void pesquisaGeneroLivro(void) {
 
 void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade) {
 
-  for(int k = 0; k < quantidade; k++) {
-    
-    printf("\n\n Nome do livro: %s \n", livros_encontrados[k]->nome);
-    printf(" Matricula: %s \n", livros_encontrados[k]->matricula);
-    printf(" ISBN: %s \n", livros_encontrados[k]->isbn);
-    printf(" Autor: %s \n", livros_encontrados[k]->autor);
-    printf(" Gênero: %s \n", livros_encontrados[k]->genero);
-    printf(" Editora: %s \n", livros_encontrados[k]->editora);
-    printf(" Edição: %sª \n", livros_encontrados[k]->edicao);
-    printf(" Preço: %s R$ \n", livros_encontrados[k]->preco);
-    if(livros_encontrados[k]->emprestado == '0') {
-        printf(" O livro não está emprestado.\n");
-    } else {
-        printf(" O livro está emprestado.\n");
-    }
-    printf(" Quantidade de vezes que esse livro foi emprestado: %d \n", livros_encontrados[k]->quantidade_de_vezes_emprestado);
-    printf("\n");
+	for(int k = 0; k < quantidade; k++) {
 
-  }
+	printf("\n\n Nome do livro: %s \n", livros_encontrados[k]->nome);
+	printf(" Matricula: %s \n", livros_encontrados[k]->matricula);
+	printf(" ISBN: %s \n", livros_encontrados[k]->isbn);
+	printf(" Autor: %s \n", livros_encontrados[k]->autor);
+	printf(" Gênero: %s \n", livros_encontrados[k]->genero);
+	printf(" Editora: %s \n", livros_encontrados[k]->editora);
+	printf(" Edição: %sª \n", livros_encontrados[k]->edicao);
+	printf(" Preço: %.2f R$ \n", livros_encontrados[k]->preco);
+	if(livros_encontrados[k]->emprestado == '0') {
+	    printf(" O livro não está emprestado.\n");
+	} else {
+	    printf(" O livro está emprestado.\n");
+	}
+	printf(" Quantidade de vezes que esse livro foi emprestado: %d \n", livros_encontrados[k]->quantidade_de_vezes_emprestado);
+	printf("\n");
 
-  free(livros_encontrados);
+	}
+
+	free(livros_encontrados);
 
 }
 
 void exibeEmprestimosEncontrados(Emprestimo** emprestimos_encontrados, int quantidade) {
 
-  for(int k = 0; k < quantidade; k++) {
-    
-    printf("\n\n Código do empréstimo: %s \n", emprestimos_encontrados[k]->cod);
-    printf("\n Nome do leitor: %s \n", emprestimos_encontrados[k]->nome);
-    printf(" CPF do leitor: %s \n", emprestimos_encontrados[k]->cpf);
-    printf(" Nome do livro: %s \n", emprestimos_encontrados[k]->nomeLiv);
-    printf(" ISBN do livro: %s \n", emprestimos_encontrados[k]->isbn);
-    printf(" Matrícula do livro: %s \n", emprestimos_encontrados[k]->matricula);
-    printf(" Data de realização do empréstimo do livro: %d/", emprestimos_encontrados[k]->dia);
-    printf("%d/", emprestimos_encontrados[k]->mes);
-    printf("%d", emprestimos_encontrados[k]->ano);
-    printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", emprestimos_encontrados[k]->hora, emprestimos_encontrados[k]->minuto, emprestimos_encontrados[k]->segundo);
-    printf(" Data estimada de devolução do livro: %d/", emprestimos_encontrados[k]->dia_entrega);
-    printf("%d/", emprestimos_encontrados[k]->mes_entrega);
-    printf("%d", emprestimos_encontrados[k]->ano_entrega);
-    printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", emprestimos_encontrados[k]->hora_entrega, emprestimos_encontrados[k]->minuto_entrega, emprestimos_encontrados[k]->segundo_entrega);
-    printf("\n");
+	struct tm;
+    time_t segundos2;
+    time(&segundos2);
 
+	for(int k = 0; k < quantidade; k++) {
 
-  }
+		printf("\n\n Código do empréstimo: %s \n", emprestimos_encontrados[k]->cod);
+		printf("\n Nome do leitor: %s \n", emprestimos_encontrados[k]->nome);
+		printf(" CPF do leitor: %s \n", emprestimos_encontrados[k]->cpf);
+		printf(" Nome do livro: %s \n", emprestimos_encontrados[k]->nomeLiv);
+		printf(" ISBN do livro: %s \n", emprestimos_encontrados[k]->isbn);
+		printf(" Matrícula do livro: %s \n", emprestimos_encontrados[k]->matricula);
+		printf(" Data de realização do empréstimo do livro: %d/", emprestimos_encontrados[k]->dia);
+		printf("%d/", emprestimos_encontrados[k]->mes);
+		printf("%d", emprestimos_encontrados[k]->ano);
+		printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", emprestimos_encontrados[k]->hora, emprestimos_encontrados[k]->minuto, emprestimos_encontrados[k]->segundo);
+		printf(" Data estimada de devolução do livro: %d/", emprestimos_encontrados[k]->dia_entrega);
+		printf("%d/", emprestimos_encontrados[k]->mes_entrega);
+		printf("%d", emprestimos_encontrados[k]->ano_entrega);
+		printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", emprestimos_encontrados[k]->hora_entrega, emprestimos_encontrados[k]->minuto_entrega, emprestimos_encontrados[k]->segundo_entrega);
+		printf("\n");
 
-  free(emprestimos_encontrados);
+		if (((segundos2 - emprestimos_encontrados[k]->segundos) >= 0) && (emprestimos_encontrados[k]->emprestado == '1')){
+            printf(" O livro emprestado está atrasado.\n");
+	    }else if (((segundos2 - emprestimos_encontrados[k]->segundos) <= 0) && (emprestimos_encontrados[k]->emprestado == '1')){
+	        printf(" O livro emprestado está em dia.\n");    
+	    }
+
+	}
+
+	free(emprestimos_encontrados);
 
 }
 
@@ -4692,16 +4865,10 @@ void exibeListaEmprestimo(NoEmprestimo* lista) {
         printf(" ---> Horário: %d horas, %d minutos e %d segundos.\n", lista->hora_entrega, lista->minuto_entrega, lista->segundo_entrega);
         printf("\n");
 
-        /*
-        if(lista->emprestado == '0'){
-            printf(" Este livro esta disponível para ser emprestado novamente\n");
-        }
-        */
-
         if (((segundos2 - lista->segundos) >= 0) && (lista->emprestado == '1')){
-            printf(" Este Livro emprestado está Atrasado.\n");
+            printf(" O livro emprestado está atrasado.\n");
         }else if (((segundos2 - lista->segundos) <= 0) && (lista->emprestado == '1')){
-            printf(" Este Livro emprestado está em dia.\n");    
+            printf(" O livro emprestado está em dia.\n");    
         }
 
         lista = lista->prox;

@@ -18,7 +18,6 @@ int validaCodigoEmprestimo(char cod[10]); // Essa função é responsável por v
 int validaNome(char nome[100]); // Essa função é responsável por validar o campo nome em ambos os cadastros.
 int validaISBN(char isbn[17]); // Essa função é responsável por validar o campo ISBN no cadastro do livro.
 int validaLetrasNumeros(char string[100]); // Essa função é responsável por validar o campo editora no cadastro do livro.
-int validaPreco(char preco[3]); // Essa função é responsável por validar o campo preço no cadastro do livro.
 int validaEdicao(char edicao[2]); // Essa função é responsável por validar o campo edição no cadastro do livro.
 int bissexto(int ano); // Essa função é responsável por validar se o ano é ou não é bissexto.
 int validaData(int dia, int mes, int ano); // Essa função é responsável por validar a data inserida no cadastro.

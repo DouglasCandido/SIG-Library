@@ -449,40 +449,6 @@ int validaData(int dia, int mes, int ano) {
 
 }
 
-int validaPreco(char preco[3]) {
-
-    regex_t reg;
-
-    if(strlen(preco) > 3) {
-
-        return 0;
-
-    }
-
-    else {
-
-        if(regcomp(&reg, RE_NUMBER, REG_EXTENDED|REG_NOSUB) != 0) {
-
-            return 0;
-
-        } else {
-
-            if((regexec(&reg, preco, 0, (regmatch_t*)NULL, 0)) == 0) {
-
-                return 1;
-
-            } else {
-
-                return 0;
-
-            }
-
-        }
-
-    }
-
-}
-
 int validaEdicao(char edicao[2]) {
 
     regex_t reg;
