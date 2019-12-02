@@ -4563,8 +4563,13 @@ void pesquisaPorCodigoEmprestimo(void) {
 void pesquisaPorDataEmprestimo(void) {
 
     FILE* fp;
+
     Emprestimo* pesquisa;
-    int achou;
+
+    Emprestimo** emprestimos_encontrados;
+
+    int i, aux, tam, achou;
+
     char procurado[100];
 
     fp = fopen("emprestimos.dat", "rb");
@@ -4590,41 +4595,103 @@ void pesquisaPorDataEmprestimo(void) {
     printf(" Informe a data de realização do empréstimo (dd/mm/yyyy): ");
     scanf(" %100[^\n]", procurado);
 
+    i = 0;
+    aux = 0;
+    achou = 0;
+
     pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
 
-    achou = 0;
+    while(fread(pesquisa, sizeof(Emprestimo), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(pesquisa);
+
+    Emprestimo* pesquisa2;
+    Emprestimo* auxiliar;
+
+    pesquisa2 = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    FILE* fp2;
+    fp2 = fopen("emprestimos.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+
+    emprestimos_encontrados = (Emprestimo**) malloc(tam * sizeof(Emprestimo*));
+
+    int tamanho_procurado = strlen(procurado);
 
     char string_auxiliar[100];
 
-    while((!achou) && (fread(pesquisa, sizeof(Emprestimo), 1, fp))) {
+    while(fread(pesquisa2, sizeof(Emprestimo), 1, fp2)) {
 
     	char dia[sizeof(int) * 4 + 1];
     	char mes[sizeof(int) * 4 + 1];
     	char ano[sizeof(int) * 4 + 1];
 
-    	sprintf(dia, "%d", pesquisa->dia);
-    	sprintf(mes, "%d", pesquisa->mes);
-    	sprintf(ano, "%d", pesquisa->ano);
+    	sprintf(dia, "%d", pesquisa2->dia);
+    	sprintf(mes, "%d", pesquisa2->mes);
+    	sprintf(ano, "%d", pesquisa2->ano);
 
     	strcat(string_auxiliar, dia);
     	strcat(string_auxiliar, "/");
     	strcat(string_auxiliar, mes);
     	strcat(string_auxiliar, "/");
-    	strcat(string_auxiliar, ano);
+    	strcat(string_auxiliar, ano);   
 
-        if ((strcmp(string_auxiliar, procurado) == 0) && (pesquisa->status == '1')) {
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
 
-            achou = 1;
+            if((string_auxiliar[i] == procurado[i]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+              pesquisa2 = auxiliar;
+
+              break;      
+
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+              pesquisa2 = auxiliar;
+
+              break;   
+    
+            }
+
+          }
 
         }
 
     }
 
-    fclose(fp);
-
     if (achou) {
 
-        exibeEmprestimo(pesquisa);
+        exibeEmprestimosEncontrados(emprestimos_encontrados, aux);
 
     } else {
 
@@ -4632,11 +4699,12 @@ void pesquisaPorDataEmprestimo(void) {
 
     }
 
+    fclose(fp2);
+    free(pesquisa2);
+
     printf("\n Tecle ENTER para continuar.\n");
     getchar();
     getchar();
-
-    free(pesquisa);
 
 }
 
