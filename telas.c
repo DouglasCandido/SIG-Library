@@ -216,6 +216,8 @@ void pesquisaCPFPessoa(void);
 void pesquisaEmailPessoa(void);
 void pesquisaTelefonePessoa(void);
 void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade);
+void exibePessoasMais(Pes** usuarios_encontrados, int quantidade);
+void exibeLivrosMais(Livro** livros_encontrados, int quantidade);
 void pesquisaTituloLivro(void);
 void pesquisaAutorLivro(void);
 void pesquisaISBNLivro(void);
@@ -224,6 +226,7 @@ void pesquisaGeneroLivro(void);
 void pesquisaEditoraLivro(void);
 void pesquisaEdicaoLivro(void);
 void exibeLivrosEncontrados(Livro** livros_encontrados, int quantidade);
+void exibeLivrosMais(Livro** livros_encontrados, int quantidade);
 void pesquisaPorCodigoEmprestimo(void);
 void pesquisaPorDataEmprestimo(void);
 void pesquisaPorCPFEmprestimo(void);
@@ -252,13 +255,203 @@ void tela_bonus(void) {
 
 void livros_mais(void){
  
+	FILE* fp;
 
+    Livro* livro;
+    Livro** livros_encontrados;
+
+    int i, tam, aux;
+
+    fp = fopen("livros.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>  Livros mais emprestados  <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    livro = (Livro*) malloc(sizeof(Livro));
+
+    i = 0;
+
+    while(fread(livro, sizeof(Livro), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(livro);
+
+    Livro* livro2;
+    Livro* auxiliar;
+
+    livro2 = (Livro*) malloc(sizeof(Livro));
+
+    FILE* fp2;
+    fp2 = fopen("livros.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+
+    aux = 0;
+
+    livros_encontrados = (Livro**) malloc(tam * sizeof(Livro*));
+
+    while(fread(livro2, sizeof(Livro), 1, fp2) && livro2->status == '1') {
+
+    	livros_encontrados[aux] = livro2;	
+
+    	auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
+
+        aux += 1;
+    	
+ 	}
+
+ 	Livro* aux_troca;
+
+ 	aux_troca = (Livro*) malloc(sizeof(Livro));
+
+ 	for(int i = 0; i < tam; i++){
+
+	    for(int j = 0; j < tam; j++){
+	        
+	        if (livros_encontrados[i]->quantidade_de_vezes_emprestado < livros_encontrados[j]->quantidade_de_vezes_emprestado){
+
+	            aux_troca = livros_encontrados[i];
+
+	            livros_encontrados[i] = livros_encontrados[j];
+
+	            livros_encontrados[j] = aux_troca;
+
+	        }
+
+		}
+
+    }
+
+ 	exibeLivrosMais(livros_encontrados, tam);
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+
+    fclose(fp2);	
 
 }
 
 void pessoas_mais(void){
  
+	FILE* fp;
 
+    Pes* cadastro_pess;
+    Pes** usuarios_encontrados;
+
+    int i, tam, aux;
+
+    fp = fopen("pessoas.dat", "rb");
+    if (fp == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>   Leitores mais ativos    <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    cadastro_pess = (Pes*) malloc(sizeof(Pes));
+
+    i = 0;
+
+    while(fread(cadastro_pess, sizeof(Pes), 1, fp)) {
+
+      i += 1;
+
+    }
+
+    fclose(fp);
+    free(cadastro_pess);
+
+    Pes* cadastro_pess2;
+    Pes* auxiliar;
+
+    cadastro_pess2 = (Pes*) malloc(sizeof(Pes));
+
+    FILE* fp2;
+    fp2 = fopen("pessoas.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+
+    aux = 0;
+
+    usuarios_encontrados = (Pes**) malloc(tam * sizeof(Pes*));
+
+    while(fread(cadastro_pess2, sizeof(Pes), 1, fp2) && cadastro_pess2->status == '1') {
+
+    	usuarios_encontrados[aux] = cadastro_pess2;	
+
+    	auxiliar = (Pes*) malloc(sizeof(Pes));
+
+        cadastro_pess2 = auxiliar;
+
+        aux += 1;
+    	
+ 	}
+
+ 	Pes* aux_troca;
+
+ 	aux_troca = (Pes*) malloc(sizeof(Pes));
+
+ 	for(int i = 0; i < tam; i++){
+
+	    for(int j = 0; j < tam; j++){
+	        
+	        if (usuarios_encontrados[i]->quantidade_de_livros_emprestados < usuarios_encontrados[j]->quantidade_de_livros_emprestados) {
+
+	            aux_troca = usuarios_encontrados[i];
+
+	            usuarios_encontrados[i] = usuarios_encontrados[j];
+
+	            usuarios_encontrados[j] = aux_troca;
+
+	        }
+
+		}
+
+    }
+
+ 	exibePessoasMais(usuarios_encontrados, tam);
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+
+    fclose(fp2);
 
 }
 
@@ -278,9 +471,11 @@ void bonus (void){
     switch(op){
 
         case 'A':
+        livros_mais();
         break;
 
         case 'B':
+        pessoas_mais();
         break;
     }
 
@@ -4574,6 +4769,36 @@ void exibePessoasEncontradas(Pes** usuarios_encontrados, int quantidade) {
   }
 
   free(usuarios_encontrados);
+
+}
+
+void exibePessoasMais(Pes** usuarios_encontrados, int quantidade) {
+
+  for(int k = quantidade - 1; k >= 0; k--) {
+
+    printf("\n\n Nome: %s \n", usuarios_encontrados[k]->nome);
+    printf(" CPF: %c%c%c.%c%c%c.%c%c%c-%c%c \n", usuarios_encontrados[k]->cpf[0], usuarios_encontrados[k]->cpf[1], usuarios_encontrados[k]->cpf[2], usuarios_encontrados[k]->cpf[3], usuarios_encontrados[k]->cpf[4], usuarios_encontrados[k]->cpf[5], usuarios_encontrados[k]->cpf[6], usuarios_encontrados[k]->cpf[7], usuarios_encontrados[k]->cpf[8], usuarios_encontrados[k]->cpf[9], usuarios_encontrados[k]->cpf[10]);  
+    printf(" Quantidade de livros emprestados a esse leitor: %d \n", usuarios_encontrados[k]->quantidade_de_livros_emprestados);
+    printf("\n");
+
+  }
+
+  free(usuarios_encontrados);
+
+}
+
+void exibeLivrosMais(Livro** livros_encontrados, int quantidade) {
+
+  for(int k = quantidade - 1; k >= 0; k--) {
+
+    printf("\n\n Título: %s \n", livros_encontrados[k]->nome);
+    printf(" Matrícula: %s \n", livros_encontrados[k]->matricula);
+    printf(" Quantidade de vezes que esse livro foi emprestado: %d \n", livros_encontrados[k]->quantidade_de_vezes_emprestado);
+    printf("\n");
+
+  }
+
+  free(livros_encontrados);
 
 }
 
