@@ -227,6 +227,59 @@ void pesquisaPorMatriculaEmprestimo(void);
 void pesquisaPorDataEmprestimo(void);
 void exibeEmprestimosEncontrados(Emprestimo** emprestimos_encontrados, int quantidade);
 void tira_multa(void);
+void bonus(void);
+void tela_bonus(void);
+void livros_mais(void); 
+void pessoas_mais(void);
+void tela_bonus(void) {
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>           BÔNUS           <<<");
+    printf("\n =================================");
+    printf("\n\n []A - Livros mais solicitados\n");
+    printf(" []B - Pessoas mais ativas\n");
+    printf(" []S - Sair\n");
+
+}
+
+
+
+void livros_mais(void){
+ 
+
+}
+
+void pessoas_mais(void){
+ 
+
+}
+
+
+void bonus (void){
+    char op;
+    NoLivro* lista;
+    do{
+
+        tela_bonus();
+        printf(" Escolha sua opção: \n");
+        scanf(" %c",&op);
+        op = maius(op);
+
+        switch(op){
+
+            case 'A':
+            break;
+
+            case 'B':
+            break;
+        }
+
+    }while(op != 'S');
+}
 
 void listaEmprestimos(void) {
 
@@ -1950,6 +2003,7 @@ void menuAdmin() {
         printf("\n\n []A - Gerenciar Pessoas\n");
         printf(" []B - Gerenciar Livros\n");
         printf(" []C - Gerenciar Emprestimos\n");
+        printf(" []D - BÔNUS\n");
         printf(" []S - Sair\n");
 
         printf("\n Escolha uma opção: ");
@@ -2149,6 +2203,10 @@ void menuAdmin() {
         case 'C':
             gerenciarEmprestimos();
             break;
+        case 'D':
+            bonus();
+            break;
+
 
         case 'S':
             if((sair()) == 'S') {
