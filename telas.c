@@ -4124,11 +4124,8 @@ void pesquisaNomePessoa(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Pes*) malloc(sizeof(Pes));
+              break;    
 
-              cadastro_pess2 = auxiliar;
-
-              break;               
             }
 
           } else {
@@ -4140,10 +4137,6 @@ void pesquisaNomePessoa(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Pes*) malloc(sizeof(Pes));
-
-              cadastro_pess2 = auxiliar;
-
               break;   
     
             }
@@ -4151,6 +4144,10 @@ void pesquisaNomePessoa(void) {
           }
 
         }
+
+        auxiliar = (Pes*) malloc(sizeof(Pes));
+
+        cadastro_pess2 = auxiliar;
 
     }
 
@@ -4370,10 +4367,14 @@ void pesquisaTelefonePessoa(void) {
 void pesquisaPorMatriculaEmprestimo(void) {
 
     FILE* fp;
+
     Emprestimo* pesquisa;
-    int achou;
+
+    Emprestimo** emprestimos_encontrados;
+
+    int i, aux, tam, achou;
+
     char procurado[100];
-    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -4398,25 +4399,87 @@ void pesquisaPorMatriculaEmprestimo(void) {
     printf(" Informe a matrícula do livro: ");
     scanf(" %100[^\n]", procurado);
 
-    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
-
+    i = 0;
+    aux = 0;
     achou = 0;
 
-    while((!achou) && (fread(pesquisa, sizeof(Emprestimo), 1, fp))) {
+    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
 
-        if ((strcmp(pesquisa->matricula, procurado) == 0) && (pesquisa->status == '1')) {
+    while(fread(pesquisa, sizeof(Emprestimo), 1, fp)) {
 
-            achou = 1;
-
-        }
+      i += 1;
 
     }
 
     fclose(fp);
+    free(pesquisa);
+
+    Emprestimo* pesquisa2;
+    Emprestimo* auxiliar;
+
+    pesquisa2 = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    FILE* fp2;
+    fp2 = fopen("emprestimos.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+
+    emprestimos_encontrados = (Emprestimo**) malloc(tam * sizeof(Emprestimo*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    char string_auxiliar[100];
+
+    while(fread(pesquisa2, sizeof(Emprestimo), 1, fp2)) {
+
+    	strcpy(string_auxiliar, pesquisa2->matricula);   
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              break;      
+
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+        auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+        pesquisa2 = auxiliar;
+
+    }
 
     if (achou) {
 
-        exibeEmprestimo(pesquisa);
+        exibeEmprestimosEncontrados(emprestimos_encontrados, aux);
 
     } else {
 
@@ -4424,20 +4487,26 @@ void pesquisaPorMatriculaEmprestimo(void) {
 
     }
 
+    fclose(fp2);
+    free(pesquisa2);
+
     printf("\n Tecle ENTER para continuar.\n");
     getchar();
     getchar();
-    free(pesquisa);
 
 }
 
 void pesquisaPorCPFEmprestimo(void) {
 
     FILE* fp;
-    Emprestimo* cadastro_pess;
-    int achou;
+
+    Emprestimo* pesquisa;
+
+    Emprestimo** emprestimos_encontrados;
+
+    int i, aux, tam, achou;
+
     char procurado[100];
-    
 
     fp = fopen("emprestimos.dat", "rb");
 
@@ -4459,28 +4528,90 @@ void pesquisaPorCPFEmprestimo(void) {
     printf("\n =================================");
     printf("\n");
 
-    printf(" Informe o CPF cadastro no empréstimo: ");
+    printf(" Informe o CPF do leitor: ");
     scanf(" %100[^\n]", procurado);
 
-    cadastro_pess = (Emprestimo*) malloc(sizeof(Emprestimo));
-
+    i = 0;
+    aux = 0;
     achou = 0;
 
-    while((!achou) && (fread(cadastro_pess, sizeof(Emprestimo), 1, fp))) {
+    pesquisa = (Emprestimo*) malloc(sizeof(Emprestimo));
 
-        if ((strcmp(cadastro_pess->cpf, procurado) == 0) && (cadastro_pess->status == '1')) {
+    while(fread(pesquisa, sizeof(Emprestimo), 1, fp)) {
 
-            achou = 1;
-
-        }
+      i += 1;
 
     }
 
     fclose(fp);
+    free(pesquisa);
+
+    Emprestimo* pesquisa2;
+    Emprestimo* auxiliar;
+
+    pesquisa2 = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+    FILE* fp2;
+    fp2 = fopen("emprestimos.dat", "rb");
+    if (fp2 == NULL) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
+
+    tam = i;
+
+    emprestimos_encontrados = (Emprestimo**) malloc(tam * sizeof(Emprestimo*));
+
+    int tamanho_procurado = strlen(procurado);
+
+    char string_auxiliar[100];
+
+    while(fread(pesquisa2, sizeof(Emprestimo), 1, fp2)) {
+
+    	strcpy(string_auxiliar, pesquisa2->cpf);   
+
+        for(int i = 0; i < tamanho_procurado; i++) {
+          
+          if(tamanho_procurado == 1) {
+
+            if((string_auxiliar[i] == procurado[i]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              break;      
+
+            }
+
+          } else {
+
+            if((string_auxiliar[i] == procurado[i]) && (string_auxiliar[i + 1] == procurado[i + 1]) && (pesquisa2->status == '1')) {
+
+              emprestimos_encontrados[aux] = pesquisa2;
+            
+              aux += 1;
+              achou = 1;
+
+              break;   
+    
+            }
+
+          }
+
+        }
+
+        auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+        pesquisa2 = auxiliar;
+
+    }
 
     if (achou) {
 
-        exibeEmprestimo(cadastro_pess);
+        exibeEmprestimosEncontrados(emprestimos_encontrados, aux);
 
     } else {
 
@@ -4488,11 +4619,12 @@ void pesquisaPorCPFEmprestimo(void) {
 
     }
 
+    fclose(fp2);
+    free(pesquisa2);
+
     printf("\n Tecle ENTER para continuar.\n");
     getchar();
     getchar();
-
-    free(cadastro_pess);
 
 }
 
@@ -4658,10 +4790,6 @@ void pesquisaPorDataEmprestimo(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
-
-              pesquisa2 = auxiliar;
-
               break;      
 
             }
@@ -4675,10 +4803,6 @@ void pesquisaPorDataEmprestimo(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
-
-              pesquisa2 = auxiliar;
-
               break;   
     
             }
@@ -4686,6 +4810,10 @@ void pesquisaPorDataEmprestimo(void) {
           }
 
         }
+
+        auxiliar = (Emprestimo*) malloc(sizeof(Emprestimo));
+
+        pesquisa2 = auxiliar;
 
     }
 
@@ -4953,10 +5081,6 @@ void pesquisaTituloLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;               
             }
 
@@ -4969,10 +5093,6 @@ void pesquisaTituloLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;   
     
             }
@@ -4980,6 +5100,10 @@ void pesquisaTituloLivro(void) {
           }
 
         }
+
+        auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
 
     }
 
@@ -5084,11 +5208,8 @@ void pesquisaAutorLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
+              break;    
 
-              livro2 = auxiliar;
-
-              break;               
             }
 
           } else {
@@ -5100,10 +5221,6 @@ void pesquisaAutorLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;   
     
             }
@@ -5111,6 +5228,10 @@ void pesquisaAutorLivro(void) {
           }
 
         }
+
+        auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
 
     }
 
@@ -5346,11 +5467,8 @@ void pesquisaGeneroLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
+              break;   
 
-              livro2 = auxiliar;
-
-              break;               
             }
 
           } else {
@@ -5362,10 +5480,6 @@ void pesquisaGeneroLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;   
     
             }
@@ -5373,6 +5487,10 @@ void pesquisaGeneroLivro(void) {
           }
 
         }
+
+        auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
 
     }
 
@@ -5477,11 +5595,8 @@ void pesquisaEditoraLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
+              break;    
 
-              livro2 = auxiliar;
-
-              break;               
             }
 
           } else {
@@ -5493,10 +5608,6 @@ void pesquisaEditoraLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;   
     
             }
@@ -5504,6 +5615,10 @@ void pesquisaEditoraLivro(void) {
           }
 
         }
+
+        auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
 
     }
 
@@ -5608,11 +5723,8 @@ void pesquisaEdicaoLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
+              break;  
 
-              livro2 = auxiliar;
-
-              break;               
             }
 
           } else {
@@ -5624,10 +5736,6 @@ void pesquisaEdicaoLivro(void) {
               aux += 1;
               achou = 1;
 
-              auxiliar = (Livro*) malloc(sizeof(Livro));
-
-              livro2 = auxiliar;
-
               break;   
     
             }
@@ -5635,6 +5743,10 @@ void pesquisaEdicaoLivro(void) {
           }
 
         }
+
+        auxiliar = (Livro*) malloc(sizeof(Livro));
+
+        livro2 = auxiliar;
 
     }
 
