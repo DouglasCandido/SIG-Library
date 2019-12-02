@@ -226,6 +226,7 @@ void pesquisaPorCPFEmprestimo(void);
 void pesquisaPorMatriculaEmprestimo(void);
 void pesquisaPorDataEmprestimo(void);
 void exibeEmprestimosEncontrados(Emprestimo** emprestimos_encontrados, int quantidade);
+void tira_multa(void);
 
 void listaEmprestimos(void) {
 
@@ -256,11 +257,7 @@ void listaEmprestimos(void) {
 
     while(fread(emprestimo, sizeof(Emprestimo), 1, fp)) {
 
-        if(emprestimo->status == '1') {
-
             exibeEmprestimo(emprestimo);
-
-        }
 
     }
 
@@ -300,6 +297,178 @@ void exibeEmprestimo(Emprestimo* emprestimo) {
 	}else if (((segundos2 - emprestimo->segundos) <= 0) && (emprestimo->emprestado == '1')){
 	    printf(" O livro emprestado está em dia.\n");    
 	}
+
+}
+
+void tira_multa(void){
+
+
+
+
+
+    FILE* fp;
+    FILE* fp2;
+    FILE* fp3;
+
+    Emprestimo* devolve;
+    Livro* livro;
+    Pes* pessoa;
+    char resp;
+
+    int achou, achou2, achou3;
+    
+    char cpf[13];
+    char matricula[13];
+
+    fp = fopen("emprestimos.dat", "r+b");
+    fp2 = fopen("livros.dat", "r+b");
+    fp3 = fopen("pessoas.dat", "r+b");
+
+    if (fp == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    if (fp2 == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    if (fp3 == NULL) {
+
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+
+        exit(1);
+
+    }
+
+    system("clear");
+
+    printf("\n =================================");
+    printf("\n | | |  Programa Biblioteca  | | |");
+    printf("\n =================================");
+    printf("\n >>>       REMOVER MULTA       <<<");
+    printf("\n =================================");
+    printf("\n");
+
+    printf(" Informe o cpf da pessoa multada: ");
+    scanf(" %12[^\n]", cpf);
+
+    devolve = (Emprestimo*) malloc(sizeof(Emprestimo));
+    livro = (Livro*) malloc(sizeof(Livro));
+    pessoa = (Pes*) malloc(sizeof(Pes));
+
+    achou = 0, achou2 = 0, achou3 = 0;
+
+    while((!achou) && (fread(pessoa, sizeof(Pes), 1, fp3))) {
+
+        if ((strcmp(pessoa->cpf, cpf) == 0) && (pessoa->status == '1') && ((pessoa->multado == '2') || (pessoa->multado == '1'))) {
+
+            achou = 1;
+
+        }
+
+    }
+
+
+    if (achou) {
+
+        exibePessoa(pessoa);
+
+        printf("\n Deseja remover a multa dessa pessoa? ");
+        scanf(" %c", &resp);
+
+        resp = maius(resp);
+
+        if (resp == 's' || resp == 'S'){
+
+            pessoa->multado = '0';
+
+            fseek(fp3, -1 * sizeof(Pes), SEEK_CUR);
+            fwrite(pessoa, sizeof(Pes), 1, fp3);
+
+            printf(" Informe a matricula do livro: ");
+            scanf(" %12[^\n]", matricula);
+
+
+            
+
+            while((!achou2) && (fread(livro, sizeof(Livro), 1, fp2))) {
+
+                if ((strcmp(livro->matricula, matricula) == 0) && ((livro->status == '0') || (livro->status == '1'))) {
+
+                    achou2 = 1;
+
+                }
+
+            }
+
+            if (achou2){
+
+                livro->emprestado = '0';
+                fseek(fp2, -1 * sizeof(Livro), SEEK_CUR);
+                fwrite(livro, sizeof(Livro), 1, fp2);
+
+                while((!achou3) && (fread(devolve, sizeof(Emprestimo), 1, fp))) {
+
+                    if ((strcmp(devolve->matricula, matricula) == 0) && ((devolve->status == '1') || (devolve->status == '2'))) {
+
+                        achou3 = 1;
+
+                    }
+
+                }
+
+                if(achou3) {
+
+                    devolve->emprestado = '0';
+                    fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
+                    fwrite(devolve, sizeof(Emprestimo), 1, fp);
+
+                    devolve->status = '0';
+                    fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
+                    fwrite(devolve, sizeof(Emprestimo), 1, fp);
+                } 
+            } 
+
+        }
+
+    }
+
+        
+
+     else {
+
+        printf(" Matricula %s não foi encontrada...\n", matricula);
+
+    }
+
+    printf("\n Tecle ENTER para continuar.\n");
+    getchar();
+    getchar();
+    
+    fclose(fp);
+    fclose(fp2);
+    fclose(fp3);
+    free(livro);
+    free(devolve);
+    free(pessoa);
+
+
+
+
+
+
+
 
 }
 
@@ -350,10 +519,6 @@ void gerenciarEmprestimos(void) {
                         pesquisaPorMatriculaEmprestimo();
                         break;
 
-                        case 'D':
-                        // pesquisaPorDataEmprestimo();
-                        break;
-
                     }
                 }while(op2 != 'S');
                 break;
@@ -392,9 +557,16 @@ void gerenciarEmprestimos(void) {
                             
                             break;
 
+                        case 'D':
+                        listaEmprestimos();
+                        break;
                     }
                 }while(op2 != 'S');
                 break;
+            case 'E':
+            tira_multa();
+            break;
+
 
         }
 
@@ -2108,7 +2280,6 @@ void busca_especifica_emprestimo(void) {
     printf("\n\n []A - Busca por Código do empréstimo\n");
     printf(" []B - Busca por CPF do leitor\n");
     printf(" []C - Busca por Matrícula do livro\n");
-    printf(" []D - Busca por Data\n");
     printf(" []S - Sair\n");
 }
 
@@ -2125,6 +2296,7 @@ void menuGerenciarEmprestimos(void) {
     printf("\n []B - Devolver livro");
     printf("\n []C - Buscar Empréstimo");
     printf("\n []D - Histórico de empréstimos");
+    printf("\n []E - Retirar multa");
     printf("\n []S - Voltar ao Menu do Administrador");
 
 }
@@ -2138,10 +2310,10 @@ void menuListaEmprestimos(void) {
     printf("\n =================================");
     printf("\n >>>   HISTÓRICO EMPRÉSTIMOS   <<<");
     printf("\n =================================");
-    printf("\n\n []A - Histórico de todos os empréstimos de livros");
-    printf("\n []B - Histórico de empréstimos de livros na ordem inversa");
-    printf("\n []C - Histórico de empréstimos de livros em ordem alfabética");
-    
+    printf("\n\n []A - Todos os empréstimos ativos");
+    printf("\n []B - Empréstimos de livros na ordem inversa");
+    printf("\n []C - Empréstimos de livros em ordem alfabética");
+    printf("\n []D - Histórico de todos emprestimos ativos e inativos");
     printf("\n []S - Voltar ao Menu do Administrador");
 
 }
@@ -2894,10 +3066,12 @@ void devolve_livro(void) {
                         fwrite(livro, sizeof(Livro), 1, fp2);
 
                         devolve->emprestado = '0';
-                        devolve->status = '0';
-
             			fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
             			fwrite(devolve, sizeof(Emprestimo), 1, fp);
+
+                        devolve->status = '0';
+                        fseek(fp, -1 * sizeof(Emprestimo), SEEK_CUR);
+                        fwrite(devolve, sizeof(Emprestimo), 1, fp);
 
             			if(devolve->segundos >= segundos2) {
 
