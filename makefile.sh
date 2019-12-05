@@ -8,8 +8,8 @@ function pause(){
 
 }
 
-gcc -c -Wall main.c telas.c validations.c
-gcc -o executavel main.o telas.o validations.o
+gcc -c -Wall telas.c validations.c
+gcc -o executavel telas.o validations.o
 
 pause "Aperte [Enter] para continuar com a execução do SIG-Library..."
 

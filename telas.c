@@ -5,7 +5,6 @@
 #include <time.h>
 #include "telas.h"
 #include "validations.h"
-#include "main.h"
 
 typedef struct pes Pes;
 
@@ -237,6 +236,54 @@ void bonus(void);
 void tela_bonus(void);
 void livros_mais(void); 
 void pessoas_mais(void);
+
+int main(void) {
+
+	char resposta_menu_principal;
+
+	do {
+
+	    switch(resposta_menu_principal = menuPrincipal()) {
+
+		    case 'A':
+		        if(login() == 1) {
+		            menuAdmin();
+		        }
+		        break;
+
+		    case 'B':
+		        sobre();
+		        resposta_menu_principal = menuPrincipal();
+		        break;
+
+		    case 'S':
+	            system("clear");
+
+	            printf("       _.--._  _.--._\n");
+	            printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
+	            printf(" \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	            printf("  \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	            printf("   \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
+	            printf("    \\\\\\:;:;:;:;:;\\:;::;:;:;:\\\n");
+	            printf("     \\\\\\;:;::;:;:;\\:;:;:;::;:\\\n");
+	            printf("      \\\\\\;;:;:_:--:\\:_:--:_;:;\\    Adeus, caro leitor!\n");
+	            printf("       \\\\\\_.-\"      :      \"-._\\\n");
+	            printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
+	            printf("         \"");
+	            printf("\n Você saiu do SIG-Library. Volte sempre.\n\n");
+		        break;
+
+		    default:
+		        printf("Você digitou uma opção inválida.\n");
+
+	    }
+
+	 } while(resposta_menu_principal != 'S');
+	
+	return 0;
+
+}
+
 
 void tela_bonus(void) {
 
@@ -2456,7 +2503,7 @@ void menuAdmin() {
 
         case 'S':
             if((sair()) == 'S') {
-                starter();
+                main();
             } else {
                 menuAdmin();
             }
@@ -2662,54 +2709,6 @@ char sair() {
     resp = maius(resp);
 
     return resp;
-
-}
-
-int starter() {
-
-    char resposta_menu_principal;
-
-    switch(resposta_menu_principal = menuPrincipal()) {
-
-    case 'A':
-        if(login() == 1) {
-            menuAdmin();
-        }
-        break;
-
-    case 'B':
-        sobre();
-        resposta_menu_principal = starter();
-        break;
-
-    case 'S':
-        if((sair()) == 'S') {
-            system("clear");
-
-            printf("       _.--._  _.--._\n");
-            printf(" ,-=.-\":;:;:;\\':;:;:;\"-._\n");
-            printf(" \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
-            printf("  \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
-            printf("   \\\\\\:;:;:;:;:;\\:;:;:;:;:;\\\n");
-            printf("    \\\\\\:;:;:;:;:;\\:;::;:;:;:\\\n");
-            printf("     \\\\\\;:;::;:;:;\\:;:;:;::;:\\\n");
-            printf("      \\\\\\;;:;:_:--:\\:_:--:_;:;\\    Adeus, caro leitor!\n");
-            printf("       \\\\\\_.-\"      :      \"-._\\\n");
-            printf("        \\`_..--\"\"--.;.--\"\"--.._=>\n");
-            printf("         \"");
-            printf("\n Você saiu do SIG-Library. Volte sempre.\n\n");
-            break;
-        } else {
-            resposta_menu_principal = starter();
-        }
-        break;
-
-    default:
-        printf("Você digitou uma opção inválida.\n");
-
-    }
-
-    return 1;
 
 }
 
@@ -6076,3 +6075,4 @@ void exibeListaEmprestimo(NoEmprestimo* lista) {
     }
 
 }
+
