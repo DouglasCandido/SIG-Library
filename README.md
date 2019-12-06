@@ -1,7 +1,7 @@
 # SIG-Library
 A library system made with C. <br />
-Universidade Federal do Rio Gande do Norte (UFRN). <br />
-Students: Douglas Mateus and Lucas Silva. <br />
+Universidade Federal do Rio Grande do Norte (UFRN). <br />
+Students: Douglas Cândido / Lucas Silva. <br />
 Professor: Flavius Gorgônio. <br />
 
 * Instruções: 
