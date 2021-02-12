@@ -1,5 +1,5 @@
 # SIG-Library
-A library system made with C. <br />
+A desktop library system. <br />
 Universidade Federal do Rio Grande do Norte (UFRN). <br />
 Students: Douglas Cândido / Lucas Silva. <br />
 Professor: Flavius Gorgônio. <br />
